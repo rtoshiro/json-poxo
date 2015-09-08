@@ -1,0 +1,174 @@
+//
+//  PREFIXRootClass.m
+//
+//  Created by on DATA_DE_HOJE
+//  Copyright (c) 2015. All rights reserved.
+//
+
+#import "PREFIXRootClass.h"
+
+// Original names
+NSString * const k_id = @"id";
+NSString * const kStr = @"str";
+NSString * const kNum = @"num";
+NSString * const kFlo = @"flo";
+NSString * const kBoo = @"boo";
+NSString * const kArrnum = @"arrnum";
+NSString * const kArrstr = @"arrstr";
+NSString * const kArrboo = @"arrboo";
+NSString * const kPREFIXObj = @"obj";
+NSString * const kPREFIXArrobj = @"arrobj";
+
+@interface PREFIXRootClass ()
+
+- (id)objectOrNilForKey:(id)aKey fromDictionary:(NSDictionary *)dict;
+
+@end
+
+@implementation PREFIXRootClass
+
++ (PREFIXRootClass *)modelWithDictionary:(NSDictionary *)dict
+{
+  PREFIXRootClass *instance = [[PREFIXRootClass alloc] initWithDictionary:dict];
+  return instance;
+}
+
++ (PREFIXRootClass *)modelWithString:(NSString *)json
+{
+  PREFIXRootClass *instance = [[PREFIXRootClass alloc] initWithString:json];
+  return instance;
+}
+
+- (instancetype)initWithString:(NSString *)json
+{
+  self = [super init];
+
+  NSError *jsonError = nil;
+  NSData *objectData = [json dataUsingEncoding:NSUTF8StringEncoding];
+  NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:objectData
+                                      options:NSJSONReadingMutableContainers
+                                        error:&jsonError];
+  if (!jsonError)
+    self = [self initWithDictionary:dict];
+
+  return self;
+}
+
+- (instancetype)initWithDictionary:(NSDictionary *)dict
+{
+  self = [super init];
+
+  if (self && [dict isKindOfClass:[NSDictionary class]])
+  {
+
+    NSObject *objPREFIXObj = [dict objectForKey:kPREFIXObj];
+    if ([objPREFIXObj isKindOfClass:[NSDictionary class]])
+    {
+      self.obj = [PREFIXObj modelObjectWithDictionary:objPREFIXObj];
+    }
+
+    NSObject *objPREFIXArrobj = [dict objectForKey:kPREFIXArrobj];
+    if ([objPREFIXArrobj isKindOfClass:[NSArray class]])
+    {
+      NSMutableArray *listPREFIXArrobj = [NSMutableArray array];
+      for (NSDictionary *item in (NSArray *)objPREFIXArrobj) {
+        if ([item isKindOfClass:[NSDictionary class]]) {
+          [listPREFIXArrobj addObject:[PREFIXArrobj modelObjectWithDictionary:item]];
+        }
+      }
+      self.arrobj = listPREFIXArrobj;
+    }
+  }
+  return self;
+}
+
+- (NSDictionary *)dictionaryRepresentation
+{
+  NSMutableDictionary *mutableDict = [NSMutableDictionary dictionary];
+  [mutableDict setValue:self.boo forKey:kBoo];
+  [mutableDict setValue:self.arrboo forKey:kArrboo];
+  if ([self.obj respondsToSelector:@selector(dictionaryRepresentation)]) {
+    [mutableDict setValue:[self.obj performSelector:@selector(dictionaryRepresentation)] forKey:kPREFIXObj];
+  } else {
+    [mutableDict setValue:self.obj forKey:kPREFIXObj];
+  }
+  NSMutableArray *tempArrayPREFIXArrobj = [NSMutableArray array];
+  for (NSObject *subArray in self.arrobj) {
+    if ([subArray respondsToSelector:@selector(dictionaryRepresentation)]) {
+       [tempArrayPREFIXArrobj addObject:[subArray performSelector:@selector(dictionaryRepresentation)]];
+    } else {
+       [tempArrayPREFIXArrobj addObject:subArray];
+    }
+  }
+  [mutableDict setValue:[NSArray arrayWithArray:tempArrayPREFIXArrobj] forKey:kPREFIXArrobj];
+
+  return [NSDictionary dictionaryWithDictionary:mutableDict];
+}
+
+- (NSString *)description
+{
+  return [NSString stringWithFormat:@"%@", [self dictionaryRepresentation]];
+}
+
+#pragma mark - Helper Method
+- (id)objectOrNilForKey:(id)aKey fromDictionary:(NSDictionary *)dict
+{
+  id object = [dict objectForKey:aKey];
+  return [object isEqual:[NSNull null]] ? nil : object;
+}
+
+#pragma mark - NSCoding Methods
+
+- (id)initWithCoder:(NSCoder *)aDecoder
+{
+  self = [super init];
+
+  self._id = [aDecoder decodeObjectForKey:k_id];
+  self.str = [aDecoder decodeObjectForKey:kStr];
+  self.num = [aDecoder decodeObjectForKey:kNum];
+  self.flo = [aDecoder decodeObjectForKey:kFlo];
+  self.boo = [aDecoder decodeBoolForKey:kBoo];
+  self.arrnum = [aDecoder decodeObjectForKey:kArrnum];
+  self.arrstr = [aDecoder decodeObjectForKey:kArrstr];
+  self.arrboo = [aDecoder decodeBoolForKey:kArrboo];
+  self.obj = [aDecoder decodeObjectForKey:kPREFIXObj];
+  self.arrobj = [aDecoder decodeObjectForKey:kPREFIXArrobj];
+
+  return self;
+}
+
+- (void)encodeWithCoder:(NSCoder *)aCoder
+{
+  [aCoder encodeObject:__id forKey:k_id];
+  [aCoder encodeObject:_str forKey:kStr];
+  [aCoder encodeObject:_num forKey:kNum];
+  [aCoder encodeObject:_flo forKey:kFlo];
+  [aCoder encodeBool:_boo forKey:kBoo];
+  [aCoder encodeObject:_arrnum forKey:kArrnum];
+  [aCoder encodeObject:_arrstr forKey:kArrstr];
+  [aCoder encodeBool:_arrboo forKey:kArrboo];
+  [aCoder encodeObject:_obj forKey:kPREFIXObj];
+  [aCoder encodeObject:_arrobj forKey:kPREFIXArrobj];
+}
+
+- (id)copyWithZone:(NSZone *)zone
+{
+  PREFIXRootClass *copy = [[PREFIXRootClass alloc] init];
+  if (copy)
+  {
+    copy._id = [self._id copyWithZone:zone];
+    copy.str = [self.str copyWithZone:zone];
+    copy.num = [self.num copyWithZone:zone];
+    copy.flo = [self.flo copyWithZone:zone];
+    copy.boo = self.boo;
+    copy.arrnum = [self.arrnum copyWithZone:zone];
+    copy.arrstr = [self.arrstr copyWithZone:zone];
+    copy.arrboo = self.arrboo;
+    copy.obj = [self.obj copyWithZone:zone];
+    copy.arrobj = [self.arrobj copyWithZone:zone];
+  }
+
+  return copy;
+}
+
+@end

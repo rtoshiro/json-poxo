@@ -1,0 +1,21 @@
+{
+    "name": "tox/json2poxo",
+    "authors": [
+        {
+            "name": "Toshiro Sugii",
+            "email": "rtoshiro@printwtf.com"
+        }
+    ],
+    "description" : "Parses JSON objects and generates objects in other languages",
+    "require" : {
+      "xamin/handlebars.php": "dev-master"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "4.8.*"
+    },
+    "autoload": {
+        "psr-0": {
+            "Tox\\Json2Poxo\\": "src"
+        }
+    }
+}
