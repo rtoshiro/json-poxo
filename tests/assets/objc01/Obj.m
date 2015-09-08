@@ -65,13 +65,9 @@ NSString * const kBoo = @"boo";
 - (NSDictionary *)dictionaryRepresentation
 {
   NSMutableDictionary *mutableDict = [NSMutableDictionary dictionary];
-<!--  -->
   [mutableDict setValue:self.str forKey:kStr];
-<!--  -->
   [mutableDict setValue:self.num forKey:kNum];
-<!--  -->
   [mutableDict setValue:self.flo forKey:kFlo];
-<!--  -->
   [mutableDict setValue:self.boo forKey:kBoo];
 
   return [NSDictionary dictionaryWithDictionary:mutableDict];
@@ -95,17 +91,9 @@ NSString * const kBoo = @"boo";
 {
   self = [super init];
 
-<!--   self.str = [aDecoder decodeObjectForKey:kStr];
- -->
   self.str = [aDecoder decodeObjectForKey:kStr];
-<!--   self.num = [aDecoder decodeObjectForKey:kNum];
- -->
   self.num = [aDecoder decodeObjectForKey:kNum];
-<!--   self.flo = [aDecoder decodeObjectForKey:kFlo];
- -->
   self.flo = [aDecoder decodeObjectForKey:kFlo];
-<!--   self.boo = [aDecoder decodeObjectForKey:kBoo];
- -->
   self.boo = [aDecoder decodeObjectForKey:kBoo];
 
   return self;
@@ -113,17 +101,9 @@ NSString * const kBoo = @"boo";
 
 - (void)encodeWithCoder:(NSCoder *)aCoder
 {
-<!--   [aCoder encodeObject:_str forKey:kStr];
- -->
   [aCoder encodeObject:_str forKey:kStr];
-<!--   [aCoder encodeObject:_num forKey:kNum];
- -->
   [aCoder encodeObject:_num forKey:kNum];
-<!--   [aCoder encodeObject:_flo forKey:kFlo];
- -->
   [aCoder encodeObject:_flo forKey:kFlo];
-<!--   [aCoder encodeObject:_boo forKey:kBoo];
- -->
   [aCoder encodeObject:_boo forKey:kBoo];
 }
 
@@ -132,17 +112,9 @@ NSString * const kBoo = @"boo";
   Obj *copy = [[Obj alloc] init];
   if (copy)
   {
-<!--     copy.str = [self.str copyWithZone:zone];
- -->
     copy.str = [self.str copyWithZone:zone];
-<!--     copy.num = [self.num copyWithZone:zone];
- -->
     copy.num = [self.num copyWithZone:zone];
-<!--     copy.flo = [self.flo copyWithZone:zone];
- -->
     copy.flo = [self.flo copyWithZone:zone];
-<!--     copy.boo = [self.boo copyWithZone:zone];
- -->
     copy.boo = [self.boo copyWithZone:zone];
   }
 

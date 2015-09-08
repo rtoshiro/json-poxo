@@ -60,7 +60,6 @@ class Objc extends Language
       $_property['isObject'] = ($_property['type'] == "id");
       $_property['isString'] = ($_property['type'] == "NSString *");
       $_property['isNumber'] = ($_property['type'] == "NSNumber *");
-      // $_property['isBool'] = ($_property['type'] == "BOOL");
 
       $_property['uppername'] = strtoupper($_property['name']);
       $_property['capname'] = ucwords($_property['name']);
@@ -75,9 +74,6 @@ class Objc extends Language
       }
 
       $_property['memory'] = "strong";
-      // if ($_property['type'] == "BOOL"){
-      //   $_property['memory'] = "assign";
-      // }
     }
 
     $_cl['year'] = date('Y');

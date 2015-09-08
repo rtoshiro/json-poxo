@@ -90,9 +90,6 @@ NSString * const k{{capname}} = @"{{originalName}}";
 {
   NSMutableDictionary *mutableDict = [NSMutableDictionary dictionary];
 {{#each properties}}
-{{#if isBool}}
-  [mutableDict setValue:self.{{name}} forKey:k{{capname}}];
-{{/if}}
 {{#if isNumber}}
   [mutableDict setValue:self.{{name}} forKey:k{{capname}}];
 {{/if}}
@@ -140,9 +137,7 @@ NSString * const k{{capname}} = @"{{originalName}}";
   self = [super init];
 
 {{#each properties}}
-{{#if isBool}}  self.{{name}} = [aDecoder decodeBoolForKey:k{{capname}}];
-{{else}}  self.{{name}} = [aDecoder decodeObjectForKey:k{{capname}}];
-{{/if}}
+  self.{{name}} = [aDecoder decodeObjectForKey:k{{capname}}];
 {{/each}}
 
   return self;
@@ -151,9 +146,7 @@ NSString * const k{{capname}} = @"{{originalName}}";
 - (void)encodeWithCoder:(NSCoder *)aCoder
 {
 {{#each properties}}
-{{#if isBool}}  [aCoder encodeBool:_{{name}} forKey:k{{capname}}];
-{{else}}  [aCoder encodeObject:_{{name}} forKey:k{{capname}}];
-{{/if}}
+  [aCoder encodeObject:_{{name}} forKey:k{{capname}}];
 {{/each}}
 }
 
@@ -163,9 +156,7 @@ NSString * const k{{capname}} = @"{{originalName}}";
   if (copy)
   {
 {{#each properties}}
-{{#if isBool}}    copy.{{name}} = self.{{name}};
-{{else}}    copy.{{name}} = [self.{{name}} copyWithZone:zone];
-{{/if}}
+    copy.{{name}} = [self.{{name}} copyWithZone:zone];
 {{/each}}
   }
 

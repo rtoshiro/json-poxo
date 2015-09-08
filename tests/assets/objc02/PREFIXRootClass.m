@@ -60,6 +60,14 @@ NSString * const kPREFIXArrobj = @"arrobj";
 
   if (self && [dict isKindOfClass:[NSDictionary class]])
   {
+    self._id = [self objectOrNilForKey:k_id fromDictionary:dict];
+    self.str = [self objectOrNilForKey:kStr fromDictionary:dict];
+    self.num = [self objectOrNilForKey:kNum fromDictionary:dict];
+    self.flo = [self objectOrNilForKey:kFlo fromDictionary:dict];
+    self.boo = [self objectOrNilForKey:kBoo fromDictionary:dict];
+    self.arrnum = [self objectOrNilForKey:kArrnum fromDictionary:dict];
+    self.arrstr = [self objectOrNilForKey:kArrstr fromDictionary:dict];
+    self.arrboo = [self objectOrNilForKey:kArrboo fromDictionary:dict];
 
     NSObject *objPREFIXObj = [dict objectForKey:kPREFIXObj];
     if ([objPREFIXObj isKindOfClass:[NSDictionary class]])
@@ -85,7 +93,13 @@ NSString * const kPREFIXArrobj = @"arrobj";
 - (NSDictionary *)dictionaryRepresentation
 {
   NSMutableDictionary *mutableDict = [NSMutableDictionary dictionary];
+  [mutableDict setValue:self._id forKey:k_id];
+  [mutableDict setValue:self.str forKey:kStr];
+  [mutableDict setValue:self.num forKey:kNum];
+  [mutableDict setValue:self.flo forKey:kFlo];
   [mutableDict setValue:self.boo forKey:kBoo];
+  [mutableDict setValue:self.arrnum forKey:kArrnum];
+  [mutableDict setValue:self.arrstr forKey:kArrstr];
   [mutableDict setValue:self.arrboo forKey:kArrboo];
   if ([self.obj respondsToSelector:@selector(dictionaryRepresentation)]) {
     [mutableDict setValue:[self.obj performSelector:@selector(dictionaryRepresentation)] forKey:kPREFIXObj];
@@ -127,10 +141,10 @@ NSString * const kPREFIXArrobj = @"arrobj";
   self.str = [aDecoder decodeObjectForKey:kStr];
   self.num = [aDecoder decodeObjectForKey:kNum];
   self.flo = [aDecoder decodeObjectForKey:kFlo];
-  self.boo = [aDecoder decodeBoolForKey:kBoo];
+  self.boo = [aDecoder decodeObjectForKey:kBoo];
   self.arrnum = [aDecoder decodeObjectForKey:kArrnum];
   self.arrstr = [aDecoder decodeObjectForKey:kArrstr];
-  self.arrboo = [aDecoder decodeBoolForKey:kArrboo];
+  self.arrboo = [aDecoder decodeObjectForKey:kArrboo];
   self.obj = [aDecoder decodeObjectForKey:kPREFIXObj];
   self.arrobj = [aDecoder decodeObjectForKey:kPREFIXArrobj];
 
@@ -143,10 +157,10 @@ NSString * const kPREFIXArrobj = @"arrobj";
   [aCoder encodeObject:_str forKey:kStr];
   [aCoder encodeObject:_num forKey:kNum];
   [aCoder encodeObject:_flo forKey:kFlo];
-  [aCoder encodeBool:_boo forKey:kBoo];
+  [aCoder encodeObject:_boo forKey:kBoo];
   [aCoder encodeObject:_arrnum forKey:kArrnum];
   [aCoder encodeObject:_arrstr forKey:kArrstr];
-  [aCoder encodeBool:_arrboo forKey:kArrboo];
+  [aCoder encodeObject:_arrboo forKey:kArrboo];
   [aCoder encodeObject:_obj forKey:kPREFIXObj];
   [aCoder encodeObject:_arrobj forKey:kPREFIXArrobj];
 }
@@ -160,10 +174,10 @@ NSString * const kPREFIXArrobj = @"arrobj";
     copy.str = [self.str copyWithZone:zone];
     copy.num = [self.num copyWithZone:zone];
     copy.flo = [self.flo copyWithZone:zone];
-    copy.boo = self.boo;
+    copy.boo = [self.boo copyWithZone:zone];
     copy.arrnum = [self.arrnum copyWithZone:zone];
     copy.arrstr = [self.arrstr copyWithZone:zone];
-    copy.arrboo = self.arrboo;
+    copy.arrboo = [self.arrboo copyWithZone:zone];
     copy.obj = [self.obj copyWithZone:zone];
     copy.arrobj = [self.arrobj copyWithZone:zone];
   }

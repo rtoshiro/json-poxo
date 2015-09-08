@@ -1,35 +1,31 @@
 //
-//  PREFIXObj.m
+//  PREFIXNull.m
 //
 //  Created by on DATA_DE_HOJE
 //  Copyright (c) 2015. All rights reserved.
 //
 
-#import "PREFIXObj.h"
+#import "PREFIXNull.h"
 
 // Original names
-NSString * const kStr = @"str";
-NSString * const kNum = @"num";
-NSString * const kFlo = @"flo";
-NSString * const kBoo = @"boo";
 
-@interface PREFIXObj ()
+@interface PREFIXNull ()
 
 - (id)objectOrNilForKey:(id)aKey fromDictionary:(NSDictionary *)dict;
 
 @end
 
-@implementation PREFIXObj
+@implementation PREFIXNull
 
-+ (PREFIXObj *)modelWithDictionary:(NSDictionary *)dict
++ (PREFIXNull *)modelWithDictionary:(NSDictionary *)dict
 {
-  PREFIXObj *instance = [[PREFIXObj alloc] initWithDictionary:dict];
+  PREFIXNull *instance = [[PREFIXNull alloc] initWithDictionary:dict];
   return instance;
 }
 
-+ (PREFIXObj *)modelWithString:(NSString *)json
++ (PREFIXNull *)modelWithString:(NSString *)json
 {
-  PREFIXObj *instance = [[PREFIXObj alloc] initWithString:json];
+  PREFIXNull *instance = [[PREFIXNull alloc] initWithString:json];
   return instance;
 }
 
@@ -54,10 +50,6 @@ NSString * const kBoo = @"boo";
 
   if (self && [dict isKindOfClass:[NSDictionary class]])
   {
-    self.str = [self objectOrNilForKey:kStr fromDictionary:dict];
-    self.num = [self objectOrNilForKey:kNum fromDictionary:dict];
-    self.flo = [self objectOrNilForKey:kFlo fromDictionary:dict];
-    self.boo = [self objectOrNilForKey:kBoo fromDictionary:dict];
   }
   return self;
 }
@@ -65,10 +57,6 @@ NSString * const kBoo = @"boo";
 - (NSDictionary *)dictionaryRepresentation
 {
   NSMutableDictionary *mutableDict = [NSMutableDictionary dictionary];
-  [mutableDict setValue:self.str forKey:kStr];
-  [mutableDict setValue:self.num forKey:kNum];
-  [mutableDict setValue:self.flo forKey:kFlo];
-  [mutableDict setValue:self.boo forKey:kBoo];
 
   return [NSDictionary dictionaryWithDictionary:mutableDict];
 }
@@ -91,31 +79,19 @@ NSString * const kBoo = @"boo";
 {
   self = [super init];
 
-  self.str = [aDecoder decodeObjectForKey:kStr];
-  self.num = [aDecoder decodeObjectForKey:kNum];
-  self.flo = [aDecoder decodeObjectForKey:kFlo];
-  self.boo = [aDecoder decodeObjectForKey:kBoo];
 
   return self;
 }
 
 - (void)encodeWithCoder:(NSCoder *)aCoder
 {
-  [aCoder encodeObject:_str forKey:kStr];
-  [aCoder encodeObject:_num forKey:kNum];
-  [aCoder encodeObject:_flo forKey:kFlo];
-  [aCoder encodeObject:_boo forKey:kBoo];
 }
 
 - (id)copyWithZone:(NSZone *)zone
 {
-  PREFIXObj *copy = [[PREFIXObj alloc] init];
+  PREFIXNull *copy = [[PREFIXNull alloc] init];
   if (copy)
   {
-    copy.str = [self.str copyWithZone:zone];
-    copy.num = [self.num copyWithZone:zone];
-    copy.flo = [self.flo copyWithZone:zone];
-    copy.boo = [self.boo copyWithZone:zone];
   }
 
   return copy;

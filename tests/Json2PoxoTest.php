@@ -159,8 +159,6 @@ class Json2PoxoTest extends PHPUnit
       $newSource = str_replace($dateStr, $this->todayString, $model['sourceCode']);
       $newSource = str_replace("Copyright (c) ".date('Y').". All rights reserved", 'Copyright (c) 2015. All rights reserved', $newSource);
 
-      $this->writeFile(__DIR__ . '/assets/objc01/'.$model['fileName'], $newSource);
-
       $this->assertEquals($this->loadTemplates('objc01')[$model['fileName']], $newSource);
     }
   }
@@ -170,7 +168,7 @@ class Json2PoxoTest extends PHPUnit
     $json2poxo = new Json2Poxo();
     $result = $json2poxo->toX('objc', $this->rootClassName, array('prefix' => 'PREFIX'), $this->json);
     $this->assertNotNull($result);
-    $this->assertCount(6, $result);
+    $this->assertCount(8, $result);
     for ($i=0; $i < count($result); $i++) {
       $model = $result[$i];
       $this->assertArrayHasKey('fileName', $model);
@@ -183,6 +181,8 @@ class Json2PoxoTest extends PHPUnit
 
       $newSource = str_replace($dateStr, $this->todayString, $model['sourceCode']);
       $newSource = str_replace("Copyright (c) ".date('Y').". All rights reserved", 'Copyright (c) 2015. All rights reserved', $newSource);
+      $this->writeFile(__DIR__ . '/assets/objc02/'.$model['fileName'], $newSource);
+
       $this->assertEquals($this->loadTemplates('objc02')[$model['fileName']], $newSource);
     }
   }

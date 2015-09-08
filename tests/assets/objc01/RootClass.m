@@ -93,29 +93,19 @@ NSString * const kArrobj = @"arrobj";
 - (NSDictionary *)dictionaryRepresentation
 {
   NSMutableDictionary *mutableDict = [NSMutableDictionary dictionary];
-<!--  -->
   [mutableDict setValue:self._id forKey:k_id];
-<!--  -->
   [mutableDict setValue:self.str forKey:kStr];
-<!--  -->
   [mutableDict setValue:self.num forKey:kNum];
-<!--  -->
   [mutableDict setValue:self.flo forKey:kFlo];
-<!--  -->
   [mutableDict setValue:self.boo forKey:kBoo];
-<!--  -->
   [mutableDict setValue:self.arrnum forKey:kArrnum];
-<!--  -->
   [mutableDict setValue:self.arrstr forKey:kArrstr];
-<!--  -->
   [mutableDict setValue:self.arrboo forKey:kArrboo];
-<!--  -->
   if ([self.obj respondsToSelector:@selector(dictionaryRepresentation)]) {
     [mutableDict setValue:[self.obj performSelector:@selector(dictionaryRepresentation)] forKey:kObj];
   } else {
     [mutableDict setValue:self.obj forKey:kObj];
   }
-<!--  -->
   NSMutableArray *tempArrayArrobj = [NSMutableArray array];
   for (NSObject *subArray in self.arrobj) {
     if ([subArray respondsToSelector:@selector(dictionaryRepresentation)]) {
@@ -147,35 +137,15 @@ NSString * const kArrobj = @"arrobj";
 {
   self = [super init];
 
-<!--   self._id = [aDecoder decodeObjectForKey:k_id];
- -->
   self._id = [aDecoder decodeObjectForKey:k_id];
-<!--   self.str = [aDecoder decodeObjectForKey:kStr];
- -->
   self.str = [aDecoder decodeObjectForKey:kStr];
-<!--   self.num = [aDecoder decodeObjectForKey:kNum];
- -->
   self.num = [aDecoder decodeObjectForKey:kNum];
-<!--   self.flo = [aDecoder decodeObjectForKey:kFlo];
- -->
   self.flo = [aDecoder decodeObjectForKey:kFlo];
-<!--   self.boo = [aDecoder decodeObjectForKey:kBoo];
- -->
   self.boo = [aDecoder decodeObjectForKey:kBoo];
-<!--   self.arrnum = [aDecoder decodeObjectForKey:kArrnum];
- -->
   self.arrnum = [aDecoder decodeObjectForKey:kArrnum];
-<!--   self.arrstr = [aDecoder decodeObjectForKey:kArrstr];
- -->
   self.arrstr = [aDecoder decodeObjectForKey:kArrstr];
-<!--   self.arrboo = [aDecoder decodeObjectForKey:kArrboo];
- -->
   self.arrboo = [aDecoder decodeObjectForKey:kArrboo];
-<!--   self.obj = [aDecoder decodeObjectForKey:kObj];
- -->
   self.obj = [aDecoder decodeObjectForKey:kObj];
-<!--   self.arrobj = [aDecoder decodeObjectForKey:kArrobj];
- -->
   self.arrobj = [aDecoder decodeObjectForKey:kArrobj];
 
   return self;
@@ -183,35 +153,15 @@ NSString * const kArrobj = @"arrobj";
 
 - (void)encodeWithCoder:(NSCoder *)aCoder
 {
-<!--   [aCoder encodeObject:__id forKey:k_id];
- -->
   [aCoder encodeObject:__id forKey:k_id];
-<!--   [aCoder encodeObject:_str forKey:kStr];
- -->
   [aCoder encodeObject:_str forKey:kStr];
-<!--   [aCoder encodeObject:_num forKey:kNum];
- -->
   [aCoder encodeObject:_num forKey:kNum];
-<!--   [aCoder encodeObject:_flo forKey:kFlo];
- -->
   [aCoder encodeObject:_flo forKey:kFlo];
-<!--   [aCoder encodeObject:_boo forKey:kBoo];
- -->
   [aCoder encodeObject:_boo forKey:kBoo];
-<!--   [aCoder encodeObject:_arrnum forKey:kArrnum];
- -->
   [aCoder encodeObject:_arrnum forKey:kArrnum];
-<!--   [aCoder encodeObject:_arrstr forKey:kArrstr];
- -->
   [aCoder encodeObject:_arrstr forKey:kArrstr];
-<!--   [aCoder encodeObject:_arrboo forKey:kArrboo];
- -->
   [aCoder encodeObject:_arrboo forKey:kArrboo];
-<!--   [aCoder encodeObject:_obj forKey:kObj];
- -->
   [aCoder encodeObject:_obj forKey:kObj];
-<!--   [aCoder encodeObject:_arrobj forKey:kArrobj];
- -->
   [aCoder encodeObject:_arrobj forKey:kArrobj];
 }
 
@@ -220,35 +170,15 @@ NSString * const kArrobj = @"arrobj";
   RootClass *copy = [[RootClass alloc] init];
   if (copy)
   {
-<!--     copy._id = [self._id copyWithZone:zone];
- -->
     copy._id = [self._id copyWithZone:zone];
-<!--     copy.str = [self.str copyWithZone:zone];
- -->
     copy.str = [self.str copyWithZone:zone];
-<!--     copy.num = [self.num copyWithZone:zone];
- -->
     copy.num = [self.num copyWithZone:zone];
-<!--     copy.flo = [self.flo copyWithZone:zone];
- -->
     copy.flo = [self.flo copyWithZone:zone];
-<!--     copy.boo = [self.boo copyWithZone:zone];
- -->
     copy.boo = [self.boo copyWithZone:zone];
-<!--     copy.arrnum = [self.arrnum copyWithZone:zone];
- -->
     copy.arrnum = [self.arrnum copyWithZone:zone];
-<!--     copy.arrstr = [self.arrstr copyWithZone:zone];
- -->
     copy.arrstr = [self.arrstr copyWithZone:zone];
-<!--     copy.arrboo = [self.arrboo copyWithZone:zone];
- -->
     copy.arrboo = [self.arrboo copyWithZone:zone];
-<!--     copy.obj = [self.obj copyWithZone:zone];
- -->
     copy.obj = [self.obj copyWithZone:zone];
-<!--     copy.arrobj = [self.arrobj copyWithZone:zone];
- -->
     copy.arrobj = [self.arrobj copyWithZone:zone];
   }
 

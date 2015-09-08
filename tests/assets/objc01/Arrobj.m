@@ -72,15 +72,10 @@ NSString * const kNull = @"null";
 - (NSDictionary *)dictionaryRepresentation
 {
   NSMutableDictionary *mutableDict = [NSMutableDictionary dictionary];
-<!--  -->
   [mutableDict setValue:self.str forKey:kStr];
-<!--  -->
   [mutableDict setValue:self.num forKey:kNum];
-<!--  -->
   [mutableDict setValue:self.flo forKey:kFlo];
-<!--  -->
   [mutableDict setValue:self.boo forKey:kBoo];
-<!--  -->
   if ([self.null respondsToSelector:@selector(dictionaryRepresentation)]) {
     [mutableDict setValue:[self.null performSelector:@selector(dictionaryRepresentation)] forKey:kNull];
   } else {
@@ -108,20 +103,10 @@ NSString * const kNull = @"null";
 {
   self = [super init];
 
-<!--   self.str = [aDecoder decodeObjectForKey:kStr];
- -->
   self.str = [aDecoder decodeObjectForKey:kStr];
-<!--   self.num = [aDecoder decodeObjectForKey:kNum];
- -->
   self.num = [aDecoder decodeObjectForKey:kNum];
-<!--   self.flo = [aDecoder decodeObjectForKey:kFlo];
- -->
   self.flo = [aDecoder decodeObjectForKey:kFlo];
-<!--   self.boo = [aDecoder decodeObjectForKey:kBoo];
- -->
   self.boo = [aDecoder decodeObjectForKey:kBoo];
-<!--   self.null = [aDecoder decodeObjectForKey:kNull];
- -->
   self.null = [aDecoder decodeObjectForKey:kNull];
 
   return self;
@@ -129,20 +114,10 @@ NSString * const kNull = @"null";
 
 - (void)encodeWithCoder:(NSCoder *)aCoder
 {
-<!--   [aCoder encodeObject:_str forKey:kStr];
- -->
   [aCoder encodeObject:_str forKey:kStr];
-<!--   [aCoder encodeObject:_num forKey:kNum];
- -->
   [aCoder encodeObject:_num forKey:kNum];
-<!--   [aCoder encodeObject:_flo forKey:kFlo];
- -->
   [aCoder encodeObject:_flo forKey:kFlo];
-<!--   [aCoder encodeObject:_boo forKey:kBoo];
- -->
   [aCoder encodeObject:_boo forKey:kBoo];
-<!--   [aCoder encodeObject:_null forKey:kNull];
- -->
   [aCoder encodeObject:_null forKey:kNull];
 }
 
@@ -151,20 +126,10 @@ NSString * const kNull = @"null";
   Arrobj *copy = [[Arrobj alloc] init];
   if (copy)
   {
-<!--     copy.str = [self.str copyWithZone:zone];
- -->
     copy.str = [self.str copyWithZone:zone];
-<!--     copy.num = [self.num copyWithZone:zone];
- -->
     copy.num = [self.num copyWithZone:zone];
-<!--     copy.flo = [self.flo copyWithZone:zone];
- -->
     copy.flo = [self.flo copyWithZone:zone];
-<!--     copy.boo = [self.boo copyWithZone:zone];
- -->
     copy.boo = [self.boo copyWithZone:zone];
-<!--     copy.null = [self.null copyWithZone:zone];
- -->
     copy.null = [self.null copyWithZone:zone];
   }
 
