@@ -7,6 +7,7 @@
 
 #import "Obj.h"
 
+
 // Original names
 NSString * const kStr = @"str";
 NSString * const kNum = @"num";

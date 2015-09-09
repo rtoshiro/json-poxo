@@ -1,5 +1,9 @@
 {{#if package}}package {{package}};{{else}}package com.example;{{/if}}
 
+{{#if imports}}
+{{imports}}
+
+{{/if}}
 {{#if includeGson}}
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -53,7 +57,7 @@ public class {{name}}
 
   @Override
   public int hashCode(){
-      return ((Long){{primaryKey}}).hashCode();
+      return (({{primaryKeyType}}){{primaryKey}}).hashCode();
   }
 {{/if}}
 {{#if includeGson}}

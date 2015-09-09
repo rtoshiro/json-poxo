@@ -1,5 +1,5 @@
 <?php
-namespace Tox\Json2Poxo;
+namespace Tox\Json2Poxo\Language;
 
 use Handlebars\Handlebars;
 

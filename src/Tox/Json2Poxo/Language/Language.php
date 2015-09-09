@@ -1,6 +1,6 @@
 <?php
 
-namespace Tox\Json2Poxo;
+namespace Tox\Json2Poxo\Language;
 
 class Language
 {
@@ -16,15 +16,16 @@ class Language
     {
       $property = &$cl['properties'][$i];
 
-      // Search for properties that can be used as primaryKeys
-      if (array_search(strtolower($property['name']), $this->primaryKeys) !== false) {
-        $cl['primaryKey'] = $property['name'];
-      }
-
       $property['name'] = $this->checkReservedWords($property['name']);
 
       // Translates php types to $language->types
       $property['type'] = $this->types[$property['type']];
+
+      // Search for properties that can be used as primaryKeys
+      if (array_search(strtolower($property['originalName']), $this->primaryKeys) !== false) {
+        $cl['primaryKey'] = $property['name'];
+        $cl['primaryKeyType'] = $property['type'];
+      }
     }
     return $cl;
   }

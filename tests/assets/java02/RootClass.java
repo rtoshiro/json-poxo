@@ -1,5 +1,7 @@
 package com.example;
 
+import java.util.ArrayList;
+
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.annotations.SerializedName;
@@ -151,7 +153,7 @@ public class RootClass
 
   @Override
   public int hashCode(){
-      return ((Long)id).hashCode();
+      return ((String)id).hashCode();
   }
   @Override
   public String toString() {

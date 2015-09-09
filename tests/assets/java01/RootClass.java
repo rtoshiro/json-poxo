@@ -1,5 +1,7 @@
 package com.example;
 
+import java.util.ArrayList;
+
 public class RootClass
 {
   private String id;
@@ -106,6 +108,6 @@ public class RootClass
 
   @Override
   public int hashCode(){
-      return ((Long)id).hashCode();
+      return ((String)id).hashCode();
   }
 }

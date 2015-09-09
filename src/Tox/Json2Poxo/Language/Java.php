@@ -1,5 +1,5 @@
 <?php
-namespace Tox\Json2Poxo;
+namespace Tox\Json2Poxo\Language;
 
 use Handlebars\Handlebars;
 
@@ -60,6 +60,8 @@ class Java extends Language
       $property['capOriginalName'] = ucwords($property['originalName']);
       if ($property['isArray'])
       {
+        $cl['imports'] = 'import java.util.ArrayList;';
+
         switch ($property['type']) {
           case 'Object':
           {

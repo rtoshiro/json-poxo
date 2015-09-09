@@ -13,6 +13,7 @@ class Json2Poxo
     return array(
       'name' => $name,
       'primaryKey' => false,
+      'primaryKeyType' => null,
       'properties' => array(),
       'params' => array()
     );
@@ -103,28 +104,32 @@ class Json2Poxo
           if (!$this->is_assoc($value))
           {
             if (count($value) == 0)
-              $objType = 'object';
-
-            for ($i=0; $i < count($value); $i++) {
-              $el = &$value[$i];
-
-              if (gettype($el) == 'array')
-              {
-                $objType = 'object';
-                $this->parse($el, $propertyName, $classList);
-              }
-              else if (gettype($el) == 'boolean' || gettype($el) == 'integer' || gettype($el) == 'string')
-              {
-                $objType = gettype($el);
-              }
-              else {
-                print_r('Error - ' . $objType); die;
-              }
+            {
+              $newProperty = $this->_property($key, 'object', false);
+              $this->pushProperty($curClass, $newProperty);
+              $this->parse($value, $propertyName, $classList);
             }
+            else {
+              for ($i=0; $i < count($value); $i++) {
+                $el = &$value[$i];
 
-            $newProperty = $this->_property($key, $objType, true);
-            $this->pushProperty($curClass, $newProperty);
+                if (gettype($el) == 'array')
+                {
+                  $objType = 'object';
+                  $this->parse($el, $propertyName, $classList);
+                }
+                else if (gettype($el) == 'boolean' || gettype($el) == 'integer' || gettype($el) == 'string')
+                {
+                  $objType = gettype($el);
+                }
+                else {
+                  print_r('Error - ' . $objType); die;
+                }
+              }
 
+              $newProperty = $this->_property($key, $objType, true);
+              $this->pushProperty($curClass, $newProperty);
+            }
           } else {
             $newProperty = $this->_property($key, 'object', false);
             $this->pushProperty($curClass, $newProperty);
@@ -174,7 +179,7 @@ class Json2Poxo
     if (gettype($className) !== 'string')
       throw new Exception("Argument 2 has to be a string", 1);
 
-    $langComplete = "Tox\\Json2Poxo\\" . ucwords(trim($lang));
+    $langComplete = "Tox\\Json2Poxo\\Language\\" . ucwords(trim($lang));
     $language = new $langComplete();
 
     $results = array();
@@ -195,7 +200,7 @@ class Json2Poxo
   // _poxo objects
   function toX($lang, $className, $params, $obj)
   {
-    $langComplete = "Tox\\Json2Poxo\\" . ucwords(trim($lang));
+    $langComplete = "Tox\\Json2Poxo\\Language\\" . ucwords(trim($lang));
     $language = new $langComplete();
 
     $results = array();

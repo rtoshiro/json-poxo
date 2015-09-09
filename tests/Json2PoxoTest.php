@@ -118,6 +118,7 @@ class Json2PoxoTest extends PHPUnit
       $model = $result[$i];
       $this->assertArrayHasKey('fileName', $model);
       $this->assertArrayHasKey('sourceCode', $model);
+      $this->writeFile(__DIR__ . '/assets/java01/'.$model['fileName'], $model['sourceCode']);
 
       $this->assertEquals($this->loadTemplates('java01')[$model['fileName']], $model['sourceCode']);
     }
@@ -134,6 +135,7 @@ class Json2PoxoTest extends PHPUnit
       $model = $result[$i];
       $this->assertArrayHasKey('fileName', $model);
       $this->assertArrayHasKey('sourceCode', $model);
+      $this->writeFile(__DIR__ . '/assets/java02/'.$model['fileName'], $model['sourceCode']);
 
       $this->assertEquals($this->loadTemplates('java02')[$model['fileName']], $model['sourceCode']);
     }
@@ -158,6 +160,7 @@ class Json2PoxoTest extends PHPUnit
 
       $newSource = str_replace($dateStr, $this->todayString, $model['sourceCode']);
       $newSource = str_replace("Copyright (c) ".date('Y').". All rights reserved", 'Copyright (c) 2015. All rights reserved', $newSource);
+      $this->writeFile(__DIR__ . '/assets/objc01/'.$model['fileName'], $newSource);
 
       $this->assertEquals($this->loadTemplates('objc01')[$model['fileName']], $newSource);
     }
@@ -181,7 +184,6 @@ class Json2PoxoTest extends PHPUnit
 
       $newSource = str_replace($dateStr, $this->todayString, $model['sourceCode']);
       $newSource = str_replace("Copyright (c) ".date('Y').". All rights reserved", 'Copyright (c) 2015. All rights reserved', $newSource);
-      $this->writeFile(__DIR__ . '/assets/objc02/'.$model['fileName'], $newSource);
 
       $this->assertEquals($this->loadTemplates('objc02')[$model['fileName']], $newSource);
     }

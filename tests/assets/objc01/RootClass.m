@@ -7,6 +7,7 @@
 
 #import "RootClass.h"
 
+
 // Original names
 NSString * const k_id = @"id";
 NSString * const kStr = @"str";
