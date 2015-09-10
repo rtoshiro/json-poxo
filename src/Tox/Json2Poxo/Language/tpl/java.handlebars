@@ -1,31 +1,32 @@
-{{#if package}}package {{package}};{{else}}package com.example;{{/if}}
+{{#with params}}{{#if package}}package {{package}};{{else}}package com.example;{{/if}}{{/with}}
 
+import java.io.Serializable;
 {{#if imports}}
 {{imports}}
 
 {{/if}}
-{{#if includeGson}}
+{{#if params.includeGson}}
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.annotations.SerializedName;
 import com.google.gson.annotations.Expose;
 
 {{/if}}
-public class {{name}}
+public class {{name}} implements Serializable
 {
 {{#each properties}}
 {{#if name}}
-{{#if ../../includeGson}}
-  private static final String FIELD_{{&uppername}} = "{{&originalName}}";
+{{#if ../../params.includeGson}}
+  private static final String FIELD_{{&nameUppercase}} = "{{&originalName}}";
 {{/if}}
 {{/if}}
 {{/each}}
 {{#each properties}}
 {{#if name}}
-{{#if ../../includeGson}}
+{{#if ../../params.includeGson}}
 
   @Expose
-  @SerializedName(FIELD_{{&uppername}})
+  @SerializedName(FIELD_{{&nameUppercase}})
 {{/if}}
   private {{&type}} {{&name}};
 {{/if}}
@@ -35,22 +36,26 @@ public class {{name}}
   }
 
 {{#each properties}}
-  {{#if name}}
-  public void set{{&capname}}({{&type}} value) {
+{{#if name}}
+  public void set{{&nameCapitalized}}({{&type}} value) {
       this.{{&name}} = value;
   }
 
-  public {{&type}} get{{&capname}}() {
+{{#if params.isBoolean}}
+  public {{&type}} is{{&nameCapitalized}}() {
+{{else}}
+  public {{&type}} get{{&nameCapitalized}}() {
+{{/if}}
       return this.{{&name}};
   }
 
-  {{/if}}
+{{/if}}
 {{/each}}
 {{#if primaryKey}}
   @Override
   public boolean equals(Object obj) {
       if (obj instanceof {{&name}}) {
-          return (({{&name}}) obj).get{{&capkey}}() == {{primaryKey}};
+          return (({{&name}}) obj).get{{&primaryKeyCapitalized}}().equals({{primaryKey}});
       }
       return false;
   }
@@ -60,7 +65,7 @@ public class {{name}}
       return (({{primaryKeyType}}){{primaryKey}}).hashCode();
   }
 {{/if}}
-{{#if includeGson}}
+{{#if params.includeGson}}
   @Override
   public String toString() {
     Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();

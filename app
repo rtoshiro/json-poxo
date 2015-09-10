@@ -4,7 +4,6 @@ require __DIR__.'/vendor/autoload.php';
 
 use Symfony\Component\Console\Application;
 
-
 $javaCmd = new Tox\Json2Poxo\Console\Java();
 $objcCmd = new Tox\Json2Poxo\Console\Objc();
 

@@ -11,11 +11,14 @@ class Classes
 
   public $primaryKeyType;
   public $properties;
+  public $imports;
   public $params;
 
   public function __construct($name)
   {
     $this->setName($name);
+    $this->params = array();
+    $this->properties = array();
   }
 
   public function getName() {
@@ -26,6 +29,7 @@ class Classes
       $this->name = $name;
       $this->nameUppercase = strtoupper($name);
       $this->nameCapitalized = ucwords($name);
+
       return $this;
   }
 
@@ -60,11 +64,20 @@ class Classes
     return $this;
   }
 
-  public function getProperties() {
+  public function &getProperties() {
       return $this->properties;
   }
 
-  public function getParams() {
+  public function &getImports() {
+      return $this->imports;
+  }
+
+  public function setImports($imports) {
+      $this->imports = $imports;
+      return $this;
+  }
+
+  public function &getParams() {
       return $this->params;
   }
 
@@ -77,9 +90,10 @@ class Classes
   {
     for ($i=0; $i < count($this->properties); $i++) {
       $property = &$this->properties[$i];
-      if ($property['name'] == $newProperty['name'])
+      if ($property->getName() == $newProperty->getName())
         return;
     }
+    if ($this->properties == null) $this->properties = array();
     array_push($this->properties, $newProperty);
     return $newProperty;
   }

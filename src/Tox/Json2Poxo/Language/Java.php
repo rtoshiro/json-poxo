@@ -2,6 +2,7 @@
 namespace Tox\Json2Poxo\Language;
 
 use Handlebars\Handlebars;
+use Tox\Json2Poxo\Poxo;
 
 class Java extends Language
 {
@@ -14,70 +15,94 @@ class Java extends Language
   public $primaryKeys = array("id", "identifier", "uid");
 
   public $types = array(
+    "null" => "Null",
     "string" => "String",
-    "integer" => "Integer",
+    "integer" => "Long",
     "double" => "Double",
     "boolean"=> "Boolean",
     "object" => "Object",
   );
 
-  public function template(&$_class, &$_poxo)
+  public function template(&$_class)
   {
     $engine = new Handlebars(array(
       'loader' => new \Handlebars\Loader\FilesystemLoader(__DIR__.'/tpl/')
     ));
+    $_poxo = new Poxo();
     $result = $engine->render('java', $_class);
-    $_poxo['fileName'] = $_class['name'] . ".java";
-    $_poxo['sourceCode'] = $result;
+    $_poxo->setFileName($_class->getName() . ".java");
+    $_poxo->setSourceCode($result);
     return array($_poxo);
   }
 
-  public function classes(&$cl, $params = null)
+  public function &classes(&$cl, $params = null)
   {
     $cl = parent::classes($cl, $params);
+    $clparams = &$cl->getParams();
 
     if ($params != null)
     {
       if (isset($params['package'])) {
-        $cl['package'] = $params['package'];
+        $clparams['package'] = $params['package'];
       }
 
       if (isset($params['includeGson'])) {
-        $cl['includeGson'] = $params['includeGson'];
+        $clparams['includeGson'] = $params['includeGson'];
       }
     }
 
-    for ($i=0; $i < count($cl['properties']); $i++)
+    for ($i=0; $i < count($cl->getProperties()); $i++)
     {
-      $property = &$cl['properties'][$i];
+      $property = &$cl->getProperties()[$i];
+      $pparams = &$property->getParams();
 
-      if (isset($cl['includeGson']) && !$cl['includeGson']) {
-        $property['name'] = $property['originalName'];
+      $pparams['isBoolean'] = ($property->getType() == "Boolean");
+
+      if (isset($clparams['includeGson']) && !$clparams['includeGson']) {
+        $property->setName($property->getOriginalName());
       }
 
-      $property['uppername'] = strtoupper($property['name']);
-      $property['capname'] = ucwords($property['name']);
-      $property['capOriginalName'] = ucwords($property['originalName']);
-      if ($property['isArray'])
+      if ($property->isArray())
       {
-        $cl['imports'] = 'import java.util.ArrayList;';
+        $cl->setImports('import java.util.ArrayList;');
 
-        switch ($property['type']) {
+        switch ($property->getType()) {
           case 'Object':
           {
-            $property['type'] = "ArrayList<" . ucwords($property['name']) . ">";
+            $property->setType("ArrayList<" . $property->getNameCapitalized() . ">");
+            break;
+          }
+          case 'Null':
+          {
+            $property->setType("ArrayList<Object>");
             break;
           }
           default:
           {
-            $property['type'] = "ArrayList<" . $property['type'] . ">";
+            $property->setType("ArrayList<" . $property->getType() . ">");
             break;
           }
         }
       }
+      else
+      {
+        switch ($property->getType()) {
+          case 'Object':
+          {
+            $property->setType($property->getNameCapitalized());
+            break;
+          }
+          case 'Null':
+          {
+            $property->setType('Object');
+            break;
+          }
+          default:
+            break;
+        }
+      }
     }
 
-    $cl['capkey'] = $cl['primaryKey'] ? ucwords($cl['primaryKey']) : false;
     return $cl;
   }
 }

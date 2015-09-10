@@ -1,6 +1,7 @@
 <?php
 namespace Tox\Json2Poxo\Language;
 
+use Tox\Json2Poxo\Poxo;
 use Handlebars\Handlebars;
 
 class Objc extends Language
@@ -18,6 +19,7 @@ class Objc extends Language
   public $primaryKeys = array("id", "identifier", "uid");
 
   public $types = array(
+    "null" => "id",
     "string" => "NSString *",
     "integer" => "NSNumber *",
     "double" => "NSNumber *",
@@ -25,7 +27,7 @@ class Objc extends Language
     "object" => "id"
   );
 
-  public function template(&$_class, &$_poxo)
+  public function template(&$_class)
   {
     $engine = new Handlebars(array(
       'loader' => new \Handlebars\Loader\FilesystemLoader(__DIR__.'/tpl/')
@@ -34,51 +36,53 @@ class Objc extends Language
     $result = array();
 
     $sourceCode = $engine->render('objch', $_class);
-    $_poxo['fileName'] = $_class['name'] . ".h";
-    $_poxo['sourceCode'] = $sourceCode;
+    $_poxo = new Poxo();
+    $_poxo->setFileName($_class->getName() . ".h");
+    $_poxo->setSourceCode($sourceCode);
     array_push($result, $_poxo);
 
     $sourceCode = $engine->render('objcm', $_class);
-    $_poxo['fileName'] = $_class['name'] . ".m";
-    $_poxo['sourceCode'] = $sourceCode;
+    $_poxo = new Poxo();
+    $_poxo->setFileName($_class->getName() . ".m");
+    $_poxo->setSourceCode($sourceCode);
     array_push($result, $_poxo);
 
     return $result;
   }
 
-  public function classes(&$_cl, $params = null)
+  public function &classes(&$_cl, $params = null)
   {
     $_cl = parent::classes($_cl, $params);
 
+    $cl_params = &$_cl->getParams();
     if ($params != null) {
       if (isset($params['prefix']))
-      $_cl['name'] = $params['prefix'] . $_cl['name'];
+      {
+        $cl_params['prefix'] = $params['prefix'];
+        $_cl->setName($params['prefix'] . $_cl->getName());
+      }
     }
 
-    for ($i = 0; $i < count($_cl['properties']); $i++) {
-      $_property = &$_cl['properties'][$i];
-      $_property['isObject'] = ($_property['type'] == "id");
-      $_property['isString'] = ($_property['type'] == "NSString *");
-      $_property['isNumber'] = ($_property['type'] == "NSNumber *");
+    $properties = &$_cl->getProperties();
+    for ($i = 0; $i < count($properties); $i++) {
+      $_property = &$properties[$i];
+      $_params = &$_property->getParams();
 
-      $_property['uppername'] = strtoupper($_property['name']);
-      $_property['capname'] = ucwords($_property['name']);
-      if (isset($params['prefix']) && $_property['isObject']) {
-        $_property['capname'] = $params['prefix'] . $_property['capname'];
+      $_params['isObject'] = ($_property->getType() == "id");
+      $_params['isString'] = ($_property->getType() == "NSString *");
+      $_params['isNumber'] = ($_property->getType() == "NSNumber *");
+
+      if ($_property->isArray()) {
+        $_property->setType("NSMutableArray *");
+      } else if ($_property->getType() == 'id') {
+        $_property->setType($_property->getOriginalNameCapitalized() . " *");
       }
 
-      if ($_property['isArray']) {
-        $_property['type'] = "NSMutableArray *";
-      } else if ($_property['type'] == 'id') {
-        $_property['type'] = ucwords($_property['originalName']) . " *";
-      }
-
-      $_property['memory'] = "strong";
+      $_params['memory'] = "strong";
     }
 
-    $_cl['year'] = date('Y');
-    $_cl['today'] = date('Ymd');
-    $_cl['capkey'] = ($_cl['primaryKey'] ? strtoupper($_cl['primaryKey']) : false);
+    $cl_params['year'] = date('Y');
+    $cl_params['today'] = date('Ymd');
     return $_cl;
   }
 }

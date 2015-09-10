@@ -1,11 +1,12 @@
 package com.example;
 
+import java.io.Serializable;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.annotations.SerializedName;
 import com.google.gson.annotations.Expose;
 
-public class Obj
+public class Obj implements Serializable
 {
   private static final String FIELD_STR = "str";
   private static final String FIELD_NUM = "num";
@@ -18,7 +19,7 @@ public class Obj
 
   @Expose
   @SerializedName(FIELD_NUM)
-  private Integer num;
+  private Long num;
 
   @Expose
   @SerializedName(FIELD_FLO)
@@ -35,21 +36,24 @@ public class Obj
       this.str = value;
   }
 
+
   public String getStr() {
       return this.str;
   }
 
-  public void setNum(Integer value) {
+  public void setNum(Long value) {
       this.num = value;
   }
 
-  public Integer getNum() {
+
+  public Long getNum() {
       return this.num;
   }
 
   public void setFlo(Double value) {
       this.flo = value;
   }
+
 
   public Double getFlo() {
       return this.flo;
@@ -59,7 +63,7 @@ public class Obj
       this.boo = value;
   }
 
-  public Boolean getBoo() {
+  public Boolean isBoo() {
       return this.boo;
   }
 

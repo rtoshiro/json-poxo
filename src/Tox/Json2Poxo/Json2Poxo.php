@@ -67,11 +67,11 @@ class Json2Poxo
   {
     for ($i=0; $i < count($classList); $i++) {
       $cl = &$classList[$i];
-      if ($cl['name'] == $className) {
+      if ($cl->name == $className) {
         return $cl;
       }
     }
-    $newClass = $this->_class($className);
+    $newClass = new Classes($className);
     array_push($classList, $newClass);
     return $this->findClass($classList, $className);
   }
@@ -94,8 +94,8 @@ class Json2Poxo
         case 'double':
         case 'string':
         {
-          $newProperty = $this->_property($key, $objType, false);
-          $this->pushProperty($curClass, $newProperty);
+          $newProperty = new Properties($key, $objType, false);
+          $curClass->pushProperty($newProperty);
 
           break;
         }
@@ -105,8 +105,8 @@ class Json2Poxo
           {
             if (count($value) == 0)
             {
-              $newProperty = $this->_property($key, 'object', false);
-              $this->pushProperty($curClass, $newProperty);
+              $newProperty = new Properties($key, 'object', true);
+              $curClass->pushProperty($newProperty);
               $this->parse($value, $propertyName, $classList);
             }
             else {
@@ -127,12 +127,12 @@ class Json2Poxo
                 }
               }
 
-              $newProperty = $this->_property($key, $objType, true);
-              $this->pushProperty($curClass, $newProperty);
+              $newProperty = new Properties($key, $objType, true);
+              $curClass->pushProperty($newProperty);
             }
           } else {
-            $newProperty = $this->_property($key, 'object', false);
-            $this->pushProperty($curClass, $newProperty);
+            $newProperty = new Properties($key, 'object', false);
+            $curClass->pushProperty($newProperty);
             $this->parse($value, $propertyName, $classList);
           }
 
@@ -140,9 +140,9 @@ class Json2Poxo
         }
         case 'NULL':
         {
-          $newProperty = $this->_property($key, 'object', false);
-          $this->pushProperty($curClass, $newProperty);
-          $this->parse($value, $propertyName, $classList);
+          $newProperty = new Properties($key, 'null', false);
+          $curClass->pushProperty($newProperty);
+          // $this->parse($value, $propertyName, $classList);
           break;
         }
         default:
@@ -190,7 +190,6 @@ class Json2Poxo
       for ($i=0; $i < count($classes); $i++) {
         $cl = &$classes[$i];
         $cl = $language->classes($cl, $params);
-        // array_push($results, $cl);
       }
     }
     return $classes;
@@ -210,10 +209,9 @@ class Json2Poxo
       for ($i=0; $i < count($classes); $i++) {
         $cl = &$classes[$i];
 
-        $newPoxo = $this->_poxo();
-        $models = $language->template($cl, $newPoxo);
+        $models = $language->template($cl);
         for ($k=0; $k < count($models); $k++) {
-          $model = $models[$k];
+          $model = &$models[$k];
           array_push($results, $model);
         }
       }

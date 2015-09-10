@@ -1,5 +1,5 @@
 //
-//  PREFIXNull.h
+//  Arrnull.h
 //
 //  Created on 
 //  Copyright (c) . All rights reserved.
@@ -7,11 +7,11 @@
 
 #import <Foundation/Foundation.h>
 
-@interface PREFIXNull : NSObject <NSCoding>
+@interface Arrnull : NSObject <NSCoding>
 
 
-+ (PREFIXNull *)modelWithDictionary:(NSDictionary *)dict;
-+ (PREFIXNull *)modelWithString:(NSString *)json;
++ (Arrnull *)modelWithDictionary:(NSDictionary *)dict;
++ (Arrnull *)modelWithString:(NSString *)json;
 
 - (instancetype)initWithString:(NSString *)json;
 - (instancetype)initWithDictionary:(NSDictionary *)dict;

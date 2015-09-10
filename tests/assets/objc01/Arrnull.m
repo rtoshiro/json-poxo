@@ -1,31 +1,31 @@
 //
-//  Null.m
+//  Arrnull.m
 //
 //  Created by on 
 //  Copyright (c) . All rights reserved.
 //
 
-#import "Null.h"
+#import "Arrnull.h"
 
 // Original names
 
-@interface Null ()
+@interface Arrnull ()
 
 - (id)objectOrNilForKey:(id)aKey fromDictionary:(NSDictionary *)dict;
 
 @end
 
-@implementation Null
+@implementation Arrnull
 
-+ (Null *)modelWithDictionary:(NSDictionary *)dict
++ (Arrnull *)modelWithDictionary:(NSDictionary *)dict
 {
-  Null *instance = [[Null alloc] initWithDictionary:dict];
+  Arrnull *instance = [[Arrnull alloc] initWithDictionary:dict];
   return instance;
 }
 
-+ (Null *)modelWithString:(NSString *)json
++ (Arrnull *)modelWithString:(NSString *)json
 {
-  Null *instance = [[Null alloc] initWithString:json];
+  Arrnull *instance = [[Arrnull alloc] initWithString:json];
   return instance;
 }
 
@@ -89,7 +89,7 @@
 
 - (id)copyWithZone:(NSZone *)zone
 {
-  Null *copy = [[Null alloc] init];
+  Arrnull *copy = [[Arrnull alloc] init];
   if (copy)
   {
   }

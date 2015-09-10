@@ -1,8 +1,8 @@
 //
 //  Null.h
 //
-//  Created on DATA_DE_HOJE
-//  Copyright (c) 2015. All rights reserved.
+//  Created on 
+//  Copyright (c) . All rights reserved.
 //
 
 #import <Foundation/Foundation.h>

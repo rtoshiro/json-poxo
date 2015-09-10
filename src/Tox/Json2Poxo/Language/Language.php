@@ -8,23 +8,25 @@ class Language
   public $primaryKeys;
   public $types;
 
-  public function template(&$_class, &$_poxo) {}
+  // Return an array of Poxo
+  public function template(&$_class) {}
 
-  public function classes(&$cl, $params = null)
+  public function &classes(&$cl, $params = null)
   {
-    for ($i=0; $i < count($cl['properties']); $i++)
+    $properties = &$cl->getProperties();
+    for ($i=0; $i < count($properties); $i++)
     {
-      $property = &$cl['properties'][$i];
+      $property = &$properties[$i];
 
-      $property['name'] = $this->checkReservedWords($property['name']);
+      $property->setName($this->checkReservedWords($property->getName()));
 
       // Translates php types to $language->types
-      $property['type'] = $this->types[$property['type']];
+      $property->setType($this->types[$property->getType()]);
 
       // Search for properties that can be used as primaryKeys
-      if (array_search(strtolower($property['originalName']), $this->primaryKeys) !== false) {
-        $cl['primaryKey'] = $property['name'];
-        $cl['primaryKeyType'] = $property['type'];
+      if (array_search(strtolower($property->getOriginalName()), $this->primaryKeys) !== false) {
+        $cl->setPrimaryKey($property->getName());
+        $cl->setPrimaryKeyType($property->getType());
       }
     }
     return $cl;

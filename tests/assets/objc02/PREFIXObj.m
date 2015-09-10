@@ -1,12 +1,11 @@
 //
 //  PREFIXObj.m
 //
-//  Created by on DATA_DE_HOJE
-//  Copyright (c) 2015. All rights reserved.
+//  Created by on 
+//  Copyright (c) . All rights reserved.
 //
 
 #import "PREFIXObj.h"
-
 
 // Original names
 NSString * const kStr = @"str";

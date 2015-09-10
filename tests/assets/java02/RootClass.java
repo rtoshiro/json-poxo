@@ -1,5 +1,6 @@
 package com.example;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import com.google.gson.Gson;
@@ -7,7 +8,7 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.annotations.SerializedName;
 import com.google.gson.annotations.Expose;
 
-public class RootClass
+public class RootClass implements Serializable
 {
   private static final String FIELD_ID = "id";
   private static final String FIELD_STR = "str";
@@ -17,6 +18,7 @@ public class RootClass
   private static final String FIELD_ARRNUM = "arrnum";
   private static final String FIELD_ARRSTR = "arrstr";
   private static final String FIELD_ARRBOO = "arrboo";
+  private static final String FIELD_ARRNULL = "arrnull";
   private static final String FIELD_OBJ = "obj";
   private static final String FIELD_ARROBJ = "arrobj";
 
@@ -30,7 +32,7 @@ public class RootClass
 
   @Expose
   @SerializedName(FIELD_NUM)
-  private Integer num;
+  private Long num;
 
   @Expose
   @SerializedName(FIELD_FLO)
@@ -42,7 +44,7 @@ public class RootClass
 
   @Expose
   @SerializedName(FIELD_ARRNUM)
-  private ArrayList<Integer> arrnum;
+  private ArrayList<Long> arrnum;
 
   @Expose
   @SerializedName(FIELD_ARRSTR)
@@ -53,8 +55,12 @@ public class RootClass
   private ArrayList<Boolean> arrboo;
 
   @Expose
+  @SerializedName(FIELD_ARRNULL)
+  private ArrayList<Arrnull> arrnull;
+
+  @Expose
   @SerializedName(FIELD_OBJ)
-  private Object obj;
+  private Obj obj;
 
   @Expose
   @SerializedName(FIELD_ARROBJ)
@@ -67,6 +73,7 @@ public class RootClass
       this.id = value;
   }
 
+
   public String getId() {
       return this.id;
   }
@@ -75,21 +82,24 @@ public class RootClass
       this.str = value;
   }
 
+
   public String getStr() {
       return this.str;
   }
 
-  public void setNum(Integer value) {
+  public void setNum(Long value) {
       this.num = value;
   }
 
-  public Integer getNum() {
+
+  public Long getNum() {
       return this.num;
   }
 
   public void setFlo(Double value) {
       this.flo = value;
   }
+
 
   public Double getFlo() {
       return this.flo;
@@ -99,21 +109,23 @@ public class RootClass
       this.boo = value;
   }
 
-  public Boolean getBoo() {
+  public Boolean isBoo() {
       return this.boo;
   }
 
-  public void setArrnum(ArrayList<Integer> value) {
+  public void setArrnum(ArrayList<Long> value) {
       this.arrnum = value;
   }
 
-  public ArrayList<Integer> getArrnum() {
+
+  public ArrayList<Long> getArrnum() {
       return this.arrnum;
   }
 
   public void setArrstr(ArrayList<String> value) {
       this.arrstr = value;
   }
+
 
   public ArrayList<String> getArrstr() {
       return this.arrstr;
@@ -123,21 +135,32 @@ public class RootClass
       this.arrboo = value;
   }
 
-  public ArrayList<Boolean> getArrboo() {
+  public ArrayList<Boolean> isArrboo() {
       return this.arrboo;
   }
 
-  public void setObj(Object value) {
+  public void setArrnull(ArrayList<Arrnull> value) {
+      this.arrnull = value;
+  }
+
+
+  public ArrayList<Arrnull> getArrnull() {
+      return this.arrnull;
+  }
+
+  public void setObj(Obj value) {
       this.obj = value;
   }
 
-  public Object getObj() {
+
+  public Obj getObj() {
       return this.obj;
   }
 
   public void setArrobj(ArrayList<Arrobj> value) {
       this.arrobj = value;
   }
+
 
   public ArrayList<Arrobj> getArrobj() {
       return this.arrobj;
@@ -146,7 +169,7 @@ public class RootClass
   @Override
   public boolean equals(Object obj) {
       if (obj instanceof RootClass) {
-          return ((RootClass) obj).getId() == id;
+          return ((RootClass) obj).getId().equals(id);
       }
       return false;
   }

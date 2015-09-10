@@ -45,9 +45,8 @@ class Language extends Command
     for ($i = 0; $i < count($result); $i++)
     {
       $item = $result[$i];
-      $filePath = $dir . '/' . $item['fileName'];
-      print_r($filePath);
-      $this->writeFile($filePath, $item['sourceCode']);
+      $filePath = $dir . '/' . $item->getFileName();
+      $this->writeFile($filePath, $item->getSourceCode());
     }
   }
 }

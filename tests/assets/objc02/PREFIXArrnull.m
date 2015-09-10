@@ -1,31 +1,31 @@
 //
-//  Null.m
+//  PREFIXArrnull.m
 //
 //  Created by on 
 //  Copyright (c) . All rights reserved.
 //
 
-#import "Null.h"
+#import "PREFIXArrnull.h"
 
 // Original names
 
-@interface Null ()
+@interface PREFIXArrnull ()
 
 - (id)objectOrNilForKey:(id)aKey fromDictionary:(NSDictionary *)dict;
 
 @end
 
-@implementation Null
+@implementation PREFIXArrnull
 
-+ (Null *)modelWithDictionary:(NSDictionary *)dict
++ (PREFIXArrnull *)modelWithDictionary:(NSDictionary *)dict
 {
-  Null *instance = [[Null alloc] initWithDictionary:dict];
+  PREFIXArrnull *instance = [[PREFIXArrnull alloc] initWithDictionary:dict];
   return instance;
 }
 
-+ (Null *)modelWithString:(NSString *)json
++ (PREFIXArrnull *)modelWithString:(NSString *)json
 {
-  Null *instance = [[Null alloc] initWithString:json];
+  PREFIXArrnull *instance = [[PREFIXArrnull alloc] initWithString:json];
   return instance;
 }
 
@@ -89,7 +89,7 @@
 
 - (id)copyWithZone:(NSZone *)zone
 {
-  Null *copy = [[Null alloc] init];
+  PREFIXArrnull *copy = [[PREFIXArrnull alloc] init];
   if (copy)
   {
   }

@@ -1,9 +1,10 @@
 package com.example;
 
-public class Arrobj
+import java.io.Serializable;
+public class Arrobj implements Serializable
 {
   private String str;
-  private Integer num;
+  private Long num;
   private Double flo;
   private Boolean boo;
   private Object null;
@@ -15,21 +16,24 @@ public class Arrobj
       this.str = value;
   }
 
+
   public String getStr() {
       return this.str;
   }
 
-  public void setNum(Integer value) {
+  public void setNum(Long value) {
       this.num = value;
   }
 
-  public Integer getNum() {
+
+  public Long getNum() {
       return this.num;
   }
 
   public void setFlo(Double value) {
       this.flo = value;
   }
+
 
   public Double getFlo() {
       return this.flo;
@@ -39,13 +43,14 @@ public class Arrobj
       this.boo = value;
   }
 
-  public Boolean getBoo() {
+  public Boolean isBoo() {
       return this.boo;
   }
 
   public void setNull(Object value) {
       this.null = value;
   }
+
 
   public Object getNull() {
       return this.null;

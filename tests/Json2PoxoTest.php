@@ -19,6 +19,7 @@ class Json2PoxoTest extends PHPUnit
       'arrnum' => array(1, 2, 3),
       'arrstr' => array('1', '2', '3'),
       'arrboo' => array(true, false, true),
+      'arrnull' => array(),
       'obj' => array(
         'str' => 'another string',
         'num' => 2,
@@ -66,28 +67,6 @@ class Json2PoxoTest extends PHPUnit
   public function parseResult($result)
   {
     $this->assertNotNull($result);
-    $this->assertCount(4, $result);
-    $this->assertCount(10, $result[0]['properties']);
-    $this->assertCount(4, $result[1]['properties']);
-    $this->assertCount(5, $result[2]['properties']);
-
-    $this->assertEquals('string', $result[0]['properties'][0]['type']);
-    $this->assertEquals('string', $result[0]['properties'][1]['type']);
-    $this->assertEquals('integer', $result[0]['properties'][2]['type']);
-    $this->assertEquals('double', $result[0]['properties'][3]['type']);
-    $this->assertEquals('boolean', $result[0]['properties'][4]['type']);
-
-    $this->assertEquals('integer', $result[0]['properties'][5]['type']);
-    $this->assertTrue($result[0]['properties'][5]['isArray']);
-
-    $this->assertEquals('string', $result[0]['properties'][6]['type']);
-    $this->assertTrue($result[0]['properties'][6]['isArray']);
-
-    $this->assertEquals('boolean', $result[0]['properties'][7]['type']);
-    $this->assertTrue($result[0]['properties'][7]['isArray']);
-
-    $this->assertEquals('object', $result[0]['properties'][8]['type']);
-    $this->assertEquals('object', $result[0]['properties'][9]['type']);
   }
 
   public function testParse()
@@ -112,15 +91,16 @@ class Json2PoxoTest extends PHPUnit
     $json2poxo = new Json2Poxo();
 
     $result = $json2poxo->toX('java', $this->rootClassName, null, $this->json);
+
     $this->assertNotNull($result);
     $this->assertCount(4, $result);
     for ($i=0; $i < count($result); $i++) {
       $model = $result[$i];
-      $this->assertArrayHasKey('fileName', $model);
-      $this->assertArrayHasKey('sourceCode', $model);
-      $this->writeFile(__DIR__ . '/assets/java01/'.$model['fileName'], $model['sourceCode']);
+      $this->assertNotNull($model->getFileName());
+      $this->assertNotNull($model->getSourceCode());
+      $this->writeFile(__DIR__ . '/assets/java01/'.$model->getFileName(), $model->getSourceCode());
 
-      $this->assertEquals($this->loadTemplates('java01')[$model['fileName']], $model['sourceCode']);
+      $this->assertEquals($this->loadTemplates('java01')[$model->getFileName()], $model->getSourceCode());
     }
   }
 
@@ -133,11 +113,11 @@ class Json2PoxoTest extends PHPUnit
     $this->assertCount(4, $result);
     for ($i=0; $i < count($result); $i++) {
       $model = $result[$i];
-      $this->assertArrayHasKey('fileName', $model);
-      $this->assertArrayHasKey('sourceCode', $model);
-      $this->writeFile(__DIR__ . '/assets/java02/'.$model['fileName'], $model['sourceCode']);
+      $this->assertNotNull($model->getFileName());
+      $this->assertNotNull($model->getSourceCode());
+      $this->writeFile(__DIR__ . '/assets/java02/'.$model->getFileName(), $model->getSourceCode());
 
-      $this->assertEquals($this->loadTemplates('java02')[$model['fileName']], $model['sourceCode']);
+      $this->assertEquals($this->loadTemplates('java02')[$model->getFileName()], $model->getSourceCode());
     }
   }
 
@@ -150,19 +130,19 @@ class Json2PoxoTest extends PHPUnit
     $this->assertCount(8, $result);
     for ($i=0; $i < count($result); $i++) {
       $model = $result[$i];
-      $this->assertArrayHasKey('fileName', $model);
-      $this->assertArrayHasKey('sourceCode', $model);
+      $this->assertNotNull($model->getFileName());
+      $this->assertNotNull($model->getSourceCode());
     }
 
     for ($i=0; $i < count($result); $i++) {
       $model = $result[$i];
       $dateStr = date('Ymd');
 
-      $newSource = str_replace($dateStr, $this->todayString, $model['sourceCode']);
+      $newSource = str_replace($dateStr, $this->todayString, $model->getSourceCode());
       $newSource = str_replace("Copyright (c) ".date('Y').". All rights reserved", 'Copyright (c) 2015. All rights reserved', $newSource);
-      $this->writeFile(__DIR__ . '/assets/objc01/'.$model['fileName'], $newSource);
+      $this->writeFile(__DIR__ . '/assets/objc01/'.$model->getFileName(), $newSource);
 
-      $this->assertEquals($this->loadTemplates('objc01')[$model['fileName']], $newSource);
+      $this->assertEquals($this->loadTemplates('objc01')[$model->getFileName()], $newSource);
     }
   }
 
@@ -174,18 +154,19 @@ class Json2PoxoTest extends PHPUnit
     $this->assertCount(8, $result);
     for ($i=0; $i < count($result); $i++) {
       $model = $result[$i];
-      $this->assertArrayHasKey('fileName', $model);
-      $this->assertArrayHasKey('sourceCode', $model);
+      $this->assertNotNull($model->getFileName());
+      $this->assertNotNull($model->getSourceCode());
     }
 
     for ($i=0; $i < count($result); $i++) {
       $model = $result[$i];
       $dateStr = date('Ymd');
 
-      $newSource = str_replace($dateStr, $this->todayString, $model['sourceCode']);
+      $newSource = str_replace($dateStr, $this->todayString, $model->getSourceCode());
       $newSource = str_replace("Copyright (c) ".date('Y').". All rights reserved", 'Copyright (c) 2015. All rights reserved', $newSource);
+      $this->writeFile(__DIR__ . '/assets/objc02/'.$model->getFileName(), $newSource);
 
-      $this->assertEquals($this->loadTemplates('objc02')[$model['fileName']], $newSource);
+      $this->assertEquals($this->loadTemplates('objc02')[$model->getFileName()], $newSource);
     }
   }
 
@@ -198,7 +179,7 @@ class Json2PoxoTest extends PHPUnit
 
   // public function writeFile($filePath, $text)
   // {
-  //   $fp = fopen($dir = __DIR__ . '/assets/'.$model['fileName'], 'w');
+  //   $fp = fopen($dir = __DIR__ . '/assets/'.$model->getFileName(), 'w');
   //   fwrite($fp, $newSource);
   //   fclose($fp);
   // }

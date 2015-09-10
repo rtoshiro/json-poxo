@@ -1,12 +1,11 @@
 //
 //  RootClass.m
 //
-//  Created by on DATA_DE_HOJE
-//  Copyright (c) 2015. All rights reserved.
+//  Created by on 
+//  Copyright (c) . All rights reserved.
 //
 
 #import "RootClass.h"
-
 
 // Original names
 NSString * const k_id = @"id";
@@ -17,6 +16,7 @@ NSString * const kBoo = @"boo";
 NSString * const kArrnum = @"arrnum";
 NSString * const kArrstr = @"arrstr";
 NSString * const kArrboo = @"arrboo";
+NSString * const kArrnull = @"arrnull";
 NSString * const kObj = @"obj";
 NSString * const kArrobj = @"arrobj";
 
@@ -70,6 +70,18 @@ NSString * const kArrobj = @"arrobj";
     self.arrstr = [self objectOrNilForKey:kArrstr fromDictionary:dict];
     self.arrboo = [self objectOrNilForKey:kArrboo fromDictionary:dict];
 
+    NSObject *objArrnull = [dict objectForKey:kArrnull];
+    if ([objArrnull isKindOfClass:[NSArray class]])
+    {
+      NSMutableArray *listArrnull = [NSMutableArray array];
+      for (NSDictionary *item in (NSArray *)objArrnull) {
+        if ([item isKindOfClass:[NSDictionary class]]) {
+          [listArrnull addObject:[Arrnull modelObjectWithDictionary:item]];
+        }
+      }
+      self.arrnull = listArrnull;
+    }
+
     NSObject *objObj = [dict objectForKey:kObj];
     if ([objObj isKindOfClass:[NSDictionary class]])
     {
@@ -102,6 +114,15 @@ NSString * const kArrobj = @"arrobj";
   [mutableDict setValue:self.arrnum forKey:kArrnum];
   [mutableDict setValue:self.arrstr forKey:kArrstr];
   [mutableDict setValue:self.arrboo forKey:kArrboo];
+  NSMutableArray *tempArrayArrnull = [NSMutableArray array];
+  for (NSObject *subArray in self.arrnull) {
+    if ([subArray respondsToSelector:@selector(dictionaryRepresentation)]) {
+       [tempArrayArrnull addObject:[subArray performSelector:@selector(dictionaryRepresentation)]];
+    } else {
+       [tempArrayArrnull addObject:subArray];
+    }
+  }
+  [mutableDict setValue:[NSArray arrayWithArray:tempArrayArrnull] forKey:kArrnull];
   if ([self.obj respondsToSelector:@selector(dictionaryRepresentation)]) {
     [mutableDict setValue:[self.obj performSelector:@selector(dictionaryRepresentation)] forKey:kObj];
   } else {
@@ -146,6 +167,7 @@ NSString * const kArrobj = @"arrobj";
   self.arrnum = [aDecoder decodeObjectForKey:kArrnum];
   self.arrstr = [aDecoder decodeObjectForKey:kArrstr];
   self.arrboo = [aDecoder decodeObjectForKey:kArrboo];
+  self.arrnull = [aDecoder decodeObjectForKey:kArrnull];
   self.obj = [aDecoder decodeObjectForKey:kObj];
   self.arrobj = [aDecoder decodeObjectForKey:kArrobj];
 
@@ -162,6 +184,7 @@ NSString * const kArrobj = @"arrobj";
   [aCoder encodeObject:_arrnum forKey:kArrnum];
   [aCoder encodeObject:_arrstr forKey:kArrstr];
   [aCoder encodeObject:_arrboo forKey:kArrboo];
+  [aCoder encodeObject:_arrnull forKey:kArrnull];
   [aCoder encodeObject:_obj forKey:kObj];
   [aCoder encodeObject:_arrobj forKey:kArrobj];
 }
@@ -179,6 +202,7 @@ NSString * const kArrobj = @"arrobj";
     copy.arrnum = [self.arrnum copyWithZone:zone];
     copy.arrstr = [self.arrstr copyWithZone:zone];
     copy.arrboo = [self.arrboo copyWithZone:zone];
+    copy.arrnull = [self.arrnull copyWithZone:zone];
     copy.obj = [self.obj copyWithZone:zone];
     copy.arrobj = [self.arrobj copyWithZone:zone];
   }

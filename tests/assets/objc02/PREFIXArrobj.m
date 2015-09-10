@@ -1,19 +1,18 @@
 //
 //  PREFIXArrobj.m
 //
-//  Created by on DATA_DE_HOJE
-//  Copyright (c) 2015. All rights reserved.
+//  Created by on 
+//  Copyright (c) . All rights reserved.
 //
 
 #import "PREFIXArrobj.h"
-
 
 // Original names
 NSString * const kStr = @"str";
 NSString * const kNum = @"num";
 NSString * const kFlo = @"flo";
 NSString * const kBoo = @"boo";
-NSString * const kPREFIXNull = @"null";
+NSString * const kNull = @"null";
 
 @interface PREFIXArrobj ()
 
@@ -61,10 +60,10 @@ NSString * const kPREFIXNull = @"null";
     self.flo = [self objectOrNilForKey:kFlo fromDictionary:dict];
     self.boo = [self objectOrNilForKey:kBoo fromDictionary:dict];
 
-    NSObject *objPREFIXNull = [dict objectForKey:kPREFIXNull];
-    if ([objPREFIXNull isKindOfClass:[NSDictionary class]])
+    NSObject *objNull = [dict objectForKey:kNull];
+    if ([objNull isKindOfClass:[NSDictionary class]])
     {
-      self.null = [PREFIXNull modelObjectWithDictionary:objPREFIXNull];
+      self.null = [Null modelObjectWithDictionary:objNull];
     }
   }
   return self;
@@ -78,9 +77,9 @@ NSString * const kPREFIXNull = @"null";
   [mutableDict setValue:self.flo forKey:kFlo];
   [mutableDict setValue:self.boo forKey:kBoo];
   if ([self.null respondsToSelector:@selector(dictionaryRepresentation)]) {
-    [mutableDict setValue:[self.null performSelector:@selector(dictionaryRepresentation)] forKey:kPREFIXNull];
+    [mutableDict setValue:[self.null performSelector:@selector(dictionaryRepresentation)] forKey:kNull];
   } else {
-    [mutableDict setValue:self.null forKey:kPREFIXNull];
+    [mutableDict setValue:self.null forKey:kNull];
   }
 
   return [NSDictionary dictionaryWithDictionary:mutableDict];
@@ -108,7 +107,7 @@ NSString * const kPREFIXNull = @"null";
   self.num = [aDecoder decodeObjectForKey:kNum];
   self.flo = [aDecoder decodeObjectForKey:kFlo];
   self.boo = [aDecoder decodeObjectForKey:kBoo];
-  self.null = [aDecoder decodeObjectForKey:kPREFIXNull];
+  self.null = [aDecoder decodeObjectForKey:kNull];
 
   return self;
 }
@@ -119,7 +118,7 @@ NSString * const kPREFIXNull = @"null";
   [aCoder encodeObject:_num forKey:kNum];
   [aCoder encodeObject:_flo forKey:kFlo];
   [aCoder encodeObject:_boo forKey:kBoo];
-  [aCoder encodeObject:_null forKey:kPREFIXNull];
+  [aCoder encodeObject:_null forKey:kNull];
 }
 
 - (id)copyWithZone:(NSZone *)zone

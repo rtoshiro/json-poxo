@@ -1,18 +1,20 @@
 package com.example;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class RootClass
+public class RootClass implements Serializable
 {
   private String id;
   private String str;
-  private Integer num;
+  private Long num;
   private Double flo;
   private Boolean boo;
-  private ArrayList<Integer> arrnum;
+  private ArrayList<Long> arrnum;
   private ArrayList<String> arrstr;
   private ArrayList<Boolean> arrboo;
-  private Object obj;
+  private ArrayList<Arrnull> arrnull;
+  private Obj obj;
   private ArrayList<Arrobj> arrobj;
 
   public RootClass() {
@@ -22,6 +24,7 @@ public class RootClass
       this.id = value;
   }
 
+
   public String getId() {
       return this.id;
   }
@@ -30,21 +33,24 @@ public class RootClass
       this.str = value;
   }
 
+
   public String getStr() {
       return this.str;
   }
 
-  public void setNum(Integer value) {
+  public void setNum(Long value) {
       this.num = value;
   }
 
-  public Integer getNum() {
+
+  public Long getNum() {
       return this.num;
   }
 
   public void setFlo(Double value) {
       this.flo = value;
   }
+
 
   public Double getFlo() {
       return this.flo;
@@ -54,21 +60,23 @@ public class RootClass
       this.boo = value;
   }
 
-  public Boolean getBoo() {
+  public Boolean isBoo() {
       return this.boo;
   }
 
-  public void setArrnum(ArrayList<Integer> value) {
+  public void setArrnum(ArrayList<Long> value) {
       this.arrnum = value;
   }
 
-  public ArrayList<Integer> getArrnum() {
+
+  public ArrayList<Long> getArrnum() {
       return this.arrnum;
   }
 
   public void setArrstr(ArrayList<String> value) {
       this.arrstr = value;
   }
+
 
   public ArrayList<String> getArrstr() {
       return this.arrstr;
@@ -78,21 +86,32 @@ public class RootClass
       this.arrboo = value;
   }
 
-  public ArrayList<Boolean> getArrboo() {
+  public ArrayList<Boolean> isArrboo() {
       return this.arrboo;
   }
 
-  public void setObj(Object value) {
+  public void setArrnull(ArrayList<Arrnull> value) {
+      this.arrnull = value;
+  }
+
+
+  public ArrayList<Arrnull> getArrnull() {
+      return this.arrnull;
+  }
+
+  public void setObj(Obj value) {
       this.obj = value;
   }
 
-  public Object getObj() {
+
+  public Obj getObj() {
       return this.obj;
   }
 
   public void setArrobj(ArrayList<Arrobj> value) {
       this.arrobj = value;
   }
+
 
   public ArrayList<Arrobj> getArrobj() {
       return this.arrobj;
@@ -101,7 +120,7 @@ public class RootClass
   @Override
   public boolean equals(Object obj) {
       if (obj instanceof RootClass) {
-          return ((RootClass) obj).getId() == id;
+          return ((RootClass) obj).getId().equals(id);
       }
       return false;
   }

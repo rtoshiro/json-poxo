@@ -6,12 +6,15 @@
 //
 
 #import "{{name}}.h"
-{{#if imports}}{{imports}}{{/if}}
+{{#if imports}}
+{{imports}}
+
+{{/if}}
 
 // Original names
 {{#each properties}}
   {{#if name}}
-NSString * const k{{capname}} = @"{{originalName}}";
+NSString * const k{{nameCapitalized}} = @"{{originalName}}";
   {{/if}}
 {{/each}}
 
@@ -57,28 +60,28 @@ NSString * const k{{capname}} = @"{{originalName}}";
   if (self && [dict isKindOfClass:[NSDictionary class]])
   {
 {{#each properties}}
-{{#if isNumber}}
-    self.{{name}} = [self objectOrNilForKey:k{{capname}} fromDictionary:dict];
+{{#if params.isNumber}}
+    self.{{name}} = [self objectOrNilForKey:k{{nameCapitalized}} fromDictionary:dict];
 {{/if}}
-{{#if isString}}
-    self.{{name}} = [self objectOrNilForKey:k{{capname}} fromDictionary:dict];
+{{#if params.isString}}
+    self.{{name}} = [self objectOrNilForKey:k{{nameCapitalized}} fromDictionary:dict];
 {{/if}}
-{{#if isObject}}
+{{#if params.isObject}}
 
-    NSObject *obj{{capname}} = [dict objectForKey:k{{capname}}];
-{{#if isArray}}    if ([obj{{capname}} isKindOfClass:[NSArray class]])
+    NSObject *obj{{nameCapitalized}} = [dict objectForKey:k{{nameCapitalized}}];
+{{#if isArray}}    if ([obj{{nameCapitalized}} isKindOfClass:[NSArray class]])
     {
-      NSMutableArray *list{{capname}} = [NSMutableArray array];
-      for (NSDictionary *item in (NSArray *)obj{{capname}}) {
+      NSMutableArray *list{{nameCapitalized}} = [NSMutableArray array];
+      for (NSDictionary *item in (NSArray *)obj{{nameCapitalized}}) {
         if ([item isKindOfClass:[NSDictionary class]]) {
-          [list{{capname}} addObject:[{{capname}} modelObjectWithDictionary:item]];
+          [list{{nameCapitalized}} addObject:[{{nameCapitalized}} modelObjectWithDictionary:item]];
         }
       }
-      self.{{name}} = list{{capname}};
+      self.{{name}} = list{{nameCapitalized}};
     }
-{{else}}    if ([obj{{capname}} isKindOfClass:[NSDictionary class]])
+{{else}}    if ([obj{{nameCapitalized}} isKindOfClass:[NSDictionary class]])
     {
-      self.{{name}} = [{{capname}} modelObjectWithDictionary:obj{{capname}}];
+      self.{{name}} = [{{nameCapitalized}} modelObjectWithDictionary:obj{{nameCapitalized}}];
     }
 {{/if}}
 {{/if}}
@@ -91,26 +94,26 @@ NSString * const k{{capname}} = @"{{originalName}}";
 {
   NSMutableDictionary *mutableDict = [NSMutableDictionary dictionary];
 {{#each properties}}
-{{#if isNumber}}
-  [mutableDict setValue:self.{{name}} forKey:k{{capname}}];
+{{#if params.isNumber}}
+  [mutableDict setValue:self.{{name}} forKey:k{{nameCapitalized}}];
 {{/if}}
-{{#if isString}}
-  [mutableDict setValue:self.{{name}} forKey:k{{capname}}];
+{{#if params.isString}}
+  [mutableDict setValue:self.{{name}} forKey:k{{nameCapitalized}}];
 {{/if}}
-{{#if isObject}}
-{{#if isArray}}  NSMutableArray *tempArray{{capname}} = [NSMutableArray array];
+{{#if params.isObject}}
+{{#if isArray}}  NSMutableArray *tempArray{{nameCapitalized}} = [NSMutableArray array];
   for (NSObject *subArray in self.{{name}}) {
     if ([subArray respondsToSelector:@selector(dictionaryRepresentation)]) {
-       [tempArray{{capname}} addObject:[subArray performSelector:@selector(dictionaryRepresentation)]];
+       [tempArray{{nameCapitalized}} addObject:[subArray performSelector:@selector(dictionaryRepresentation)]];
     } else {
-       [tempArray{{capname}} addObject:subArray];
+       [tempArray{{nameCapitalized}} addObject:subArray];
     }
   }
-  [mutableDict setValue:[NSArray arrayWithArray:tempArray{{capname}}] forKey:k{{capname}}];
+  [mutableDict setValue:[NSArray arrayWithArray:tempArray{{nameCapitalized}}] forKey:k{{nameCapitalized}}];
 {{else}}  if ([self.{{name}} respondsToSelector:@selector(dictionaryRepresentation)]) {
-    [mutableDict setValue:[self.{{name}} performSelector:@selector(dictionaryRepresentation)] forKey:k{{capname}}];
+    [mutableDict setValue:[self.{{name}} performSelector:@selector(dictionaryRepresentation)] forKey:k{{nameCapitalized}}];
   } else {
-    [mutableDict setValue:self.{{name}} forKey:k{{capname}}];
+    [mutableDict setValue:self.{{name}} forKey:k{{nameCapitalized}}];
   }
 {{/if}}
 {{/if}}
@@ -138,7 +141,7 @@ NSString * const k{{capname}} = @"{{originalName}}";
   self = [super init];
 
 {{#each properties}}
-  self.{{name}} = [aDecoder decodeObjectForKey:k{{capname}}];
+  self.{{name}} = [aDecoder decodeObjectForKey:k{{nameCapitalized}}];
 {{/each}}
 
   return self;
@@ -147,7 +150,7 @@ NSString * const k{{capname}} = @"{{originalName}}";
 - (void)encodeWithCoder:(NSCoder *)aCoder
 {
 {{#each properties}}
-  [aCoder encodeObject:_{{name}} forKey:k{{capname}}];
+  [aCoder encodeObject:_{{name}} forKey:k{{nameCapitalized}}];
 {{/each}}
 }
 

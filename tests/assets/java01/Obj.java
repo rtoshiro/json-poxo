@@ -1,9 +1,10 @@
 package com.example;
 
-public class Obj
+import java.io.Serializable;
+public class Obj implements Serializable
 {
   private String str;
-  private Integer num;
+  private Long num;
   private Double flo;
   private Boolean boo;
 
@@ -14,21 +15,24 @@ public class Obj
       this.str = value;
   }
 
+
   public String getStr() {
       return this.str;
   }
 
-  public void setNum(Integer value) {
+  public void setNum(Long value) {
       this.num = value;
   }
 
-  public Integer getNum() {
+
+  public Long getNum() {
       return this.num;
   }
 
   public void setFlo(Double value) {
       this.flo = value;
   }
+
 
   public Double getFlo() {
       return this.flo;
@@ -38,7 +42,7 @@ public class Obj
       this.boo = value;
   }
 
-  public Boolean getBoo() {
+  public Boolean isBoo() {
       return this.boo;
   }
 

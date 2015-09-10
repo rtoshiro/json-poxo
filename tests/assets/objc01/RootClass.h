@@ -1,8 +1,8 @@
 //
 //  RootClass.h
 //
-//  Created on DATA_DE_HOJE
-//  Copyright (c) 2015. All rights reserved.
+//  Created on 
+//  Copyright (c) . All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
@@ -17,6 +17,7 @@
 @property (nonatomic, strong) NSMutableArray * arrnum;
 @property (nonatomic, strong) NSMutableArray * arrstr;
 @property (nonatomic, strong) NSMutableArray * arrboo;
+@property (nonatomic, strong) NSMutableArray * arrnull;
 @property (nonatomic, strong) Obj * obj;
 @property (nonatomic, strong) NSMutableArray * arrobj;
 

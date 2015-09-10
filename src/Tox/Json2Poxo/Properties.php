@@ -17,8 +17,10 @@ class Properties
   public function __construct($name, $type, $isArray)
   {
     $this->setName($name);
+    $this->setOriginalName($name);
     $this->type = $type;
     $this->isArray = $isArray;
+    $this->params = array();
   }
 
   public function getName() {
@@ -78,7 +80,7 @@ class Properties
       return $this;
   }
 
-  public function getParams() {
+  public function &getParams() {
       return $this->params;
   }
 
