@@ -24,7 +24,7 @@ class Objc extends Language
     "integer" => "NSNumber *",
     "double" => "NSNumber *",
     "boolean" => "NSNumber *",
-    "object" => "id"
+    "object" => "NSObject *"
   );
 
   public function template(&$_class)
@@ -68,13 +68,19 @@ class Objc extends Language
       $_property = &$properties[$i];
       $_params = &$_property->getParams();
 
-      $_params['isObject'] = ($_property->getType() == "id");
+      $_params['isObject'] = ($_property->getType() == "NSObject *");
+      $_params['isNull'] = ($_property->getType() == "id");
       $_params['isString'] = ($_property->getType() == "NSString *");
       $_params['isNumber'] = ($_property->getType() == "NSNumber *");
 
       if ($_property->isArray()) {
+        // If is object and is array, we need to include "import"
+        if ($_params['isObject'])
+          $_cl->pushImport('#import "' . $_property->getNameCapitalized() . '.h"');
+
         $_property->setType("NSMutableArray *");
-      } else if ($_property->getType() == 'id') {
+      } else if ($_property->getType() == 'NSObject *') {
+        $_cl->pushImport('#import "' . $_property->getNameCapitalized() . '.h"');
         $_property->setType($_property->getOriginalNameCapitalized() . " *");
       }
 
@@ -82,7 +88,7 @@ class Objc extends Language
     }
 
     $cl_params['year'] = date('Y');
-    $cl_params['today'] = date('Ymd');
+    $cl_params['today'] = date('Y/m/d');
     return $_cl;
   }
 }

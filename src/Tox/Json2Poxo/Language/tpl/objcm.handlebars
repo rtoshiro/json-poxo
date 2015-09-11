@@ -1,13 +1,13 @@
 //
 //  {{name}}.m
 //
-//  Created by on {{today}}
-//  Copyright (c) {{year}}. All rights reserved.
+//  Created by on {{params.today}}
+//  Copyright (c) {{params.year}}. All rights reserved.
 //
 
 #import "{{name}}.h"
 {{#if imports}}
-{{imports}}
+{{&imports}}
 
 {{/if}}
 
@@ -66,6 +66,9 @@ NSString * const k{{nameCapitalized}} = @"{{originalName}}";
 {{#if params.isString}}
     self.{{name}} = [self objectOrNilForKey:k{{nameCapitalized}} fromDictionary:dict];
 {{/if}}
+{{#if params.isNull}}
+    self.{{name}} = [self objectOrNilForKey:k{{nameCapitalized}} fromDictionary:dict];
+{{/if}}
 {{#if params.isObject}}
 
     NSObject *obj{{nameCapitalized}} = [dict objectForKey:k{{nameCapitalized}}];
@@ -74,14 +77,14 @@ NSString * const k{{nameCapitalized}} = @"{{originalName}}";
       NSMutableArray *list{{nameCapitalized}} = [NSMutableArray array];
       for (NSDictionary *item in (NSArray *)obj{{nameCapitalized}}) {
         if ([item isKindOfClass:[NSDictionary class]]) {
-          [list{{nameCapitalized}} addObject:[{{nameCapitalized}} modelObjectWithDictionary:item]];
+          [list{{nameCapitalized}} addObject:[{{nameCapitalized}} modelWithDictionary:item]];
         }
       }
       self.{{name}} = list{{nameCapitalized}};
     }
 {{else}}    if ([obj{{nameCapitalized}} isKindOfClass:[NSDictionary class]])
     {
-      self.{{name}} = [{{nameCapitalized}} modelObjectWithDictionary:obj{{nameCapitalized}}];
+      self.{{name}} = [{{nameCapitalized}} modelWithDictionary:obj{{nameCapitalized}}];
     }
 {{/if}}
 {{/if}}

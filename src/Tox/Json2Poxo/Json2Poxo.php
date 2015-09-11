@@ -2,63 +2,17 @@
 
 use Handlebars\Handlebars;
 
-date_default_timezone_set('UTC');
-
+/**
+* 
+*/
 class Json2Poxo
 {
-  // Object model to normalize JSON
-  // Represents a single class property.
-  function _class($name)
-  {
-    return array(
-      'name' => $name,
-      'primaryKey' => false,
-      'primaryKeyType' => null,
-      'properties' => array(),
-      'params' => array()
-    );
-  }
-
-  // Object model to normalize JSON
-  // Represents a single property.
-  function _property($name, $type, $isArray)
-  {
-    return array(
-      'name' => strtolower($name),
-      'originalName' => $name,
-      'type' => $type,
-      'isArray' => $isArray
-    );
-  }
-
-  // Object model to represent one file
-  // class
-  function _poxo()
-  {
-    return array(
-      'fileName' => '',
-      'sourceCode' => ''
-    );
-  }
-
   function is_assoc($array) {
     foreach (array_keys($array) as $k => $v) {
       if ($k !== $v)
         return true;
     }
     return false;
-  }
-
-  // Auxiliar method to insert one _property inside
-  // _class, checking if it already exists
-  function pushProperty(&$cl, $newProperty)
-  {
-    for ($i=0; $i < count($cl['properties']); $i++) {
-      $property = &$cl['properties'][$i];
-      if ($property['name'] == $newProperty['name'])
-        return;
-    }
-    array_push($cl['properties'], $newProperty);
   }
 
   // Auxiliar method to traverse classList looking for

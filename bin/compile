@@ -1,0 +1,15 @@
+#!/usr/bin/env php
+<?php
+date_default_timezone_set('UTC');
+
+$autoload = __DIR__.'/../vendor/autoload.php';
+if (!file_exists($autoload)) {
+    echo "Please run `php composer.phar install` first." . PHP_EOL;
+    exit(1);
+}
+require_once $autoload;
+
+use Tox\Json2Poxo\Compiler;
+
+$builder = new Compiler();
+$builder->compile(__DIR__.'/../build/json2poxo.phar');

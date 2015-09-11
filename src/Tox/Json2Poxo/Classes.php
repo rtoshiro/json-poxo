@@ -1,5 +1,10 @@
 <?php namespace Tox\Json2Poxo;
 
+/**
+* Represents a new class from a JSON object
+* just because JSON schema doesn't support
+* decimals
+*/
 class Classes
 {
   public $name;
@@ -96,5 +101,11 @@ class Classes
     if ($this->properties == null) $this->properties = array();
     array_push($this->properties, $newProperty);
     return $newProperty;
+  }
+
+  public function pushImport($newImport)
+  {
+    $this->imports = $this->imports . "\n" . $newImport;
+    return $this->imports;
   }
 }

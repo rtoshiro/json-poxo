@@ -64,7 +64,7 @@ class Java extends Language
 
       if ($property->isArray())
       {
-        $cl->setImports('import java.util.ArrayList;');
+        $cl->pushImport('import java.util.ArrayList;');
 
         switch ($property->getType()) {
           case 'Object':

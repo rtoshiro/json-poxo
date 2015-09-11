@@ -18,9 +18,9 @@ class Properties
   {
     $this->setName($name);
     $this->setOriginalName($name);
-    $this->type = $type;
-    $this->isArray = $isArray;
-    $this->params = array();
+    $this->setType($type);
+    $this->setIsArray($isArray);
+    $this->setParams(array());
   }
 
   public function getName() {
@@ -28,7 +28,7 @@ class Properties
   }
 
   public function setName($name) {
-      $this->name = $name;
+      $this->name = Properties::normalize($name);
       $this->nameUppercase = strtoupper($name);
       $this->nameCapitalized = ucwords($name);
 
@@ -89,4 +89,15 @@ class Properties
       return $this;
   }
 
+  public static function clean($string)
+  {
+    $string = str_replace(' ', '_', $string);
+    return preg_replace('/[^A-Za-z0-9\-]/', '_', $string);
+  }
+
+  public static function normalize($name)
+  {
+    $name = Properties::clean($name);
+    return strtolower($name);
+  }
 }
