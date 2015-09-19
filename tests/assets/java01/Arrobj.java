@@ -1,15 +1,25 @@
-package com.example;
+package ;
 
+import org.json.*;
 import java.io.Serializable;
+
+
 public class Arrobj implements Serializable
 {
+  private static final String FIELD_STR = "str";
+  private static final String FIELD_NUM = "num";
+  private static final String FIELD_FLO = "flo";
+  private static final String FIELD_BOO = "boo";
+  private static final String FIELD__NULL = "null";
+
   private String str;
   private Long num;
   private Double flo;
   private Boolean boo;
-  private Object null;
+  private Object _null;
 
   public Arrobj() {
+
   }
 
   public void setStr(String value) {
@@ -47,13 +57,13 @@ public class Arrobj implements Serializable
       return this.boo;
   }
 
-  public void setNull(Object value) {
-      this.null = value;
+  public void set_null(Object value) {
+      this._null = value;
   }
 
 
-  public Object getNull() {
-      return this.null;
+  public Object get_null() {
+      return this._null;
   }
 
 }

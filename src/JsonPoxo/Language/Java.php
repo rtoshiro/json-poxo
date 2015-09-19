@@ -1,15 +1,15 @@
 <?php
-namespace Tox\Json2Poxo\Language;
+namespace JsonPoxo\Language;
 
 use Handlebars\Handlebars;
-use Tox\Json2Poxo\Poxo;
+use JsonPoxo\Source;
 
 class Java extends Language
 {
   public $reservedWords = array("abstract", "continue", "for", "new", "switch", "assert", "default", "goto",
   "package", "synchronized", "boolean", "do", "if", "private", "this", "break", "double", "implements",
   "protected", "throw", "byte", "else", "import", "public", "throws", "case", "enum", "instanceof",
-  "return", "transient", "catch", "extends", "int", "short", "try", "char", "final", "interface", "static",
+  "null", "return", "transient", "catch", "extends", "int", "short", "try", "char", "final", "interface", "static",
   "void", "class", "finally", "long", "strictfp", "volatile", "const", "float", "native", "super", "while");
 
   public $primaryKeys = array("id", "identifier", "uid");
@@ -21,6 +21,7 @@ class Java extends Language
     "double" => "Double",
     "boolean"=> "Boolean",
     "object" => "Object",
+    "array" => "Object",
   );
 
   public function template(&$_class)
@@ -28,7 +29,7 @@ class Java extends Language
     $engine = new Handlebars(array(
       'loader' => new \Handlebars\Loader\FilesystemLoader(__DIR__.'/tpl/')
     ));
-    $_poxo = new Poxo();
+    $_poxo = new Source();
     $result = $engine->render('java', $_class);
     $_poxo->setFileName($_class->getName() . ".java");
     $_poxo->setSourceCode($result);
@@ -44,6 +45,8 @@ class Java extends Language
     {
       if (isset($params['package'])) {
         $clparams['package'] = $params['package'];
+      } else {
+        $clparams['package'] = "com.example.package";
       }
 
       if (isset($params['includeGson'])) {
@@ -56,7 +59,7 @@ class Java extends Language
       $property = &$cl->getProperties()[$i];
       $pparams = &$property->getParams();
 
-      $pparams['isBoolean'] = ($property->getType() == "Boolean");
+      $pparams['isBoolean'] = ($property->getType() == "Boolean" && !$property->isArray());
 
       if (isset($clparams['includeGson']) && !$clparams['includeGson']) {
         $property->setName($property->getOriginalName());

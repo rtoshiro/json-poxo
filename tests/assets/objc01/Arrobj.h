@@ -1,19 +1,20 @@
 //
 //  Arrobj.h
 //
-//  Created on 
-//  Copyright (c) . All rights reserved.
+//  Created on 2015/09/19
+//  Copyright (c) 2015. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
 
-@interface Arrobj : NSObject <NSCoding>
+
+@interface Arrobj : NSObject <NSCoding, NSCopying>
 
 @property (nonatomic, strong) NSString * str;
 @property (nonatomic, strong) NSNumber * num;
 @property (nonatomic, strong) NSNumber * flo;
 @property (nonatomic, strong) NSNumber * boo;
-@property (nonatomic, strong) Null * null;
+@property (nonatomic, strong) id null;
 
 + (Arrobj *)modelWithDictionary:(NSDictionary *)dict;
 + (Arrobj *)modelWithString:(NSString *)json;

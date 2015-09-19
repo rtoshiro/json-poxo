@@ -1,17 +1,18 @@
 //
 //  Obj.m
 //
-//  Created by on 
-//  Copyright (c) . All rights reserved.
+//  Created by on 2015/09/19
+//  Copyright (c) 2015. All rights reserved.
 //
 
 #import "Obj.h"
 
+
 // Original names
-NSString * const kStr = @"str";
-NSString * const kNum = @"num";
-NSString * const kFlo = @"flo";
-NSString * const kBoo = @"boo";
+NSString * const kObjStr = @"str";
+NSString * const kObjNum = @"num";
+NSString * const kObjFlo = @"flo";
+NSString * const kObjBoo = @"boo";
 
 @interface Obj ()
 
@@ -54,10 +55,10 @@ NSString * const kBoo = @"boo";
 
   if (self && [dict isKindOfClass:[NSDictionary class]])
   {
-    self.str = [self objectOrNilForKey:kStr fromDictionary:dict];
-    self.num = [self objectOrNilForKey:kNum fromDictionary:dict];
-    self.flo = [self objectOrNilForKey:kFlo fromDictionary:dict];
-    self.boo = [self objectOrNilForKey:kBoo fromDictionary:dict];
+    self.str = [self objectOrNilForKey:kObjStr fromDictionary:dict];
+    self.num = [self objectOrNilForKey:kObjNum fromDictionary:dict];
+    self.flo = [self objectOrNilForKey:kObjFlo fromDictionary:dict];
+    self.boo = [self objectOrNilForKey:kObjBoo fromDictionary:dict];
   }
   return self;
 }
@@ -65,10 +66,10 @@ NSString * const kBoo = @"boo";
 - (NSDictionary *)dictionaryRepresentation
 {
   NSMutableDictionary *mutableDict = [NSMutableDictionary dictionary];
-  [mutableDict setValue:self.str forKey:kStr];
-  [mutableDict setValue:self.num forKey:kNum];
-  [mutableDict setValue:self.flo forKey:kFlo];
-  [mutableDict setValue:self.boo forKey:kBoo];
+  [mutableDict setValue:self.str forKey:kObjStr];
+  [mutableDict setValue:self.num forKey:kObjNum];
+  [mutableDict setValue:self.flo forKey:kObjFlo];
+  [mutableDict setValue:self.boo forKey:kObjBoo];
 
   return [NSDictionary dictionaryWithDictionary:mutableDict];
 }
@@ -91,20 +92,20 @@ NSString * const kBoo = @"boo";
 {
   self = [super init];
 
-  self.str = [aDecoder decodeObjectForKey:kStr];
-  self.num = [aDecoder decodeObjectForKey:kNum];
-  self.flo = [aDecoder decodeObjectForKey:kFlo];
-  self.boo = [aDecoder decodeObjectForKey:kBoo];
+  self.str = [aDecoder decodeObjectForKey:kObjStr];
+  self.num = [aDecoder decodeObjectForKey:kObjNum];
+  self.flo = [aDecoder decodeObjectForKey:kObjFlo];
+  self.boo = [aDecoder decodeObjectForKey:kObjBoo];
 
   return self;
 }
 
 - (void)encodeWithCoder:(NSCoder *)aCoder
 {
-  [aCoder encodeObject:_str forKey:kStr];
-  [aCoder encodeObject:_num forKey:kNum];
-  [aCoder encodeObject:_flo forKey:kFlo];
-  [aCoder encodeObject:_boo forKey:kBoo];
+  [aCoder encodeObject:_str forKey:kObjStr];
+  [aCoder encodeObject:_num forKey:kObjNum];
+  [aCoder encodeObject:_flo forKey:kObjFlo];
+  [aCoder encodeObject:_boo forKey:kObjBoo];
 }
 
 - (id)copyWithZone:(NSZone *)zone

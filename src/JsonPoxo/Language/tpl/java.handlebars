@@ -1,10 +1,9 @@
-{{#with params}}{{#if package}}package {{package}};{{else}}package com.example;{{/if}}{{/with}}
+package {{params.package}};
 
+import org.json.*;
 import java.io.Serializable;
-{{#if imports}}
-{{imports}}
+{{&imports}}
 
-{{/if}}
 {{#if params.includeGson}}
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -15,41 +14,36 @@ import com.google.gson.annotations.Expose;
 public class {{name}} implements Serializable
 {
 {{#each properties}}
-{{#if name}}
-{{#if ../../params.includeGson}}
   private static final String FIELD_{{&nameUppercase}} = "{{&originalName}}";
-{{/if}}
-{{/if}}
 {{/each}}
+
 {{#each properties}}
-{{#if name}}
-{{#if ../../params.includeGson}}
+{{#if ../params.includeGson}}
 
   @Expose
   @SerializedName(FIELD_{{&nameUppercase}})
 {{/if}}
   private {{&type}} {{&name}};
-{{/if}}
 {{/each}}
 
   public {{name}}() {
+
   }
 
 {{#each properties}}
-{{#if name}}
   public void set{{&nameCapitalized}}({{&type}} value) {
       this.{{&name}} = value;
   }
-
 {{#if params.isBoolean}}
+
   public {{&type}} is{{&nameCapitalized}}() {
 {{else}}
+
   public {{&type}} get{{&nameCapitalized}}() {
 {{/if}}
       return this.{{&name}};
   }
 
-{{/if}}
 {{/each}}
 {{#if primaryKey}}
   @Override

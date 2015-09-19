@@ -1,11 +1,11 @@
-<?php namespace Tox\Json2Poxo;
+<?php namespace JsonPoxo;
 
 use Handlebars\Handlebars;
 
 /**
-* 
+*
 */
-class Json2Poxo
+class Parser
 {
   function is_assoc($array) {
     foreach (array_keys($array) as $k => $v) {
@@ -19,6 +19,7 @@ class Json2Poxo
   // className. Where classList is an array of _class(es)
   function &findClass(&$classList, $className)
   {
+    $className = ucfirst(strtolower($className));
     for ($i=0; $i < count($classList); $i++) {
       $cl = &$classList[$i];
       if ($cl->name == $className) {
@@ -40,30 +41,24 @@ class Json2Poxo
       return ;
 
     foreach ($obj as $key => $value) {
-      $propertyName = ucwords($key);
+      $propertyName = $key;//ucfirst(strtolower($key));
+
       $objType = gettype($value);
       switch ($objType) {
-        case 'boolean':
-        case 'integer':
-        case 'double':
-        case 'string':
-        {
-          $newProperty = new Properties($key, $objType, false);
-          $curClass->pushProperty($newProperty);
-
-          break;
-        }
         case 'array':
         {
+          // if is array and not object
           if (!$this->is_assoc($value))
           {
             if (count($value) == 0)
             {
-              $newProperty = new Properties($key, 'object', true);
+              // if has no value, we consider being an array of objects
+              $newProperty = new Properties($propertyName, 'object', true);
               $curClass->pushProperty($newProperty);
               $this->parse($value, $propertyName, $classList);
             }
-            else {
+            else
+            {
               for ($i=0; $i < count($value); $i++) {
                 $el = &$value[$i];
 
@@ -72,36 +67,28 @@ class Json2Poxo
                   $objType = 'object';
                   $this->parse($el, $propertyName, $classList);
                 }
-                else if (gettype($el) == 'boolean' || gettype($el) == 'integer' || gettype($el) == 'string')
+                else
                 {
-                  $objType = gettype($el);
-                }
-                else {
-                  print_r('Error - ' . $objType); die;
+                  $objType = strtolower(gettype($el));
                 }
               }
 
-              $newProperty = new Properties($key, $objType, true);
+              $newProperty = new Properties($propertyName, $objType, true);
               $curClass->pushProperty($newProperty);
             }
           } else {
-            $newProperty = new Properties($key, 'object', false);
+            $newProperty = new Properties($propertyName, 'object', false);
             $curClass->pushProperty($newProperty);
             $this->parse($value, $propertyName, $classList);
           }
 
           break;
         }
-        case 'NULL':
-        {
-          $newProperty = new Properties($key, 'null', false);
-          $curClass->pushProperty($newProperty);
-          // $this->parse($value, $propertyName, $classList);
-          break;
-        }
         default:
         {
-          print_r('Error - ' . $objType); die;
+          $newProperty = new Properties($propertyName, strtolower($objType), false);
+          $curClass->pushProperty($newProperty);
+
           break;
         }
       }
@@ -112,15 +99,16 @@ class Json2Poxo
   // a list of _class(es) objects.
   function classes($baseClassName, $src)
   {
+    if (gettype($src) == 'string')
+    {
+      $src = json_decode($src, true);
+    }
+
     if (gettype($baseClassName) != 'string')
       throw new Exception("Argument 1 has to be a string", 1);
 
-    $srcObj = $src;
-    if (gettype($src) == 'string')
-      $srcObj = json_decode($src, true);
-
     $classList = array();
-    $result = $this->parse($srcObj, $baseClassName, $classList);
+    $result = $this->parse($src, $baseClassName, $classList);
 
     return $classList;
   }
@@ -133,7 +121,7 @@ class Json2Poxo
     if (gettype($className) !== 'string')
       throw new Exception("Argument 2 has to be a string", 1);
 
-    $langComplete = "Tox\\Json2Poxo\\Language\\" . ucwords(trim($lang));
+    $langComplete = "JsonPoxo\\Language\\" . ucfirst(strtolower(trim($lang)));
     $language = new $langComplete();
 
     $results = array();
@@ -153,7 +141,7 @@ class Json2Poxo
   // _poxo objects
   function toX($lang, $className, $params, $obj)
   {
-    $langComplete = "Tox\\Json2Poxo\\Language\\" . ucwords(trim($lang));
+    $langComplete = "JsonPoxo\\Language\\" . ucfirst(strtolower(trim($lang)));
     $language = new $langComplete();
 
     $results = array();

@@ -1,13 +1,14 @@
 //
 //  PREFIXArrnull.h
 //
-//  Created on 
-//  Copyright (c) . All rights reserved.
+//  Created on 2015/09/19
+//  Copyright (c) 2015. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
 
-@interface PREFIXArrnull : NSObject <NSCoding>
+
+@interface PREFIXArrnull : NSObject <NSCoding, NSCopying>
 
 
 + (PREFIXArrnull *)modelWithDictionary:(NSDictionary *)dict;

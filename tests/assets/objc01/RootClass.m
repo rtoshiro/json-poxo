@@ -1,42 +1,49 @@
 //
-//  RootClass.m
+//  Rootclass.m
 //
-//  Created by on 
-//  Copyright (c) . All rights reserved.
+//  Created by on 2015/09/19
+//  Copyright (c) 2015. All rights reserved.
 //
 
-#import "RootClass.h"
+#import "Rootclass.h"
+
+#import "Special.h"
+#import "Arrnull.h"
+#import "Obj.h"
+#import "Arrobj.h"
 
 // Original names
-NSString * const k_id = @"id";
-NSString * const kStr = @"str";
-NSString * const kNum = @"num";
-NSString * const kFlo = @"flo";
-NSString * const kBoo = @"boo";
-NSString * const kArrnum = @"arrnum";
-NSString * const kArrstr = @"arrstr";
-NSString * const kArrboo = @"arrboo";
-NSString * const kArrnull = @"arrnull";
-NSString * const kObj = @"obj";
-NSString * const kArrobj = @"arrobj";
+NSString * const kRootclass_id = @"id";
+NSString * const kRootclassStr = @"str";
+NSString * const kRootclassNum = @"num";
+NSString * const kRootclassFlo = @"flo";
+NSString * const kRootclassBoo = @"boo";
+NSString * const kRootclassSpecial = @"special";
+NSString * const kRootclassArrdouble = @"arrdouble";
+NSString * const kRootclassArrnum = @"arrnum";
+NSString * const kRootclassArrstr = @"arrstr";
+NSString * const kRootclassArrboo = @"arrboo";
+NSString * const kRootclassArrnull = @"arrnull";
+NSString * const kRootclassObj = @"obj";
+NSString * const kRootclassArrobj = @"arrobj";
 
-@interface RootClass ()
+@interface Rootclass ()
 
 - (id)objectOrNilForKey:(id)aKey fromDictionary:(NSDictionary *)dict;
 
 @end
 
-@implementation RootClass
+@implementation Rootclass
 
-+ (RootClass *)modelWithDictionary:(NSDictionary *)dict
++ (Rootclass *)modelWithDictionary:(NSDictionary *)dict
 {
-  RootClass *instance = [[RootClass alloc] initWithDictionary:dict];
+  Rootclass *instance = [[Rootclass alloc] initWithDictionary:dict];
   return instance;
 }
 
-+ (RootClass *)modelWithString:(NSString *)json
++ (Rootclass *)modelWithString:(NSString *)json
 {
-  RootClass *instance = [[RootClass alloc] initWithString:json];
+  Rootclass *instance = [[Rootclass alloc] initWithString:json];
   return instance;
 }
 
@@ -61,40 +68,47 @@ NSString * const kArrobj = @"arrobj";
 
   if (self && [dict isKindOfClass:[NSDictionary class]])
   {
-    self._id = [self objectOrNilForKey:k_id fromDictionary:dict];
-    self.str = [self objectOrNilForKey:kStr fromDictionary:dict];
-    self.num = [self objectOrNilForKey:kNum fromDictionary:dict];
-    self.flo = [self objectOrNilForKey:kFlo fromDictionary:dict];
-    self.boo = [self objectOrNilForKey:kBoo fromDictionary:dict];
-    self.arrnum = [self objectOrNilForKey:kArrnum fromDictionary:dict];
-    self.arrstr = [self objectOrNilForKey:kArrstr fromDictionary:dict];
-    self.arrboo = [self objectOrNilForKey:kArrboo fromDictionary:dict];
+    self._id = [self objectOrNilForKey:kRootclass_id fromDictionary:dict];
+    self.str = [self objectOrNilForKey:kRootclassStr fromDictionary:dict];
+    self.num = [self objectOrNilForKey:kRootclassNum fromDictionary:dict];
+    self.flo = [self objectOrNilForKey:kRootclassFlo fromDictionary:dict];
+    self.boo = [self objectOrNilForKey:kRootclassBoo fromDictionary:dict];
 
-    NSObject *objArrnull = [dict objectForKey:kArrnull];
+    NSObject *objSpecial = [dict objectForKey:kRootclassSpecial];
+    if ([objSpecial isKindOfClass:[NSDictionary class]])
+    {
+      self.special = [Special modelWithDictionary:(NSDictionary *)objSpecial];
+    }
+    self.arrdouble = [self objectOrNilForKey:kRootclassArrdouble fromDictionary:dict];
+    self.arrnum = [self objectOrNilForKey:kRootclassArrnum fromDictionary:dict];
+    self.arrstr = [self objectOrNilForKey:kRootclassArrstr fromDictionary:dict];
+    self.arrboo = [self objectOrNilForKey:kRootclassArrboo fromDictionary:dict];
+
+    NSObject *objArrnull = [dict objectForKey:kRootclassArrnull];
     if ([objArrnull isKindOfClass:[NSArray class]])
     {
       NSMutableArray *listArrnull = [NSMutableArray array];
       for (NSDictionary *item in (NSArray *)objArrnull) {
         if ([item isKindOfClass:[NSDictionary class]]) {
-          [listArrnull addObject:[Arrnull modelObjectWithDictionary:item]];
+          [listArrnull addObject:[Arrnull modelWithDictionary:(NSDictionary *)item]];
         }
       }
       self.arrnull = listArrnull;
     }
 
-    NSObject *objObj = [dict objectForKey:kObj];
+    NSObject *objObj = [dict objectForKey:kRootclassObj];
     if ([objObj isKindOfClass:[NSDictionary class]])
     {
-      self.obj = [Obj modelObjectWithDictionary:objObj];
+      self.obj = [Obj modelWithDictionary:(NSDictionary *)objObj];
     }
 
-    NSObject *objArrobj = [dict objectForKey:kArrobj];
+    NSObject *objArrobj = [dict objectForKey:kRootclassArrobj];
     if ([objArrobj isKindOfClass:[NSArray class]])
     {
       NSMutableArray *listArrobj = [NSMutableArray array];
       for (NSDictionary *item in (NSArray *)objArrobj) {
         if ([item isKindOfClass:[NSDictionary class]]) {
-          [listArrobj addObject:[Arrobj modelObjectWithDictionary:item]];
+          [listArrobj addObject:[Arrobj modelWithDictionary:(NSDictionary *)item]];
         }
       }
       self.arrobj = listArrobj;
@@ -106,14 +120,20 @@ NSString * const kArrobj = @"arrobj";
 - (NSDictionary *)dictionaryRepresentation
 {
   NSMutableDictionary *mutableDict = [NSMutableDictionary dictionary];
-  [mutableDict setValue:self._id forKey:k_id];
-  [mutableDict setValue:self.str forKey:kStr];
-  [mutableDict setValue:self.num forKey:kNum];
-  [mutableDict setValue:self.flo forKey:kFlo];
-  [mutableDict setValue:self.boo forKey:kBoo];
-  [mutableDict setValue:self.arrnum forKey:kArrnum];
-  [mutableDict setValue:self.arrstr forKey:kArrstr];
-  [mutableDict setValue:self.arrboo forKey:kArrboo];
+  [mutableDict setValue:self._id forKey:kRootclass_id];
+  [mutableDict setValue:self.str forKey:kRootclassStr];
+  [mutableDict setValue:self.num forKey:kRootclassNum];
+  [mutableDict setValue:self.flo forKey:kRootclassFlo];
+  [mutableDict setValue:self.boo forKey:kRootclassBoo];
+  if ([self.special respondsToSelector:@selector(dictionaryRepresentation)]) {
+    [mutableDict setValue:[self.special performSelector:@selector(dictionaryRepresentation)] forKey:kRootclassSpecial];
+  } else {
+    [mutableDict setValue:self.special forKey:kRootclassSpecial];
+  }
+  [mutableDict setValue:self.arrdouble forKey:kRootclassArrdouble];
+  [mutableDict setValue:self.arrnum forKey:kRootclassArrnum];
+  [mutableDict setValue:self.arrstr forKey:kRootclassArrstr];
+  [mutableDict setValue:self.arrboo forKey:kRootclassArrboo];
   NSMutableArray *tempArrayArrnull = [NSMutableArray array];
   for (NSObject *subArray in self.arrnull) {
     if ([subArray respondsToSelector:@selector(dictionaryRepresentation)]) {
@@ -122,11 +142,11 @@ NSString * const kArrobj = @"arrobj";
        [tempArrayArrnull addObject:subArray];
     }
   }
-  [mutableDict setValue:[NSArray arrayWithArray:tempArrayArrnull] forKey:kArrnull];
+  [mutableDict setValue:[NSArray arrayWithArray:tempArrayArrnull] forKey:karrnullArrnull];
   if ([self.obj respondsToSelector:@selector(dictionaryRepresentation)]) {
-    [mutableDict setValue:[self.obj performSelector:@selector(dictionaryRepresentation)] forKey:kObj];
+    [mutableDict setValue:[self.obj performSelector:@selector(dictionaryRepresentation)] forKey:kRootclassObj];
   } else {
-    [mutableDict setValue:self.obj forKey:kObj];
+    [mutableDict setValue:self.obj forKey:kRootclassObj];
   }
   NSMutableArray *tempArrayArrobj = [NSMutableArray array];
   for (NSObject *subArray in self.arrobj) {
@@ -136,7 +156,7 @@ NSString * const kArrobj = @"arrobj";
        [tempArrayArrobj addObject:subArray];
     }
   }
-  [mutableDict setValue:[NSArray arrayWithArray:tempArrayArrobj] forKey:kArrobj];
+  [mutableDict setValue:[NSArray arrayWithArray:tempArrayArrobj] forKey:karrobjArrobj];
 
   return [NSDictionary dictionaryWithDictionary:mutableDict];
 }
@@ -159,39 +179,43 @@ NSString * const kArrobj = @"arrobj";
 {
   self = [super init];
 
-  self._id = [aDecoder decodeObjectForKey:k_id];
-  self.str = [aDecoder decodeObjectForKey:kStr];
-  self.num = [aDecoder decodeObjectForKey:kNum];
-  self.flo = [aDecoder decodeObjectForKey:kFlo];
-  self.boo = [aDecoder decodeObjectForKey:kBoo];
-  self.arrnum = [aDecoder decodeObjectForKey:kArrnum];
-  self.arrstr = [aDecoder decodeObjectForKey:kArrstr];
-  self.arrboo = [aDecoder decodeObjectForKey:kArrboo];
-  self.arrnull = [aDecoder decodeObjectForKey:kArrnull];
-  self.obj = [aDecoder decodeObjectForKey:kObj];
-  self.arrobj = [aDecoder decodeObjectForKey:kArrobj];
+  self._id = [aDecoder decodeObjectForKey:kRootclass_id];
+  self.str = [aDecoder decodeObjectForKey:kRootclassStr];
+  self.num = [aDecoder decodeObjectForKey:kRootclassNum];
+  self.flo = [aDecoder decodeObjectForKey:kRootclassFlo];
+  self.boo = [aDecoder decodeObjectForKey:kRootclassBoo];
+  self.special = [aDecoder decodeObjectForKey:kRootclassSpecial];
+  self.arrdouble = [aDecoder decodeObjectForKey:kRootclassArrdouble];
+  self.arrnum = [aDecoder decodeObjectForKey:kRootclassArrnum];
+  self.arrstr = [aDecoder decodeObjectForKey:kRootclassArrstr];
+  self.arrboo = [aDecoder decodeObjectForKey:kRootclassArrboo];
+  self.arrnull = [aDecoder decodeObjectForKey:kRootclassArrnull];
+  self.obj = [aDecoder decodeObjectForKey:kRootclassObj];
+  self.arrobj = [aDecoder decodeObjectForKey:kRootclassArrobj];
 
   return self;
 }
 
 - (void)encodeWithCoder:(NSCoder *)aCoder
 {
-  [aCoder encodeObject:__id forKey:k_id];
-  [aCoder encodeObject:_str forKey:kStr];
-  [aCoder encodeObject:_num forKey:kNum];
-  [aCoder encodeObject:_flo forKey:kFlo];
-  [aCoder encodeObject:_boo forKey:kBoo];
-  [aCoder encodeObject:_arrnum forKey:kArrnum];
-  [aCoder encodeObject:_arrstr forKey:kArrstr];
-  [aCoder encodeObject:_arrboo forKey:kArrboo];
-  [aCoder encodeObject:_arrnull forKey:kArrnull];
-  [aCoder encodeObject:_obj forKey:kObj];
-  [aCoder encodeObject:_arrobj forKey:kArrobj];
+  [aCoder encodeObject:__id forKey:kRootclass_id];
+  [aCoder encodeObject:_str forKey:kRootclassStr];
+  [aCoder encodeObject:_num forKey:kRootclassNum];
+  [aCoder encodeObject:_flo forKey:kRootclassFlo];
+  [aCoder encodeObject:_boo forKey:kRootclassBoo];
+  [aCoder encodeObject:_special forKey:kRootclassSpecial];
+  [aCoder encodeObject:_arrdouble forKey:kRootclassArrdouble];
+  [aCoder encodeObject:_arrnum forKey:kRootclassArrnum];
+  [aCoder encodeObject:_arrstr forKey:kRootclassArrstr];
+  [aCoder encodeObject:_arrboo forKey:kRootclassArrboo];
+  [aCoder encodeObject:_arrnull forKey:kRootclassArrnull];
+  [aCoder encodeObject:_obj forKey:kRootclassObj];
+  [aCoder encodeObject:_arrobj forKey:kRootclassArrobj];
 }
 
 - (id)copyWithZone:(NSZone *)zone
 {
-  RootClass *copy = [[RootClass alloc] init];
+  Rootclass *copy = [[Rootclass alloc] init];
   if (copy)
   {
     copy._id = [self._id copyWithZone:zone];
@@ -199,6 +223,8 @@ NSString * const kArrobj = @"arrobj";
     copy.num = [self.num copyWithZone:zone];
     copy.flo = [self.flo copyWithZone:zone];
     copy.boo = [self.boo copyWithZone:zone];
+    copy.special = [self.special copyWithZone:zone];
+    copy.arrdouble = [self.arrdouble copyWithZone:zone];
     copy.arrnum = [self.arrnum copyWithZone:zone];
     copy.arrstr = [self.arrstr copyWithZone:zone];
     copy.arrboo = [self.arrboo copyWithZone:zone];

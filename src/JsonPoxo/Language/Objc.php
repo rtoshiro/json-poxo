@@ -1,7 +1,7 @@
 <?php
-namespace Tox\Json2Poxo\Language;
+namespace JsonPoxo\Language;
 
-use Tox\Json2Poxo\Poxo;
+use JsonPoxo\Source;
 use Handlebars\Handlebars;
 
 class Objc extends Language
@@ -36,13 +36,13 @@ class Objc extends Language
     $result = array();
 
     $sourceCode = $engine->render('objch', $_class);
-    $_poxo = new Poxo();
+    $_poxo = new Source();
     $_poxo->setFileName($_class->getName() . ".h");
     $_poxo->setSourceCode($sourceCode);
     array_push($result, $_poxo);
 
     $sourceCode = $engine->render('objcm', $_class);
-    $_poxo = new Poxo();
+    $_poxo = new Source();
     $_poxo->setFileName($_class->getName() . ".m");
     $_poxo->setSourceCode($sourceCode);
     array_push($result, $_poxo);
@@ -81,7 +81,7 @@ class Objc extends Language
         $_property->setType("NSMutableArray *");
       } else if ($_property->getType() == 'NSObject *') {
         $_cl->pushImport('#import "' . $_property->getNameCapitalized() . '.h"');
-        $_property->setType($_property->getOriginalNameCapitalized() . " *");
+        $_property->setType($_property->getNameCapitalized() . " *");
       }
 
       $_params['memory'] = "strong";

@@ -1,11 +1,12 @@
 //
 //  Arrnull.m
 //
-//  Created by on 
-//  Copyright (c) . All rights reserved.
+//  Created by on 2015/09/19
+//  Copyright (c) 2015. All rights reserved.
 //
 
 #import "Arrnull.h"
+
 
 // Original names
 

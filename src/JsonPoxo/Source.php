@@ -1,6 +1,6 @@
-<?php namespace Tox\Json2Poxo;
+<?php namespace JsonPoxo;
 
-class Poxo
+class Source
 {
   public $fileName;
   public $sourceCode;

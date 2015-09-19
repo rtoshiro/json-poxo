@@ -6,16 +6,11 @@
 //
 
 #import "{{name}}.h"
-{{#if imports}}
 {{&imports}}
-
-{{/if}}
 
 // Original names
 {{#each properties}}
-  {{#if name}}
-NSString * const k{{nameCapitalized}} = @"{{originalName}}";
-  {{/if}}
+NSString * const k{{../name}}{{nameCapitalized}} = @"{{&originalName}}";
 {{/each}}
 
 @interface {{name}} ()
@@ -60,33 +55,25 @@ NSString * const k{{nameCapitalized}} = @"{{originalName}}";
   if (self && [dict isKindOfClass:[NSDictionary class]])
   {
 {{#each properties}}
-{{#if params.isNumber}}
-    self.{{name}} = [self objectOrNilForKey:k{{nameCapitalized}} fromDictionary:dict];
-{{/if}}
-{{#if params.isString}}
-    self.{{name}} = [self objectOrNilForKey:k{{nameCapitalized}} fromDictionary:dict];
-{{/if}}
-{{#if params.isNull}}
-    self.{{name}} = [self objectOrNilForKey:k{{nameCapitalized}} fromDictionary:dict];
-{{/if}}
 {{#if params.isObject}}
 
-    NSObject *obj{{nameCapitalized}} = [dict objectForKey:k{{nameCapitalized}}];
+    NSObject *obj{{nameCapitalized}} = [dict objectForKey:k{{../../name}}{{nameCapitalized}}];
 {{#if isArray}}    if ([obj{{nameCapitalized}} isKindOfClass:[NSArray class]])
     {
       NSMutableArray *list{{nameCapitalized}} = [NSMutableArray array];
       for (NSDictionary *item in (NSArray *)obj{{nameCapitalized}}) {
         if ([item isKindOfClass:[NSDictionary class]]) {
-          [list{{nameCapitalized}} addObject:[{{nameCapitalized}} modelWithDictionary:item]];
+          [list{{nameCapitalized}} addObject:[{{nameCapitalized}} modelWithDictionary:(NSDictionary *)item]];
         }
       }
       self.{{name}} = list{{nameCapitalized}};
     }
 {{else}}    if ([obj{{nameCapitalized}} isKindOfClass:[NSDictionary class]])
     {
-      self.{{name}} = [{{nameCapitalized}} modelWithDictionary:obj{{nameCapitalized}}];
+      self.{{name}} = [{{nameCapitalized}} modelWithDictionary:(NSDictionary *)obj{{nameCapitalized}}];
     }
 {{/if}}
+{{else}}    self.{{name}} = [self objectOrNilForKey:k{{../../name}}{{nameCapitalized}} fromDictionary:dict];
 {{/if}}
 {{/each}}
   }
@@ -97,12 +84,6 @@ NSString * const k{{nameCapitalized}} = @"{{originalName}}";
 {
   NSMutableDictionary *mutableDict = [NSMutableDictionary dictionary];
 {{#each properties}}
-{{#if params.isNumber}}
-  [mutableDict setValue:self.{{name}} forKey:k{{nameCapitalized}}];
-{{/if}}
-{{#if params.isString}}
-  [mutableDict setValue:self.{{name}} forKey:k{{nameCapitalized}}];
-{{/if}}
 {{#if params.isObject}}
 {{#if isArray}}  NSMutableArray *tempArray{{nameCapitalized}} = [NSMutableArray array];
   for (NSObject *subArray in self.{{name}}) {
@@ -112,13 +93,14 @@ NSString * const k{{nameCapitalized}} = @"{{originalName}}";
        [tempArray{{nameCapitalized}} addObject:subArray];
     }
   }
-  [mutableDict setValue:[NSArray arrayWithArray:tempArray{{nameCapitalized}}] forKey:k{{nameCapitalized}}];
+  [mutableDict setValue:[NSArray arrayWithArray:tempArray{{nameCapitalized}}] forKey:k{{../../name}}{{nameCapitalized}}];
 {{else}}  if ([self.{{name}} respondsToSelector:@selector(dictionaryRepresentation)]) {
-    [mutableDict setValue:[self.{{name}} performSelector:@selector(dictionaryRepresentation)] forKey:k{{nameCapitalized}}];
+    [mutableDict setValue:[self.{{name}} performSelector:@selector(dictionaryRepresentation)] forKey:k{{../../../name}}{{nameCapitalized}}];
   } else {
-    [mutableDict setValue:self.{{name}} forKey:k{{nameCapitalized}}];
+    [mutableDict setValue:self.{{name}} forKey:k{{../../../name}}{{nameCapitalized}}];
   }
 {{/if}}
+{{else}}  [mutableDict setValue:self.{{name}} forKey:k{{../../name}}{{nameCapitalized}}];
 {{/if}}
 {{/each}}
 
@@ -144,7 +126,7 @@ NSString * const k{{nameCapitalized}} = @"{{originalName}}";
   self = [super init];
 
 {{#each properties}}
-  self.{{name}} = [aDecoder decodeObjectForKey:k{{nameCapitalized}}];
+  self.{{name}} = [aDecoder decodeObjectForKey:k{{../name}}{{nameCapitalized}}];
 {{/each}}
 
   return self;
@@ -153,7 +135,7 @@ NSString * const k{{nameCapitalized}} = @"{{originalName}}";
 - (void)encodeWithCoder:(NSCoder *)aCoder
 {
 {{#each properties}}
-  [aCoder encodeObject:_{{name}} forKey:k{{nameCapitalized}}];
+  [aCoder encodeObject:_{{name}} forKey:k{{../name}}{{nameCapitalized}}];
 {{/each}}
 }
 

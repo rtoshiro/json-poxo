@@ -1,4 +1,4 @@
-<?php namespace Tox\Json2Poxo;
+<?php namespace JsonPoxo;
 
 class Properties
 {
@@ -11,8 +11,18 @@ class Properties
   public $originalNameUppercase;
 
   public $type;
-  public $isArray;
   public $params;
+
+  // Php types
+  public $isArray;
+  public $isObject;
+  public $isString;
+  public $isInterger;
+  public $isDouble;
+  public $isNull;
+  public $isBoolean;
+
+  public $arrayDepth;
 
   public function __construct($name, $type, $isArray)
   {
@@ -21,6 +31,8 @@ class Properties
     $this->setType($type);
     $this->setIsArray($isArray);
     $this->setParams(array());
+    
+    $this->arrayDepth = 0;
   }
 
   public function getName() {
@@ -30,7 +42,7 @@ class Properties
   public function setName($name) {
       $this->name = Properties::normalize($name);
       $this->nameUppercase = strtoupper($name);
-      $this->nameCapitalized = ucwords($name);
+      $this->nameCapitalized = ucfirst(strtolower($name));
 
       return $this;
   }
@@ -44,8 +56,8 @@ class Properties
   }
 
   public function setOriginalName($originalName) {
-    $this->originalName = $originalName;
-    $this->originalNameCapitalized = ucwords($originalName);
+    $this->originalName = str_replace('"', '\"', $originalName);
+    $this->originalNameCapitalized = ucfirst($originalName);
     $this->originalNameUppercase = strtoupper($originalName);
       return $this;
   }
@@ -87,6 +99,11 @@ class Properties
   public function setParams($params) {
       $this->params = $params;
       return $this;
+  }
+
+  public function incrementArrayDepth()
+  {
+    $this->arrayDepth++;
   }
 
   public static function clean($string)

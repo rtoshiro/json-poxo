@@ -1,4 +1,4 @@
-<?php namespace Tox\Json2Poxo;
+<?php namespace JsonPoxo;
 
 /**
 * Represents a new class from a JSON object
@@ -33,7 +33,7 @@ class Classes
   public function setName($name) {
       $this->name = $name;
       $this->nameUppercase = strtoupper($name);
-      $this->nameCapitalized = ucwords($name);
+      $this->nameCapitalized = ucfirst(strtolower($name));
 
       return $this;
   }
@@ -48,7 +48,7 @@ class Classes
 
   public function setPrimaryKey($primaryKey) {
       $this->primaryKey = $primaryKey;
-      $this->primaryKeyCapitalized = ucwords($primaryKey);
+      $this->primaryKeyCapitalized = ucfirst(strtolower($primaryKey));
       return $this;
   }
 
@@ -105,7 +105,8 @@ class Classes
 
   public function pushImport($newImport)
   {
-    $this->imports = $this->imports . "\n" . $newImport;
+    if (strpos($this->imports, $newImport) === false)
+      $this->imports = $this->imports . "\n" . $newImport;
     return $this->imports;
   }
 }

@@ -1,5 +1,5 @@
 <?php
-namespace Tox\Json2Poxo\Console;
+namespace JsonPoxo\Console;
 
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -8,7 +8,7 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 // use Symfony\Component\Console\Helper\ProgressBar;
 
-use Tox\Json2Poxo\Json2Poxo;
+use JsonPoxo;
 
 class Java extends Language
 {
@@ -86,7 +86,7 @@ class Java extends Language
         $jsonContent = $this->getUrl(trim($opt_input));
       }
 
-      $json2poxo = new Json2Poxo();
+      $json2poxo = new JsonPoxo\Parser();
       $result = $json2poxo->toX('java', $opt_baseclass, $params, $jsonContent);
 
       $this->writeResults($result, $opt_output);

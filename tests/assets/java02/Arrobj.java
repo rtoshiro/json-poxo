@@ -1,6 +1,9 @@
-package com.example;
+package com.example.package;
 
+import org.json.*;
 import java.io.Serializable;
+
+
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.annotations.SerializedName;
@@ -12,7 +15,8 @@ public class Arrobj implements Serializable
   private static final String FIELD_NUM = "num";
   private static final String FIELD_FLO = "flo";
   private static final String FIELD_BOO = "boo";
-  private static final String FIELD_NULL = "null";
+  private static final String FIELD__NULL = "null";
+
 
   @Expose
   @SerializedName(FIELD_STR)
@@ -31,10 +35,11 @@ public class Arrobj implements Serializable
   private Boolean boo;
 
   @Expose
-  @SerializedName(FIELD_NULL)
-  private Object null;
+  @SerializedName(FIELD__NULL)
+  private Object _null;
 
   public Arrobj() {
+
   }
 
   public void setStr(String value) {
@@ -72,13 +77,13 @@ public class Arrobj implements Serializable
       return this.boo;
   }
 
-  public void setNull(Object value) {
-      this.null = value;
+  public void set_null(Object value) {
+      this._null = value;
   }
 
 
-  public Object getNull() {
-      return this.null;
+  public Object get_null() {
+      return this._null;
   }
 
   @Override

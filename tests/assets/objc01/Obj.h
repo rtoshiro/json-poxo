@@ -1,13 +1,14 @@
 //
 //  Obj.h
 //
-//  Created on 
-//  Copyright (c) . All rights reserved.
+//  Created on 2015/09/19
+//  Copyright (c) 2015. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
 
-@interface Obj : NSObject <NSCoding>
+
+@interface Obj : NSObject <NSCoding, NSCopying>
 
 @property (nonatomic, strong) NSString * str;
 @property (nonatomic, strong) NSNumber * num;

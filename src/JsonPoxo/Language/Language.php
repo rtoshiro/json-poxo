@@ -1,6 +1,6 @@
 <?php
 
-namespace Tox\Json2Poxo\Language;
+namespace JsonPoxo\Language;
 
 class Language
 {

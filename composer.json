@@ -1,5 +1,5 @@
 {
-    "name": "tox/json2poxo",
+    "name": "json-poxo/json-poxo",
     "authors": [
         {
             "name": "Toshiro Sugii",
@@ -17,7 +17,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Tox\\": "src\\Tox"
+            "JsonPoxo\\": "src\\JsonPoxo"
         }
     }
 }

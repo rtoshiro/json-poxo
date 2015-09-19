@@ -7,12 +7,15 @@
 
 #import <Foundation/Foundation.h>
 
-@interface {{name}} : NSObject <NSCoding>
+{{#each properties}}
+{{#if params.isObject}}@class {{&nameCapitalized}};
+{{/if}}
+{{/each}}
+
+@interface {{name}} : NSObject <NSCoding, NSCopying>
 
 {{#each properties}}
-  {{#if name}}
 @property (nonatomic, {{params.memory}}) {{type}} {{name}};
-  {{/if}}
 {{/each}}
 
 + ({{name}} *)modelWithDictionary:(NSDictionary *)dict;

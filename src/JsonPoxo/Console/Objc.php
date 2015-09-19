@@ -1,5 +1,5 @@
 <?php
-namespace Tox\Json2Poxo\Console;
+namespace JsonPoxo\Console;
 
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -7,7 +7,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
-use Tox\Json2Poxo\Json2Poxo;
+use JsonPoxo;
 
 class Objc extends Language
 {
@@ -75,7 +75,7 @@ class Objc extends Language
         $jsonContent = $this->getUrl(trim($opt_input));
       }
 
-      $json2poxo = new Json2Poxo();
+      $json2poxo = new JsonPoxo\Parser();
       $result = $json2poxo->toX('objc', $opt_baseclass, $params, $jsonContent);
 
       $this->writeResults($result, $opt_output);

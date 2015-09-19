@@ -1,6 +1,9 @@
-package com.example;
+package com.example.package;
 
+import org.json.*;
 import java.io.Serializable;
+
+
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.annotations.SerializedName;
@@ -12,6 +15,7 @@ public class Obj implements Serializable
   private static final String FIELD_NUM = "num";
   private static final String FIELD_FLO = "flo";
   private static final String FIELD_BOO = "boo";
+
 
   @Expose
   @SerializedName(FIELD_STR)
@@ -30,6 +34,7 @@ public class Obj implements Serializable
   private Boolean boo;
 
   public Obj() {
+
   }
 
   public void setStr(String value) {

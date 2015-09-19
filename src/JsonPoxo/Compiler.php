@@ -1,6 +1,6 @@
 <?php
 
-namespace Tox\Json2Poxo;
+namespace JsonPoxo;
 
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Process\Process;
@@ -14,7 +14,7 @@ class Compiler
      *
      * @param string $pharFile Name of the output Phar file
      */
-    public function compile($pharFile = 'json2poxo.phar')
+    public function compile($pharFile = 'json-poxo.phar')
     {
         if (file_exists($pharFile)) {
             unlink($pharFile);
@@ -36,21 +36,21 @@ class Compiler
             ->ignoreVCS(true)
             ->name('*.php')
             ->notName('Compiler.php')
-            ->in(__DIR__.'/../../')
-            ->in(__DIR__.'/../../../vendor/xamin/')
-            ->in(__DIR__.'/../../../vendor/symfony/symfony/src/Symfony/Component/Console/');
+            ->in(__DIR__.'/../')
+            ->in(__DIR__.'/../../vendor/xamin/')
+            ->in(__DIR__.'/..../vendor/symfony/symfony/src/Symfony/Component/Console/');
 
         foreach ($finder as $file) {
             $this->addFile($phar, $file);
         }
 
-        $this->addFile($phar, new \SplFileInfo(__DIR__.'/../../../LICENSE'), false);
+        $this->addFile($phar, new \SplFileInfo(__DIR__.'/../../LICENSE'), false);
 
-        $this->addFile($phar, new \SplFileInfo(__DIR__.'/../../../vendor/autoload.php'));
-        $this->addFile($phar, new \SplFileInfo(__DIR__.'/../../../vendor/composer/ClassLoader.php'));
-        $this->addFile($phar, new \SplFileInfo(__DIR__.'/../../../vendor/composer/autoload_real.php'));
-        $this->addFile($phar, new \SplFileInfo(__DIR__.'/../../../vendor/composer/autoload_namespaces.php'));
-        $this->addFile($phar, new \SplFileInfo(__DIR__.'/../../../vendor/composer/autoload_classmap.php'));
+        $this->addFile($phar, new \SplFileInfo(__DIR__.'/../../vendor/autoload.php'));
+        $this->addFile($phar, new \SplFileInfo(__DIR__.'/../../vendor/composer/ClassLoader.php'));
+        $this->addFile($phar, new \SplFileInfo(__DIR__.'/../../vendor/composer/autoload_real.php'));
+        $this->addFile($phar, new \SplFileInfo(__DIR__.'/../../vendor/composer/autoload_namespaces.php'));
+        $this->addFile($phar, new \SplFileInfo(__DIR__.'/../../vendor/composer/autoload_classmap.php'));
 
         // Stubs
         $phar->setStub($this->getStub());
@@ -77,7 +77,7 @@ class Compiler
 
     protected function getStub()
     {
-      return file_get_contents(__DIR__.'/../../../bin/app') . "\n__HALT_COMPILER();";
+      return file_get_contents(__DIR__.'/../../bin/app') . "\n__HALT_COMPILER();";
     }
 
     /**

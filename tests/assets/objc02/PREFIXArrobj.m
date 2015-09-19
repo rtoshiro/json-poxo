@@ -1,18 +1,19 @@
 //
 //  PREFIXArrobj.m
 //
-//  Created by on 
-//  Copyright (c) . All rights reserved.
+//  Created by on 2015/09/19
+//  Copyright (c) 2015. All rights reserved.
 //
 
 #import "PREFIXArrobj.h"
 
+
 // Original names
-NSString * const kStr = @"str";
-NSString * const kNum = @"num";
-NSString * const kFlo = @"flo";
-NSString * const kBoo = @"boo";
-NSString * const kNull = @"null";
+NSString * const kPREFIXArrobjStr = @"str";
+NSString * const kPREFIXArrobjNum = @"num";
+NSString * const kPREFIXArrobjFlo = @"flo";
+NSString * const kPREFIXArrobjBoo = @"boo";
+NSString * const kPREFIXArrobjNull = @"null";
 
 @interface PREFIXArrobj ()
 
@@ -55,16 +56,11 @@ NSString * const kNull = @"null";
 
   if (self && [dict isKindOfClass:[NSDictionary class]])
   {
-    self.str = [self objectOrNilForKey:kStr fromDictionary:dict];
-    self.num = [self objectOrNilForKey:kNum fromDictionary:dict];
-    self.flo = [self objectOrNilForKey:kFlo fromDictionary:dict];
-    self.boo = [self objectOrNilForKey:kBoo fromDictionary:dict];
-
-    NSObject *objNull = [dict objectForKey:kNull];
-    if ([objNull isKindOfClass:[NSDictionary class]])
-    {
-      self.null = [Null modelObjectWithDictionary:objNull];
-    }
+    self.str = [self objectOrNilForKey:kPREFIXArrobjStr fromDictionary:dict];
+    self.num = [self objectOrNilForKey:kPREFIXArrobjNum fromDictionary:dict];
+    self.flo = [self objectOrNilForKey:kPREFIXArrobjFlo fromDictionary:dict];
+    self.boo = [self objectOrNilForKey:kPREFIXArrobjBoo fromDictionary:dict];
+    self.null = [self objectOrNilForKey:kPREFIXArrobjNull fromDictionary:dict];
   }
   return self;
 }
@@ -72,15 +68,11 @@ NSString * const kNull = @"null";
 - (NSDictionary *)dictionaryRepresentation
 {
   NSMutableDictionary *mutableDict = [NSMutableDictionary dictionary];
-  [mutableDict setValue:self.str forKey:kStr];
-  [mutableDict setValue:self.num forKey:kNum];
-  [mutableDict setValue:self.flo forKey:kFlo];
-  [mutableDict setValue:self.boo forKey:kBoo];
-  if ([self.null respondsToSelector:@selector(dictionaryRepresentation)]) {
-    [mutableDict setValue:[self.null performSelector:@selector(dictionaryRepresentation)] forKey:kNull];
-  } else {
-    [mutableDict setValue:self.null forKey:kNull];
-  }
+  [mutableDict setValue:self.str forKey:kPREFIXArrobjStr];
+  [mutableDict setValue:self.num forKey:kPREFIXArrobjNum];
+  [mutableDict setValue:self.flo forKey:kPREFIXArrobjFlo];
+  [mutableDict setValue:self.boo forKey:kPREFIXArrobjBoo];
+  [mutableDict setValue:self.null forKey:kPREFIXArrobjNull];
 
   return [NSDictionary dictionaryWithDictionary:mutableDict];
 }
@@ -103,22 +95,22 @@ NSString * const kNull = @"null";
 {
   self = [super init];
 
-  self.str = [aDecoder decodeObjectForKey:kStr];
-  self.num = [aDecoder decodeObjectForKey:kNum];
-  self.flo = [aDecoder decodeObjectForKey:kFlo];
-  self.boo = [aDecoder decodeObjectForKey:kBoo];
-  self.null = [aDecoder decodeObjectForKey:kNull];
+  self.str = [aDecoder decodeObjectForKey:kPREFIXArrobjStr];
+  self.num = [aDecoder decodeObjectForKey:kPREFIXArrobjNum];
+  self.flo = [aDecoder decodeObjectForKey:kPREFIXArrobjFlo];
+  self.boo = [aDecoder decodeObjectForKey:kPREFIXArrobjBoo];
+  self.null = [aDecoder decodeObjectForKey:kPREFIXArrobjNull];
 
   return self;
 }
 
 - (void)encodeWithCoder:(NSCoder *)aCoder
 {
-  [aCoder encodeObject:_str forKey:kStr];
-  [aCoder encodeObject:_num forKey:kNum];
-  [aCoder encodeObject:_flo forKey:kFlo];
-  [aCoder encodeObject:_boo forKey:kBoo];
-  [aCoder encodeObject:_null forKey:kNull];
+  [aCoder encodeObject:_str forKey:kPREFIXArrobjStr];
+  [aCoder encodeObject:_num forKey:kPREFIXArrobjNum];
+  [aCoder encodeObject:_flo forKey:kPREFIXArrobjFlo];
+  [aCoder encodeObject:_boo forKey:kPREFIXArrobjBoo];
+  [aCoder encodeObject:_null forKey:kPREFIXArrobjNull];
 }
 
 - (id)copyWithZone:(NSZone *)zone

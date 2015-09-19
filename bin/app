@@ -6,10 +6,10 @@ require __DIR__.'/../vendor/autoload.php';
 
 use Symfony\Component\Console\Application;
 
-$javaCmd = new Tox\Json2Poxo\Console\Java();
-$objcCmd = new Tox\Json2Poxo\Console\Objc();
+$javaCmd = new JsonPoxo\Console\Java();
+$objcCmd = new JsonPoxo\Console\Objc();
 
-$application = new Application('Json2Poxo Application', '1.0');
+$application = new Application('JsonPoxo Application', '1.0');
 $application->add($javaCmd);
 $application->add($objcCmd);
 $application->run();

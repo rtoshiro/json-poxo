@@ -1,8 +1,7 @@
 <?php
 use PHPUnit_Framework_TestCase as PHPUnit;
-use Tox\Json2Poxo\Json2Poxo;
 
-class Json2PoxoTest extends PHPUnit
+class JsonPoxoTest extends PHPUnit
 {
   public $json;
   public $rootClassName = 'RootClass';
@@ -16,6 +15,13 @@ class Json2PoxoTest extends PHPUnit
       'num' => 1,
       'flo' => 1.99,
       'boo' => false,
+      'special' => array(
+        'A' => null,
+        '[B]""&^ ' => "some string",
+        'with some spaces' => "new",
+        "new" => 0
+      ),
+      'arrdouble' => array(1.2, 1.3, 1.4),
       'arrnum' => array(1, 2, 3),
       'arrstr' => array('1', '2', '3'),
       'arrboo' => array(true, false, true),
@@ -72,28 +78,28 @@ class Json2PoxoTest extends PHPUnit
   public function testParse()
   {
     $result = array();
-    $json2poxo = new Json2Poxo();
-    $parsed = $json2poxo->parse($this->json, $this->rootClassName, $result);
+    $parser = new JsonPoxo\Parser();
+    $parsed = $parser->parse($this->json, $this->rootClassName, $result);
 
     $this->parseResult($result);
   }
 
   public function testClasses()
   {
-    $json2poxo = new Json2Poxo();
-    $result = $json2poxo->classes($this->rootClassName, $this->json);
+    $parser = new JsonPoxo\Parser();
+    $result = $parser->classes($this->rootClassName, $this->json);
 
     $this->parseResult($result);
   }
 
   public function testJava()
   {
-    $json2poxo = new Json2Poxo();
+    $parser = new JsonPoxo\Parser();
 
-    $result = $json2poxo->toX('java', $this->rootClassName, null, $this->json);
+    $result = $parser->toX('java', $this->rootClassName, null, $this->json);
 
     $this->assertNotNull($result);
-    $this->assertCount(4, $result);
+    $this->assertCount(5, $result);
     for ($i=0; $i < count($result); $i++) {
       $model = $result[$i];
       $this->assertNotNull($model->getFileName());
@@ -106,11 +112,11 @@ class Json2PoxoTest extends PHPUnit
 
   public function testJavaWithGson()
   {
-    $json2poxo = new Json2Poxo();
+    $parser = new JsonPoxo\Parser();
 
-    $result = $json2poxo->toX('java', $this->rootClassName, array('includeGson' => true), $this->json);
+    $result = $parser->toX('java', $this->rootClassName, array('includeGson' => true), $this->json);
     $this->assertNotNull($result);
-    $this->assertCount(4, $result);
+    $this->assertCount(5, $result);
     for ($i=0; $i < count($result); $i++) {
       $model = $result[$i];
       $this->assertNotNull($model->getFileName());
@@ -123,11 +129,11 @@ class Json2PoxoTest extends PHPUnit
 
   public function testObjc()
   {
-    $json2poxo = new Json2Poxo();
-    $result = $json2poxo->toX('objc', $this->rootClassName, null, $this->json);
+    $parser = new JsonPoxo\Parser();
+    $result = $parser->toX('objc', $this->rootClassName, null, $this->json);
 
     $this->assertNotNull($result);
-    $this->assertCount(8, $result);
+    $this->assertCount(10, $result);
     for ($i=0; $i < count($result); $i++) {
       $model = $result[$i];
       $this->assertNotNull($model->getFileName());
@@ -148,10 +154,10 @@ class Json2PoxoTest extends PHPUnit
 
   public function testObjcWithPrefix()
   {
-    $json2poxo = new Json2Poxo();
-    $result = $json2poxo->toX('objc', $this->rootClassName, array('prefix' => 'PREFIX'), $this->json);
+    $parser = new JsonPoxo\Parser();
+    $result = $parser->toX('objc', $this->rootClassName, array('prefix' => 'PREFIX'), $this->json);
     $this->assertNotNull($result);
-    $this->assertCount(8, $result);
+    $this->assertCount(10, $result);
     for ($i=0; $i < count($result); $i++) {
       $model = $result[$i];
       $this->assertNotNull($model->getFileName());
