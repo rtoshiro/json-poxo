@@ -26,7 +26,7 @@ class Compiler
         }
         $this->version = trim($process->getOutput());
 
-        $phar = new \Phar($pharFile, 0, 'json2poxo.phar');
+        $phar = new \Phar($pharFile, 0, 'json-poxo.phar');
         $phar->setSignatureAlgorithm(\Phar::SHA1);
 
         $phar->startBuffering();
@@ -38,7 +38,7 @@ class Compiler
             ->notName('Compiler.php')
             ->in(__DIR__.'/../')
             ->in(__DIR__.'/../../vendor/xamin/')
-            ->in(__DIR__.'/..../vendor/symfony/symfony/src/Symfony/Component/Console/');
+            ->in(__DIR__.'/../../vendor/symfony/symfony/src/Symfony/Component/Console/');
 
         foreach ($finder as $file) {
             $this->addFile($phar, $file);
