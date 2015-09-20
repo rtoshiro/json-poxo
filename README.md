@@ -8,18 +8,18 @@ PHP executable (or library) -  **json-poxo** generates "plain old x objects" fro
 
 Install json-poxo with Composer:
 
-    composer
+    composer require printwtf/json-poxo
 
 Generating POJO (Java) from JSON
 
-    json2poxo java --input file.json --ouput newDirectory --base baseClassName --package com.github.rtoshiro
+    json-poxo.phar java --input file.json --ouput newDirectory --base baseClassName --package com.github.rtoshiro --gson true
 
 ### Languages
 
 ```
-$ json2poxo
+$ json-poxo
 
-Usage: json2poxo <command>
+Usage: json-poxo.phar <command>
 
 Commands:
   java  Parse JSON and generates Java classes (POJO)
@@ -48,18 +48,6 @@ Options:
 ```
 
 More languages will be come.
-
-
-## Module interface
-
-**json2poxo** is intended to run throught CLI, but you can use it as a module like this:
-
-```
-var json2poxo = require("json2poxo");
-
-var poxos = json2poxo.toX('java', 'BaseClass', { "package" : "com.github.rtoshiro", "includeGson" : true }, { "myJson" : {"param1" : "ok" } });
-
-```
 
 
 ## MIT License
