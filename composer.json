@@ -8,7 +8,7 @@
     ],
     "description" : "Parses JSON objects and generates objects in other languages",
     "require" : {
-      "xamin/handlebars.php": "dev-master",
+      "xamin/handlebars.php": "0.10.*",
       "symfony/symfony": "2.7.*"
     },
     "require-dev": {
