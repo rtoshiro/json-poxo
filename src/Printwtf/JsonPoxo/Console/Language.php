@@ -1,5 +1,5 @@
 <?php
-namespace JsonPoxo\Console;
+namespace Printwtf\JsonPoxo\Console;
 
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;

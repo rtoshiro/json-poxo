@@ -1,4 +1,4 @@
-<?php namespace JsonPoxo;
+<?php namespace Printwtf\JsonPoxo;
 
 /**
 * Represents a new class from a JSON object

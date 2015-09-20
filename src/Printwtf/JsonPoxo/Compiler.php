@@ -1,6 +1,5 @@
 <?php
-
-namespace JsonPoxo;
+namespace Printwtf\JsonPoxo;
 
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Process\Process;

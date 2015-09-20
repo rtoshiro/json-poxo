@@ -1,4 +1,4 @@
-<?php namespace JsonPoxo;
+<?php namespace Printwtf\JsonPoxo;
 
 class Properties
 {
@@ -31,7 +31,7 @@ class Properties
     $this->setType($type);
     $this->setIsArray($isArray);
     $this->setParams(array());
-    
+
     $this->arrayDepth = 0;
   }
 

@@ -1,4 +1,4 @@
-<?php namespace JsonPoxo;
+<?php namespace Printwtf\JsonPoxo;
 
 class Source
 {

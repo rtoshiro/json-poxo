@@ -1,5 +1,5 @@
 {
-    "name": "json-poxo/json-poxo",
+    "name": "printwtf/json-poxo",
     "authors": [
         {
             "name": "Toshiro Sugii",
@@ -17,7 +17,7 @@
     },
     "autoload": {
         "psr-4": {
-            "JsonPoxo\\": "src\\JsonPoxo"
+            "Printwtf\\": "src\\Printwtf"
         }
     }
 }

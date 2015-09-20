@@ -1,7 +1,7 @@
 <?php
-namespace JsonPoxo\Language;
+namespace Printwtf\JsonPoxo\Language;
 
-use JsonPoxo\Source;
+use Printwtf\JsonPoxo\Source;
 use Handlebars\Handlebars;
 
 class Objc extends Language

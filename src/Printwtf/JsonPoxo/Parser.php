@@ -1,4 +1,4 @@
-<?php namespace JsonPoxo;
+<?php namespace Printwtf\JsonPoxo;
 
 use Handlebars\Handlebars;
 
@@ -121,7 +121,7 @@ class Parser
     if (gettype($className) !== 'string')
       throw new Exception("Argument 2 has to be a string", 1);
 
-    $langComplete = "JsonPoxo\\Language\\" . ucfirst(strtolower(trim($lang)));
+    $langComplete = "Printwtf\\JsonPoxo\\Language\\" . ucfirst(strtolower(trim($lang)));
     $language = new $langComplete();
 
     $results = array();
@@ -141,7 +141,7 @@ class Parser
   // _poxo objects
   function toX($lang, $className, $params, $obj)
   {
-    $langComplete = "JsonPoxo\\Language\\" . ucfirst(strtolower(trim($lang)));
+    $langComplete = "Printwtf\\JsonPoxo\\Language\\" . ucfirst(strtolower(trim($lang)));
     $language = new $langComplete();
 
     $results = array();

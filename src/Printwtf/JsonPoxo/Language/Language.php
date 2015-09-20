@@ -1,6 +1,6 @@
 <?php
 
-namespace JsonPoxo\Language;
+namespace Printwtf\JsonPoxo\Language;
 
 class Language
 {

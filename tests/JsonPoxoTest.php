@@ -78,7 +78,7 @@ class JsonPoxoTest extends PHPUnit
   public function testParse()
   {
     $result = array();
-    $parser = new JsonPoxo\Parser();
+    $parser = new Printwtf\JsonPoxo\Parser();
     $parsed = $parser->parse($this->json, $this->rootClassName, $result);
 
     $this->parseResult($result);
@@ -86,7 +86,7 @@ class JsonPoxoTest extends PHPUnit
 
   public function testClasses()
   {
-    $parser = new JsonPoxo\Parser();
+    $parser = new Printwtf\JsonPoxo\Parser();
     $result = $parser->classes($this->rootClassName, $this->json);
 
     $this->parseResult($result);
@@ -94,7 +94,7 @@ class JsonPoxoTest extends PHPUnit
 
   public function testJava()
   {
-    $parser = new JsonPoxo\Parser();
+    $parser = new Printwtf\JsonPoxo\Parser();
 
     $result = $parser->toX('java', $this->rootClassName, null, $this->json);
 
@@ -112,7 +112,7 @@ class JsonPoxoTest extends PHPUnit
 
   public function testJavaWithGson()
   {
-    $parser = new JsonPoxo\Parser();
+    $parser = new Printwtf\JsonPoxo\Parser();
 
     $result = $parser->toX('java', $this->rootClassName, array('includeGson' => true), $this->json);
     $this->assertNotNull($result);
@@ -129,7 +129,7 @@ class JsonPoxoTest extends PHPUnit
 
   public function testObjc()
   {
-    $parser = new JsonPoxo\Parser();
+    $parser = new Printwtf\JsonPoxo\Parser();
     $result = $parser->toX('objc', $this->rootClassName, null, $this->json);
 
     $this->assertNotNull($result);
@@ -154,7 +154,7 @@ class JsonPoxoTest extends PHPUnit
 
   public function testObjcWithPrefix()
   {
-    $parser = new JsonPoxo\Parser();
+    $parser = new Printwtf\JsonPoxo\Parser();
     $result = $parser->toX('objc', $this->rootClassName, array('prefix' => 'PREFIX'), $this->json);
     $this->assertNotNull($result);
     $this->assertCount(10, $result);

@@ -1,8 +1,8 @@
 <?php
-namespace JsonPoxo\Language;
+namespace Printwtf\JsonPoxo\Language;
 
 use Handlebars\Handlebars;
-use JsonPoxo\Source;
+use Printwtf\JsonPoxo\Source;
 
 class Java extends Language
 {

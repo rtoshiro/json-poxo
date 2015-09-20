@@ -1,23 +1,26 @@
 <?php
-namespace JsonPoxo\Console;
+namespace Printwtf\JsonPoxo\Console;
 
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+// use Symfony\Component\Console\Helper\ProgressBar;
+
+use Printwtf\JsonPoxo\Parser;
 
 use JsonPoxo;
 
-class Objc extends Language
+class Java extends Language
 {
   protected function configure()
   {
     parent::configure();
 
     $this
-      ->setName('objc')
-      ->setDescription('Generates Object-C objects from JSON string (or URL)')
+      ->setName('java')
+      ->setDescription('Generates Java objects from JSON string (or URL)')
       ->addOption(
          'input',
          'i',
@@ -37,10 +40,16 @@ class Objc extends Language
          'Name of base class'
       )
       ->addOption(
-         'prefix',
+         'package',
          'p',
          InputOption::VALUE_OPTIONAL,
-         'Class prefix'
+         'Package name'
+      )
+      ->addOption(
+         'includeGson',
+         'g',
+         InputOption::VALUE_OPTIONAL,
+         'If set, the task will include Gson serializable names'
       );
   }
 
@@ -49,23 +58,27 @@ class Objc extends Language
     $opt_input = null;
     $opt_output = null;
     $opt_baseclass = null;
-    $opt_prefix = null;
+    $opt_package = null;
+    $opt_includeGson = null;
 
     $opt_input = $input->getOption('input');
     $opt_output = $input->getOption('output');
     $opt_baseclass = $input->getOption('baseclass');
-    $opt_prefix = $input->getOption('prefix');
+    $opt_package = $input->getOption('package');
+    $opt_includeGson = $input->getOption('includeGson');
 
     if ($opt_input != null &&
         $opt_output != null &&
         $opt_baseclass != null)
     {
       $params = null;
-      if ($opt_prefix != null)
+      if ($opt_package != null || $opt_includeGson != null)
       {
         $params = array();
-        if ($opt_prefix != null)
-          $params['prefix'] = $opt_prefix;
+        if ($opt_package != null)
+          $params['package'] = $opt_package;
+        if ($opt_includeGson != null)
+          $params['includeGson'] = $opt_includeGson;
       }
 
       $jsonContent = null;
@@ -75,8 +88,8 @@ class Objc extends Language
         $jsonContent = $this->getUrl(trim($opt_input));
       }
 
-      $json2poxo = new JsonPoxo\Parser();
-      $result = $json2poxo->toX('objc', $opt_baseclass, $params, $jsonContent);
+      $json2poxo = new Parser();
+      $result = $json2poxo->toX('java', $opt_baseclass, $params, $jsonContent);
 
       $this->writeResults($result, $opt_output);
     }

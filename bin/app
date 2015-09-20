@@ -5,9 +5,11 @@ date_default_timezone_set('UTC');
 require __DIR__.'/../vendor/autoload.php';
 
 use Symfony\Component\Console\Application;
+use Printwtf\JsonPoxo\Console\Java;
+use Printwtf\JsonPoxo\Console\Objc;
 
-$javaCmd = new JsonPoxo\Console\Java();
-$objcCmd = new JsonPoxo\Console\Objc();
+$javaCmd = new Java();
+$objcCmd = new Objc();
 
 $application = new Application('JsonPoxo Application', '1.0');
 $application->add($javaCmd);

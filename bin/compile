@@ -9,7 +9,7 @@ if (!file_exists($autoload)) {
 }
 require_once $autoload;
 
-use JsonPoxo\Compiler;
+use Printwtf\JsonPoxo\Compiler;
 
 $builder = new Compiler();
 $builder->compile(__DIR__.'/../build/json-poxo.phar');
