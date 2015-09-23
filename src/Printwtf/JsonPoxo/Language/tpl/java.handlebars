@@ -14,56 +14,96 @@ import com.google.gson.annotations.Expose;
 public class {{name}} implements Serializable
 {
 {{#each properties}}
-  private static final String FIELD_{{&nameUppercase}} = "{{&originalName}}";
+    private static final String FIELD_{{&nameUppercase}} = "{{&originalName}}";
 {{/each}}
 
 {{#each properties}}
 {{#if ../params.includeGson}}
 
-  @Expose
-  @SerializedName(FIELD_{{&nameUppercase}})
+    @Expose
+    @SerializedName(FIELD_{{&nameUppercase}})
 {{/if}}
-  private {{&type}} {{&name}};
+    private {{&type}} {{&name}};
 {{/each}}
 
-  public {{name}}() {
+    public {{name}}() {
 
-  }
+    }
+
+    public {{name}}(JSONObject jsonObject) {
+        parseObject(jsonObject);
+    }
+
+    public {{name}}(String jsonString) {
+        parseString(jsonString);
+    }
+
+    protected void parseString(String jsonString) throws JSONException {
+        JSONObject jsonObject = new JSONObject(jsonString);
+        parseObject(jsonObject);
+    }
+
+    protected void parseObject(JSONObject object)
+    {
+{{~#each properties}}
+{{#if isArray}}
+
+        if (object.optJSONArray(FIELD_{{&nameUppercase}}) != null)
+        {
+            this.{{&name}} = new ArrayList<>();
+            JSONArray {{&name}}JsonArray = object.optJSONArray(FIELD_{{&nameUppercase}});
+            for (int i = 0; i < {{&name}}JsonArray.length(); i++) {
+{{#if isObject}}
+                JSONObject {{&name}} = {{&name}}JsonArray.optJSONObject(i);
+{{~else~}}
+                {{&type}} {{&name}} = {{&name}}JsonArray.optJSON{{&type}}(i);
+{{/if}}
+                this.{{&name}}.add(new {{&type}}({{&name}}));
+            }
+        }
+{{else}}{{#if isObject}}
+        this.{{&name}} = new {{&type}}(object.optJSONObject(FIELD_{{&nameUppercase}}));
+{{~else~}}
+        this.{{&name}} = object.opt{{&type}}(FIELD_{{&nameUppercase}});
+{{~/if}}{{/if}}
+{{/each}}
+
+    }
 
 {{#each properties}}
-  public void set{{&nameCapitalized}}({{&type}} value) {
-      this.{{&name}} = value;
-  }
+    public void set{{&nameCapitalized}}({{&type}} value) {
+        this.{{&name}} = value;
+    }
 {{#if params.isBoolean}}
 
-  public {{&type}} is{{&nameCapitalized}}() {
+    public {{&type}} is{{&nameCapitalized}}() {
 {{else}}
 
-  public {{&type}} get{{&nameCapitalized}}() {
+    public {{&type}} get{{&nameCapitalized}}() {
 {{/if}}
-      return this.{{&name}};
-  }
+        return this.{{&name}};
+    }
 
 {{/each}}
 {{#if primaryKey}}
-  @Override
-  public boolean equals(Object obj) {
-      if (obj instanceof {{&name}}) {
-          return (({{&name}}) obj).get{{&primaryKeyCapitalized}}().equals({{primaryKey}});
-      }
-      return false;
-  }
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof {{&name}}) {
+            return (({{&name}}) obj).get{{&primaryKeyCapitalized}}().equals({{primaryKey}});
+        }
+        return false;
+    }
 
-  @Override
-  public int hashCode(){
-      return (({{primaryKeyType}}){{primaryKey}}).hashCode();
-  }
+    @Override
+    public int hashCode(){
+        return (({{primaryKeyType}}){{primaryKey}}).hashCode();
+    }
 {{/if}}
 {{#if params.includeGson}}
-  @Override
-  public String toString() {
-    Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
-    return gson.toJson(this);
-  }
+    @Override
+    public String toString() {
+      Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
+      return gson.toJson(this);
+    }
 {{/if}}
 }

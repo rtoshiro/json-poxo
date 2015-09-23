@@ -80,6 +80,41 @@ class Properties
 
   public function setType($type) {
       $this->type = $type;
+      switch ($type) {
+        case 'boolean':
+        {
+          $this->isBoolean = true;
+          break;
+        }
+        case 'integer':
+        {
+          $this->isInterger = true;
+          break;
+        }
+        case 'double':
+        {
+          $this->isDouble = true;
+          break;
+        }
+        case 'string':
+        {
+          $this->isString = true;
+          break;
+        }
+        case 'object':
+        {
+          $this->isObject = true;
+          break;
+        }
+        case 'null':
+        {
+          $this->isNull = true;
+          break;
+        }
+        default:
+          # code...
+          break;
+      }
       return $this;
   }
 
