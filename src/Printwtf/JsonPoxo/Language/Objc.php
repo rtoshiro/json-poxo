@@ -61,6 +61,9 @@ class Objc extends Language
         $cl_params['prefix'] = $params['prefix'];
         $_cl->setName($params['prefix'] . $_cl->getName());
       }
+
+      if (isset($params['clean']))
+        $cl_params['clean'] = $params['clean'];
     }
 
     $properties = &$_cl->getProperties();
@@ -68,18 +71,16 @@ class Objc extends Language
       $_property = &$properties[$i];
       $_params = &$_property->getParams();
 
-      $_params['isObject'] = ($_property->getType() == "NSObject *");
-      $_params['isNull'] = ($_property->getType() == "id");
-      $_params['isString'] = ($_property->getType() == "NSString *");
-      $_params['isNumber'] = ($_property->getType() == "NSNumber *");
-
-      if ($_property->isArray()) {
+      if ($_property->isArray())
+      {
         // If is object and is array, we need to include "import"
-        if ($_params['isObject'])
+        if ($_property->isObject)
           $_cl->pushImport('#import "' . $_property->getNameCapitalized() . '.h"');
 
         $_property->setType("NSMutableArray *");
-      } else if ($_property->getType() == 'NSObject *') {
+      }
+      else if ($_property->isObject)
+      {
         $_cl->pushImport('#import "' . $_property->getNameCapitalized() . '.h"');
         $_property->setType($_property->getNameCapitalized() . " *");
       }

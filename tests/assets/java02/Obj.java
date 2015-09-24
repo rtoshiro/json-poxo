@@ -16,19 +16,15 @@ public class Obj implements Serializable
     private static final String FIELD_FLO = "flo";
     private static final String FIELD_BOO = "boo";
 
-
     @Expose
     @SerializedName(FIELD_STR)
     private String str;
-
     @Expose
     @SerializedName(FIELD_NUM)
     private Long num;
-
     @Expose
     @SerializedName(FIELD_FLO)
     private Double flo;
-
     @Expose
     @SerializedName(FIELD_BOO)
     private Boolean boo;
@@ -42,7 +38,11 @@ public class Obj implements Serializable
     }
 
     public Obj(String jsonString) {
-        parseString(jsonString);
+        try {
+            parseString(jsonString);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     protected void parseString(String jsonString) throws JSONException {
@@ -56,12 +56,12 @@ public class Obj implements Serializable
         this.num = object.optLong(FIELD_NUM);
         this.flo = object.optDouble(FIELD_FLO);
         this.boo = object.optBoolean(FIELD_BOO);
+
     }
 
     public void setStr(String value) {
         this.str = value;
     }
-
 
     public String getStr() {
         return this.str;
@@ -71,7 +71,6 @@ public class Obj implements Serializable
         this.num = value;
     }
 
-
     public Long getNum() {
         return this.num;
     }
@@ -79,7 +78,6 @@ public class Obj implements Serializable
     public void setFlo(Double value) {
         this.flo = value;
     }
-
 
     public Double getFlo() {
         return this.flo;
@@ -92,6 +90,7 @@ public class Obj implements Serializable
     public Boolean isBoo() {
         return this.boo;
     }
+
 
     @Override
     public String toString() {

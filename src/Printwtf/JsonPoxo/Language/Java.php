@@ -40,18 +40,20 @@ class Java extends Language
   {
     $cl = parent::classes($cl, $params);
     $clparams = &$cl->getParams();
+    $clparams['package'] = "com.example.package";
 
     if ($params != null)
     {
-      if (isset($params['package'])) {
+      if (isset($params['package']) && trim($params['package']) != '') {
         $clparams['package'] = $params['package'];
-      } else {
-        $clparams['package'] = "com.example.package";
       }
 
       if (isset($params['includeGson'])) {
         $clparams['includeGson'] = $params['includeGson'];
       }
+
+      if (isset($params['clean']))
+        $cl_params['clean'] = $params['clean'];
     }
 
     for ($i=0; $i < count($cl->getProperties()); $i++)
@@ -59,51 +61,55 @@ class Java extends Language
       $property = &$cl->getProperties()[$i];
       $pparams = &$property->getParams();
 
-      $pparams['isBoolean'] = ($property->getType() == "Boolean" && !$property->isArray());
-
-      if (isset($clparams['includeGson']) && !$clparams['includeGson']) {
-        $property->setName($property->getOriginalName());
-      }
-
       if ($property->isArray())
       {
         $cl->pushImport('import java.util.ArrayList;');
+      }
 
-        switch ($property->getType()) {
-          case 'Object':
-          {
-            $property->setType("ArrayList<" . $property->getNameCapitalized() . ">");
-            break;
-          }
-          case 'Null':
-          {
-            $property->setType("ArrayList<Object>");
-            break;
-          }
-          default:
-          {
-            $property->setType("ArrayList<" . $property->getType() . ">");
-            break;
-          }
-        }
-      }
-      else
+      if ($property->isObject)
       {
-        switch ($property->getType()) {
-          case 'Object':
-          {
-            $property->setType($property->getNameCapitalized());
-            break;
-          }
-          case 'Null':
-          {
-            $property->setType('Object');
-            break;
-          }
-          default:
-            break;
-        }
+        $property->setType($property->getNameCapitalized());
       }
+      else if ($property->isNull)
+      {
+        $property->setType('Object');
+      }
+      //
+      //   switch ($property->getType()) {
+      //     case 'Object':
+      //     {
+      //       $property->setType("ArrayList<" . $property->getNameCapitalized() . ">");
+      //       break;
+      //     }
+      //     case 'Null':
+      //     {
+      //       $property->setType("ArrayList<Object>");
+      //       break;
+      //     }
+      //     default:
+      //     {
+      //       $property->setType("ArrayList<" . $property->getType() . ">");
+      //       break;
+      //     }
+      //   }
+      // }
+      // else
+      // {
+      //   switch ($property->getType()) {
+      //     case 'Object':
+      //     {
+      //       $property->setType($property->getNameCapitalized());
+      //       break;
+      //     }
+      //     case 'Null':
+      //     {
+      //       $property->setType('Object');
+      //       break;
+      //     }
+      //     default:
+      //       break;
+      //   }
+      // }
     }
 
     return $cl;

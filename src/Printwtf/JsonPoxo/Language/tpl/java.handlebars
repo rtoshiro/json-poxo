@@ -4,26 +4,30 @@ import org.json.*;
 import java.io.Serializable;
 {{&imports}}
 
-{{#if params.includeGson}}
+{{#params.includeGson}}
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.annotations.SerializedName;
 import com.google.gson.annotations.Expose;
 
-{{/if}}
+{{/params.includeGson}}
 public class {{name}} implements Serializable
 {
-{{#each properties}}
+{{#properties}}
     private static final String FIELD_{{&nameUppercase}} = "{{&originalName}}";
-{{/each}}
+{{/properties}}
 
 {{#each properties}}
-{{#if ../params.includeGson}}
-
+{{#../params.includeGson}}
     @Expose
     @SerializedName(FIELD_{{&nameUppercase}})
-{{/if}}
+{{/../params.includeGson}}
+{{#isArray}}
+    private ArrayList<{{&type}}> {{&name}};
+{{/isArray}}
+{{^isArray}}
     private {{&type}} {{&name}};
+{{/isArray}}
 {{/each}}
 
     public {{name}}() {
@@ -35,7 +39,11 @@ public class {{name}} implements Serializable
     }
 
     public {{name}}(String jsonString) {
-        parseString(jsonString);
+        try {
+            parseString(jsonString);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     protected void parseString(String jsonString) throws JSONException {
@@ -45,27 +53,37 @@ public class {{name}} implements Serializable
 
     protected void parseObject(JSONObject object)
     {
-{{~#each properties}}
-{{#if isArray}}
+{{#each properties}}
+  {{#isArray}}
 
         if (object.optJSONArray(FIELD_{{&nameUppercase}}) != null)
         {
             this.{{&name}} = new ArrayList<>();
             JSONArray {{&name}}JsonArray = object.optJSONArray(FIELD_{{&nameUppercase}});
             for (int i = 0; i < {{&name}}JsonArray.length(); i++) {
-{{#if isObject}}
+    {{#isObject}}
                 JSONObject {{&name}} = {{&name}}JsonArray.optJSONObject(i);
-{{~else~}}
+    {{/isObject}}
+    {{^isObject}}
                 {{&type}} {{&name}} = {{&name}}JsonArray.optJSON{{&type}}(i);
-{{/if}}
+    {{/isObject}}
                 this.{{&name}}.add(new {{&type}}({{&name}}));
             }
         }
-{{else}}{{#if isObject}}
+  {{/isArray}}
+  {{^isArray}}
+    {{#isObject}}
         this.{{&name}} = new {{&type}}(object.optJSONObject(FIELD_{{&nameUppercase}}));
-{{~else~}}
+    {{/isObject}}
+    {{^isObject}}
+      {{#isNull}}
+        this.{{&name}} = object.opt(FIELD_{{&nameUppercase}});
+      {{/isNull}}
+      {{^isNull}}
         this.{{&name}} = object.opt{{&type}}(FIELD_{{&nameUppercase}});
-{{~/if}}{{/if}}
+      {{/isNull}}
+    {{/isObject}}
+  {{/isArray}}
 {{/each}}
 
     }
@@ -74,18 +92,20 @@ public class {{name}} implements Serializable
     public void set{{&nameCapitalized}}({{&type}} value) {
         this.{{&name}} = value;
     }
-{{#if params.isBoolean}}
+{{#isBoolean}}
 
     public {{&type}} is{{&nameCapitalized}}() {
-{{else}}
+{{/isBoolean}}
+{{^isBoolean}}
 
     public {{&type}} get{{&nameCapitalized}}() {
-{{/if}}
+{{/isBoolean}}
         return this.{{&name}};
     }
 
 {{/each}}
 {{#if primaryKey}}
+
     @Override
     public boolean equals(Object obj) {
         if (obj instanceof {{&name}}) {
@@ -100,6 +120,7 @@ public class {{name}} implements Serializable
     }
 {{/if}}
 {{#if params.includeGson}}
+
     @Override
     public String toString() {
       Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();

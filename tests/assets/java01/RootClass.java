@@ -1,4 +1,4 @@
-package ;
+package com.example.package;
 
 import org.json.*;
 import java.io.Serializable;
@@ -44,7 +44,11 @@ public class Rootclass implements Serializable
     }
 
     public Rootclass(String jsonString) {
-        parseString(jsonString);
+        try {
+            parseString(jsonString);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     protected void parseString(String jsonString) throws JSONException {
@@ -66,9 +70,8 @@ public class Rootclass implements Serializable
             this.arrdouble = new ArrayList<>();
             JSONArray arrdoubleJsonArray = object.optJSONArray(FIELD_ARRDOUBLE);
             for (int i = 0; i < arrdoubleJsonArray.length(); i++) {
-
-                ArrayList<Double> arrdouble = arrdoubleJsonArray.optJSONArrayList<Double>(i);
-                this.arrdouble.add(new ArrayList<Double>(arrdouble));
+                Double arrdouble = arrdoubleJsonArray.optJSONDouble(i);
+                this.arrdouble.add(new Double(arrdouble));
             }
         }
 
@@ -77,9 +80,8 @@ public class Rootclass implements Serializable
             this.arrnum = new ArrayList<>();
             JSONArray arrnumJsonArray = object.optJSONArray(FIELD_ARRNUM);
             for (int i = 0; i < arrnumJsonArray.length(); i++) {
-
-                ArrayList<Long> arrnum = arrnumJsonArray.optJSONArrayList<Long>(i);
-                this.arrnum.add(new ArrayList<Long>(arrnum));
+                Long arrnum = arrnumJsonArray.optJSONLong(i);
+                this.arrnum.add(new Long(arrnum));
             }
         }
 
@@ -88,9 +90,8 @@ public class Rootclass implements Serializable
             this.arrstr = new ArrayList<>();
             JSONArray arrstrJsonArray = object.optJSONArray(FIELD_ARRSTR);
             for (int i = 0; i < arrstrJsonArray.length(); i++) {
-
-                ArrayList<String> arrstr = arrstrJsonArray.optJSONArrayList<String>(i);
-                this.arrstr.add(new ArrayList<String>(arrstr));
+                String arrstr = arrstrJsonArray.optJSONString(i);
+                this.arrstr.add(new String(arrstr));
             }
         }
 
@@ -99,9 +100,8 @@ public class Rootclass implements Serializable
             this.arrboo = new ArrayList<>();
             JSONArray arrbooJsonArray = object.optJSONArray(FIELD_ARRBOO);
             for (int i = 0; i < arrbooJsonArray.length(); i++) {
-
-                ArrayList<Boolean> arrboo = arrbooJsonArray.optJSONArrayList<Boolean>(i);
-                this.arrboo.add(new ArrayList<Boolean>(arrboo));
+                Boolean arrboo = arrbooJsonArray.optJSONBoolean(i);
+                this.arrboo.add(new Boolean(arrboo));
             }
         }
 
@@ -111,10 +111,9 @@ public class Rootclass implements Serializable
             JSONArray arrnullJsonArray = object.optJSONArray(FIELD_ARRNULL);
             for (int i = 0; i < arrnullJsonArray.length(); i++) {
                 JSONObject arrnull = arrnullJsonArray.optJSONObject(i);
-                this.arrnull.add(new ArrayList<Arrnull>(arrnull));
+                this.arrnull.add(new Arrnull(arrnull));
             }
         }
-
         this.obj = new Obj(object.optJSONObject(FIELD_OBJ));
 
         if (object.optJSONArray(FIELD_ARROBJ) != null)
@@ -123,15 +122,15 @@ public class Rootclass implements Serializable
             JSONArray arrobjJsonArray = object.optJSONArray(FIELD_ARROBJ);
             for (int i = 0; i < arrobjJsonArray.length(); i++) {
                 JSONObject arrobj = arrobjJsonArray.optJSONObject(i);
-                this.arrobj.add(new ArrayList<Arrobj>(arrobj));
+                this.arrobj.add(new Arrobj(arrobj));
             }
         }
+
     }
 
     public void setId(String value) {
         this.id = value;
     }
-
 
     public String getId() {
         return this.id;
@@ -141,7 +140,6 @@ public class Rootclass implements Serializable
         this.str = value;
     }
 
-
     public String getStr() {
         return this.str;
     }
@@ -150,7 +148,6 @@ public class Rootclass implements Serializable
         this.num = value;
     }
 
-
     public Long getNum() {
         return this.num;
     }
@@ -158,7 +155,6 @@ public class Rootclass implements Serializable
     public void setFlo(Double value) {
         this.flo = value;
     }
-
 
     public Double getFlo() {
         return this.flo;
@@ -176,53 +172,47 @@ public class Rootclass implements Serializable
         this.special = value;
     }
 
-
     public Special getSpecial() {
         return this.special;
     }
 
-    public void setArrdouble(ArrayList<Double> value) {
+    public void setArrdouble(Double value) {
         this.arrdouble = value;
     }
 
-
-    public ArrayList<Double> getArrdouble() {
+    public Double getArrdouble() {
         return this.arrdouble;
     }
 
-    public void setArrnum(ArrayList<Long> value) {
+    public void setArrnum(Long value) {
         this.arrnum = value;
     }
 
-
-    public ArrayList<Long> getArrnum() {
+    public Long getArrnum() {
         return this.arrnum;
     }
 
-    public void setArrstr(ArrayList<String> value) {
+    public void setArrstr(String value) {
         this.arrstr = value;
     }
 
-
-    public ArrayList<String> getArrstr() {
+    public String getArrstr() {
         return this.arrstr;
     }
 
-    public void setArrboo(ArrayList<Boolean> value) {
+    public void setArrboo(Boolean value) {
         this.arrboo = value;
     }
 
-
-    public ArrayList<Boolean> getArrboo() {
+    public Boolean isArrboo() {
         return this.arrboo;
     }
 
-    public void setArrnull(ArrayList<Arrnull> value) {
+    public void setArrnull(Arrnull value) {
         this.arrnull = value;
     }
 
-
-    public ArrayList<Arrnull> getArrnull() {
+    public Arrnull getArrnull() {
         return this.arrnull;
     }
 
@@ -230,19 +220,18 @@ public class Rootclass implements Serializable
         this.obj = value;
     }
 
-
     public Obj getObj() {
         return this.obj;
     }
 
-    public void setArrobj(ArrayList<Arrobj> value) {
+    public void setArrobj(Arrobj value) {
         this.arrobj = value;
     }
 
-
-    public ArrayList<Arrobj> getArrobj() {
+    public Arrobj getArrobj() {
         return this.arrobj;
     }
+
 
     @Override
     public boolean equals(Object obj) {

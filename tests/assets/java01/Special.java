@@ -1,4 +1,4 @@
-package ;
+package com.example.package;
 
 import org.json.*;
 import java.io.Serializable;
@@ -25,7 +25,11 @@ public class Special implements Serializable
     }
 
     public Special(String jsonString) {
-        parseString(jsonString);
+        try {
+            parseString(jsonString);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     protected void parseString(String jsonString) throws JSONException {
@@ -35,16 +39,16 @@ public class Special implements Serializable
 
     protected void parseObject(JSONObject object)
     {
-        this.a = object.optObject(FIELD_A);
+        this.a = object.opt(FIELD_A);
         this._b______ = object.optString(FIELD__B______);
         this.with_some_spaces = object.optString(FIELD_WITH_SOME_SPACES);
         this._new = object.optLong(FIELD__NEW);
+
     }
 
     public void setA(Object value) {
         this.a = value;
     }
-
 
     public Object getA() {
         return this.a;
@@ -54,7 +58,6 @@ public class Special implements Serializable
         this._b______ = value;
     }
 
-
     public String get_b______() {
         return this._b______;
     }
@@ -63,7 +66,6 @@ public class Special implements Serializable
         this.with_some_spaces = value;
     }
 
-
     public String getWith_some_spaces() {
         return this.with_some_spaces;
     }
@@ -71,7 +73,6 @@ public class Special implements Serializable
     public void set_new(Long value) {
         this._new = value;
     }
-
 
     public Long get_new() {
         return this._new;

@@ -1,4 +1,4 @@
-package ;
+package com.example.package;
 
 import org.json.*;
 import java.io.Serializable;
@@ -27,7 +27,11 @@ public class Arrobj implements Serializable
     }
 
     public Arrobj(String jsonString) {
-        parseString(jsonString);
+        try {
+            parseString(jsonString);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     protected void parseString(String jsonString) throws JSONException {
@@ -41,13 +45,13 @@ public class Arrobj implements Serializable
         this.num = object.optLong(FIELD_NUM);
         this.flo = object.optDouble(FIELD_FLO);
         this.boo = object.optBoolean(FIELD_BOO);
-        this._null = object.optObject(FIELD__NULL);
+        this._null = object.opt(FIELD__NULL);
+
     }
 
     public void setStr(String value) {
         this.str = value;
     }
-
 
     public String getStr() {
         return this.str;
@@ -57,7 +61,6 @@ public class Arrobj implements Serializable
         this.num = value;
     }
 
-
     public Long getNum() {
         return this.num;
     }
@@ -65,7 +68,6 @@ public class Arrobj implements Serializable
     public void setFlo(Double value) {
         this.flo = value;
     }
-
 
     public Double getFlo() {
         return this.flo;
@@ -82,7 +84,6 @@ public class Arrobj implements Serializable
     public void set_null(Object value) {
         this._null = value;
     }
-
 
     public Object get_null() {
         return this._null;

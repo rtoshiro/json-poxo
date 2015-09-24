@@ -1,4 +1,4 @@
-package ;
+package com.example.package;
 
 import org.json.*;
 import java.io.Serializable;
@@ -25,7 +25,11 @@ public class Obj implements Serializable
     }
 
     public Obj(String jsonString) {
-        parseString(jsonString);
+        try {
+            parseString(jsonString);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     protected void parseString(String jsonString) throws JSONException {
@@ -39,12 +43,12 @@ public class Obj implements Serializable
         this.num = object.optLong(FIELD_NUM);
         this.flo = object.optDouble(FIELD_FLO);
         this.boo = object.optBoolean(FIELD_BOO);
+
     }
 
     public void setStr(String value) {
         this.str = value;
     }
-
 
     public String getStr() {
         return this.str;
@@ -54,7 +58,6 @@ public class Obj implements Serializable
         this.num = value;
     }
 
-
     public Long getNum() {
         return this.num;
     }
@@ -62,7 +65,6 @@ public class Obj implements Serializable
     public void setFlo(Double value) {
         this.flo = value;
     }
-
 
     public Double getFlo() {
         return this.flo;

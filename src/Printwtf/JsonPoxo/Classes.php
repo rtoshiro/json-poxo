@@ -15,9 +15,16 @@ class Classes
   public $primaryKeyCapitalized;
 
   public $primaryKeyType;
+
+  /**
+  * Array with all object properties (Property objects)
+  */
   public $properties;
+
   public $imports;
   public $params;
+
+  public $renderMode;
 
   public function __construct($name)
   {

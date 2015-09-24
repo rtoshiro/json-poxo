@@ -22,7 +22,11 @@ public class Arrnull implements Serializable
     }
 
     public Arrnull(String jsonString) {
-        parseString(jsonString);
+        try {
+            parseString(jsonString);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     protected void parseString(String jsonString) throws JSONException {
@@ -32,7 +36,9 @@ public class Arrnull implements Serializable
 
     protected void parseObject(JSONObject object)
     {
+
     }
+
 
     @Override
     public String toString() {

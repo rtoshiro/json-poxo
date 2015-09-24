@@ -55,7 +55,7 @@ NSString * const k{{../name}}{{nameCapitalized}} = @"{{&originalName}}";
   if (self && [dict isKindOfClass:[NSDictionary class]])
   {
 {{#each properties}}
-{{#if params.isObject}}
+{{#if isObject}}
 
     NSObject *obj{{nameCapitalized}} = [dict objectForKey:k{{../../name}}{{nameCapitalized}}];
 {{#if isArray}}    if ([obj{{nameCapitalized}} isKindOfClass:[NSArray class]])
@@ -84,7 +84,7 @@ NSString * const k{{../name}}{{nameCapitalized}} = @"{{&originalName}}";
 {
   NSMutableDictionary *mutableDict = [NSMutableDictionary dictionary];
 {{#each properties}}
-{{#if params.isObject}}
+{{#if isObject}}
 {{#if isArray}}  NSMutableArray *tempArray{{nameCapitalized}} = [NSMutableArray array];
   for (NSObject *subArray in self.{{name}}) {
     if ([subArray respondsToSelector:@selector(dictionaryRepresentation)]) {

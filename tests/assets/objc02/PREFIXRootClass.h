@@ -1,16 +1,12 @@
 //
 //  PREFIXRootclass.h
 //
-//  Created on 2015/09/23
+//  Created on 2015/09/24
 //  Copyright (c) 2015. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
 
-@class Special;
-@class Arrnull;
-@class Obj;
-@class Arrobj;
 
 @interface PREFIXRootclass : NSObject <NSCoding, NSCopying>
 
