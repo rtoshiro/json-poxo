@@ -132,6 +132,14 @@ class Parser
     if (gettype($baseClassName) != 'string')
       throw new Exception("Argument 1 has to be a string", 1);
 
+    // If is array not object
+    if (!$this->is_assoc($src))
+    {
+      $src = array(
+          $baseClassName . 'Object' => $src
+      );
+    }
+
     $classList = array();
     $result = $this->parse($src, $baseClassName, $classList);
 
