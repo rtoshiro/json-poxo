@@ -35,48 +35,73 @@ class Compiler
             ->ignoreVCS(true)
             ->name('*.php')
             ->notName('Compiler.php')
-            ->in(__DIR__.'/../')
-            ->in(__DIR__.'/../../vendor/xamin/')
-            ->in(__DIR__.'/../../vendor/symfony/symfony/src/Symfony/Component/Console/');
+            ->in(__DIR__.'/../../')
+            // ->in(__DIR__.'/../../vendor/xamin/')
+            ->in(__DIR__.'/../../../vendor/composer/')
+            ->in(__DIR__.'/../../../vendor/doctrine/')
+            ->in(__DIR__.'/../../../vendor/psr/')
+            ->in(__DIR__.'/../../../vendor/symfony/')
+            ->in(__DIR__.'/../../../vendor/twig/')
+            ->in(__DIR__.'/../../../vendor/xamin/');
 
         foreach ($finder as $file) {
             $this->addFile($phar, $file);
         }
 
-        $this->addFile($phar, new \SplFileInfo(__DIR__.'/../../LICENSE'), false);
+        $this->addFile($phar, new \SplFileInfo(__DIR__.'/../../../LICENSE'), false);
+        $this->addFile($phar, new \SplFileInfo(__DIR__.'/../../../vendor/autoload.php'));
+        $this->addFile($phar, new \SplFileInfo(__DIR__.'/../../../vendor/composer/autoload_psr4.php'));
+        $this->addFile($phar, new \SplFileInfo(__DIR__.'/../../../vendor/composer/autoload_files.php'));
+        $this->addFile($phar, new \SplFileInfo(__DIR__.'/../../../vendor/composer/ClassLoader.php'));
+        $this->addFile($phar, new \SplFileInfo(__DIR__.'/../../../vendor/composer/autoload_real.php'));
+        $this->addFile($phar, new \SplFileInfo(__DIR__.'/../../../vendor/composer/autoload_namespaces.php'));
+        $this->addFile($phar, new \SplFileInfo(__DIR__.'/../../../vendor/composer/autoload_classmap.php'));
+        if (file_exists(__DIR__.'/../../../vendor/composer/include_paths.php')) {
+            $this->addFile($phar, new \SplFileInfo(__DIR__.'/../../../vendor/composer/include_paths.php'));
+        }
 
-        $this->addFile($phar, new \SplFileInfo(__DIR__.'/../../vendor/autoload.php'));
-        $this->addFile($phar, new \SplFileInfo(__DIR__.'/../../vendor/composer/ClassLoader.php'));
-        $this->addFile($phar, new \SplFileInfo(__DIR__.'/../../vendor/composer/autoload_real.php'));
-        $this->addFile($phar, new \SplFileInfo(__DIR__.'/../../vendor/composer/autoload_namespaces.php'));
-        $this->addFile($phar, new \SplFileInfo(__DIR__.'/../../vendor/composer/autoload_classmap.php'));
+        $this->addExecutable($phar);
 
         // Stubs
-        $phar->setStub($this->getStub());
+        $stub = $this->getStub();
+        $phar->setStub($stub);
 
         $phar->stopBuffering();
-
-        // $phar->compressFiles(\Phar::GZ);
 
         unset($phar);
     }
 
+    private function addExecutable($phar)
+    {
+        $content = file_get_contents(__DIR__.'/../../../bin/app');
+        $content = preg_replace('{^#!/usr/bin/env php\s*}', '', $content);
+        $phar->addFromString('bin/app', $content);
+    }
+
     protected function addFile(\Phar $phar, \splFileInfo $file, $strip = true)
     {
-        $path = str_replace(dirname(dirname(__DIR__)).DIRECTORY_SEPARATOR, '', $file->getRealPath());
+        $path = str_replace(dirname(dirname(dirname(__DIR__))).DIRECTORY_SEPARATOR, '', $file->getRealPath());
 
         $content = file_get_contents($file);
         if ($strip) {
             $content = self::stripWhitespace($content);
         }
-        // $content = str_replace('@package_version@', $this->version, $content);
 
         $phar->addFromString($path, $content);
     }
 
     protected function getStub()
     {
-      return file_get_contents(__DIR__.'/../../bin/app') . "\n__HALT_COMPILER();";
+      $stub = <<<'EOF'
+#!/usr/bin/env php
+<?php
+Phar::mapPhar('json-poxo.phar');
+require 'phar://json-poxo.phar/bin/app';
+EOF;
+
+      // return file_get_contents(__DIR__.'/../../../bin/app') . "\n__HALT_COMPILER();";
+      $stub = $stub . "\n__HALT_COMPILER();";
+      return $stub;
     }
 
     /**

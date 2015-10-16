@@ -13,3 +13,4 @@ use Printwtf\JsonPoxo\Compiler;
 
 $builder = new Compiler();
 $builder->compile(__DIR__.'/../build/json-poxo.phar');
+exec('chmod 755 "' . __DIR__ . '/../build/json-poxo.phar"');
