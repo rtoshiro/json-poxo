@@ -98,8 +98,6 @@ class Compiler
 Phar::mapPhar('json-poxo.phar');
 require 'phar://json-poxo.phar/bin/app';
 EOF;
-
-      // return file_get_contents(__DIR__.'/../../../bin/app') . "\n__HALT_COMPILER();";
       $stub = $stub . "\n__HALT_COMPILER();";
       return $stub;
     }
