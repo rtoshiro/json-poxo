@@ -10,6 +10,7 @@ class JsonPoxoTest extends PHPUnit
   public function setUp()
   {
     $this->json = array(
+      'spa ce' => false,
       'id' => 'primaryKey',
       'str' => 'some string',
       'num' => 1,

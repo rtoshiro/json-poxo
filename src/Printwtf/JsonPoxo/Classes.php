@@ -10,6 +10,7 @@ class Classes
   public $name;
   public $nameCapitalized;
   public $nameUppercase;
+  public $originalName;
 
   public $primaryKey;
   public $primaryKeyCapitalized;
@@ -29,6 +30,7 @@ class Classes
   public function __construct($name)
   {
     $this->setName($name);
+    $this->originalName = $name;
     $this->params = array();
     $this->properties = array();
   }
@@ -38,9 +40,9 @@ class Classes
   }
 
   public function setName($name) {
-      $this->name = $name;
-      $this->nameUppercase = strtoupper($name);
-      $this->nameCapitalized = ucfirst(strtolower($name));
+      $this->name = Classes::normalize($name);
+      $this->nameUppercase = strtoupper($this->name);
+      $this->nameCapitalized = ucfirst(strtolower($this->name));
 
       return $this;
   }
@@ -115,5 +117,20 @@ class Classes
     if (strpos($this->imports, $newImport) === false)
       $this->imports = $this->imports . "\n" . $newImport;
     return $this->imports;
+  }
+
+  public static function clean($string)
+  {
+    $string = str_replace(' ', '_', $string);
+    if(is_numeric(substr($string, 0, 1))) {
+      $string = str_replace($string, '_', substr($string, 0, 1), 1);
+    }
+    return preg_replace('/[^A-Za-z0-9\-]/', '_', $string);
+  }
+
+  public static function normalize($name)
+  {
+    $name = Classes::clean($name);
+    return strtolower($name);
   }
 }
