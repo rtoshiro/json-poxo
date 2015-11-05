@@ -22,7 +22,7 @@ class Parser
     $className = ucfirst(strtolower($className));
     for ($i=0; $i < count($classList); $i++) {
       $cl = &$classList[$i];
-      if ($cl->name == $className) {
+      if ($cl->originalName == $className) {
         return $cl;
       }
     }

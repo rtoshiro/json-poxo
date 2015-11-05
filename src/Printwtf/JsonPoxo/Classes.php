@@ -40,9 +40,11 @@ class Classes
   }
 
   public function setName($name) {
-      $this->name = Classes::normalize($name);
-      $this->nameUppercase = strtoupper($this->name);
-      $this->nameCapitalized = ucfirst(strtolower($this->name));
+      $normalized_name = Classes::normalize($name);
+      $this->name = ucfirst($normalized_name);
+      $this->nameUppercase = strtoupper($normalized_name);
+      $this->nameCapitalized = ucfirst(strtolower($normalized_name));
+      $this->originalName = $name;
 
       return $this;
   }
@@ -123,7 +125,7 @@ class Classes
   {
     $string = str_replace(' ', '_', $string);
     if(is_numeric(substr($string, 0, 1))) {
-      $string = str_replace($string, '_', substr($string, 0, 1), 1);
+      $string = '_' . $string;
     }
     return preg_replace('/[^A-Za-z0-9\-]/', '_', $string);
   }

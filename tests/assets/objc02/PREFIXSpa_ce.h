@@ -1,5 +1,5 @@
 //
-//  Arrnull.h
+//  PREFIXSpa_ce.h
 //
 //  Created on 2015/11/05
 //  Copyright (c) 2015. All rights reserved.
@@ -8,11 +8,12 @@
 #import <Foundation/Foundation.h>
 
 
-@interface Arrnull : NSObject <NSCoding, NSCopying>
+@interface PREFIXSpa_ce : NSObject <NSCoding, NSCopying>
 
+@property (nonatomic, strong) NSString * _1one;
 
-+ (Arrnull *)modelWithDictionary:(NSDictionary *)dict;
-+ (Arrnull *)modelWithString:(NSString *)json;
++ (PREFIXSpa_ce *)modelWithDictionary:(NSDictionary *)dict;
++ (PREFIXSpa_ce *)modelWithString:(NSString *)json;
 
 - (instancetype)initWithString:(NSString *)json;
 - (instancetype)initWithDictionary:(NSDictionary *)dict;

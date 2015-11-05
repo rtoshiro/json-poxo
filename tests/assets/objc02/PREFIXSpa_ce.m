@@ -1,32 +1,33 @@
 //
-//  PREFIXArrnull.m
+//  PREFIXSpa_ce.m
 //
 //  Created by on 2015/11/05
 //  Copyright (c) 2015. All rights reserved.
 //
 
-#import "PREFIXArrnull.h"
+#import "PREFIXSpa_ce.h"
 
 
 // Original names
+NSString * const kPREFIXSpa_ce_1one = @"1one";
 
-@interface PREFIXArrnull ()
+@interface PREFIXSpa_ce ()
 
 - (id)objectOrNilForKey:(id)aKey fromDictionary:(NSDictionary *)dict;
 
 @end
 
-@implementation PREFIXArrnull
+@implementation PREFIXSpa_ce
 
-+ (PREFIXArrnull *)modelWithDictionary:(NSDictionary *)dict
++ (PREFIXSpa_ce *)modelWithDictionary:(NSDictionary *)dict
 {
-  PREFIXArrnull *instance = [[PREFIXArrnull alloc] initWithDictionary:dict];
+  PREFIXSpa_ce *instance = [[PREFIXSpa_ce alloc] initWithDictionary:dict];
   return instance;
 }
 
-+ (PREFIXArrnull *)modelWithString:(NSString *)json
++ (PREFIXSpa_ce *)modelWithString:(NSString *)json
 {
-  PREFIXArrnull *instance = [[PREFIXArrnull alloc] initWithString:json];
+  PREFIXSpa_ce *instance = [[PREFIXSpa_ce alloc] initWithString:json];
   return instance;
 }
 
@@ -51,6 +52,7 @@
 
   if (self && [dict isKindOfClass:[NSDictionary class]])
   {
+    self._1one = [self objectOrNilForKey:kPREFIXSpa_ce_1one fromDictionary:dict];
   }
   return self;
 }
@@ -58,6 +60,7 @@
 - (NSDictionary *)dictionaryRepresentation
 {
   NSMutableDictionary *mutableDict = [NSMutableDictionary dictionary];
+  [mutableDict setValue:self._1one forKey:kPREFIXSpa_ce_1one];
 
   return [NSDictionary dictionaryWithDictionary:mutableDict];
 }
@@ -80,19 +83,22 @@
 {
   self = [super init];
 
+  self._1one = [aDecoder decodeObjectForKey:kPREFIXSpa_ce_1one];
 
   return self;
 }
 
 - (void)encodeWithCoder:(NSCoder *)aCoder
 {
+  [aCoder encodeObject:__1one forKey:kPREFIXSpa_ce_1one];
 }
 
 - (id)copyWithZone:(NSZone *)zone
 {
-  PREFIXArrnull *copy = [[PREFIXArrnull alloc] init];
+  PREFIXSpa_ce *copy = [[PREFIXSpa_ce alloc] init];
   if (copy)
   {
+    copy._1one = [self._1one copyWithZone:zone];
   }
 
   return copy;
