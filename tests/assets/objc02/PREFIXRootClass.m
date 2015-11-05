@@ -1,12 +1,13 @@
 //
 //  PREFIXRootclass.m
 //
-//  Created by on 2015/09/24
+//  Created by on 2015/11/05
 //  Copyright (c) 2015. All rights reserved.
 //
 
 #import "PREFIXRootclass.h"
 
+#import "Spa_ce.h"
 #import "Special.h"
 #import "Arrnull.h"
 #import "Obj.h"
@@ -18,6 +19,7 @@ NSString * const kPREFIXRootclassStr = @"str";
 NSString * const kPREFIXRootclassNum = @"num";
 NSString * const kPREFIXRootclassFlo = @"flo";
 NSString * const kPREFIXRootclassBoo = @"boo";
+NSString * const kPREFIXRootclassSpa_ce = @"spa ce";
 NSString * const kPREFIXRootclassSpecial = @"special";
 NSString * const kPREFIXRootclassArrdouble = @"arrdouble";
 NSString * const kPREFIXRootclassArrnum = @"arrnum";
@@ -74,6 +76,12 @@ NSString * const kPREFIXRootclassArrobj = @"arrobj";
     self.flo = [self objectOrNilForKey:kPREFIXRootclassFlo fromDictionary:dict];
     self.boo = [self objectOrNilForKey:kPREFIXRootclassBoo fromDictionary:dict];
 
+    NSObject *objSpa_ce = [dict objectForKey:kPREFIXRootclassSpa_ce];
+    if ([objSpa_ce isKindOfClass:[NSDictionary class]])
+    {
+      self.spa_ce = [Spa_ce modelWithDictionary:(NSDictionary *)objSpa_ce];
+    }
+
     NSObject *objSpecial = [dict objectForKey:kPREFIXRootclassSpecial];
     if ([objSpecial isKindOfClass:[NSDictionary class]])
     {
@@ -125,6 +133,11 @@ NSString * const kPREFIXRootclassArrobj = @"arrobj";
   [mutableDict setValue:self.num forKey:kPREFIXRootclassNum];
   [mutableDict setValue:self.flo forKey:kPREFIXRootclassFlo];
   [mutableDict setValue:self.boo forKey:kPREFIXRootclassBoo];
+  if ([self.spa_ce respondsToSelector:@selector(dictionaryRepresentation)]) {
+    [mutableDict setValue:[self.spa_ce performSelector:@selector(dictionaryRepresentation)] forKey:kPREFIXRootclassSpa_ce];
+  } else {
+    [mutableDict setValue:self.spa_ce forKey:kPREFIXRootclassSpa_ce];
+  }
   if ([self.special respondsToSelector:@selector(dictionaryRepresentation)]) {
     [mutableDict setValue:[self.special performSelector:@selector(dictionaryRepresentation)] forKey:kPREFIXRootclassSpecial];
   } else {
@@ -184,6 +197,7 @@ NSString * const kPREFIXRootclassArrobj = @"arrobj";
   self.num = [aDecoder decodeObjectForKey:kPREFIXRootclassNum];
   self.flo = [aDecoder decodeObjectForKey:kPREFIXRootclassFlo];
   self.boo = [aDecoder decodeObjectForKey:kPREFIXRootclassBoo];
+  self.spa_ce = [aDecoder decodeObjectForKey:kPREFIXRootclassSpa_ce];
   self.special = [aDecoder decodeObjectForKey:kPREFIXRootclassSpecial];
   self.arrdouble = [aDecoder decodeObjectForKey:kPREFIXRootclassArrdouble];
   self.arrnum = [aDecoder decodeObjectForKey:kPREFIXRootclassArrnum];
@@ -203,6 +217,7 @@ NSString * const kPREFIXRootclassArrobj = @"arrobj";
   [aCoder encodeObject:_num forKey:kPREFIXRootclassNum];
   [aCoder encodeObject:_flo forKey:kPREFIXRootclassFlo];
   [aCoder encodeObject:_boo forKey:kPREFIXRootclassBoo];
+  [aCoder encodeObject:_spa_ce forKey:kPREFIXRootclassSpa_ce];
   [aCoder encodeObject:_special forKey:kPREFIXRootclassSpecial];
   [aCoder encodeObject:_arrdouble forKey:kPREFIXRootclassArrdouble];
   [aCoder encodeObject:_arrnum forKey:kPREFIXRootclassArrnum];
@@ -223,6 +238,7 @@ NSString * const kPREFIXRootclassArrobj = @"arrobj";
     copy.num = [self.num copyWithZone:zone];
     copy.flo = [self.flo copyWithZone:zone];
     copy.boo = [self.boo copyWithZone:zone];
+    copy.spa_ce = [self.spa_ce copyWithZone:zone];
     copy.special = [self.special copyWithZone:zone];
     copy.arrdouble = [self.arrdouble copyWithZone:zone];
     copy.arrnum = [self.arrnum copyWithZone:zone];

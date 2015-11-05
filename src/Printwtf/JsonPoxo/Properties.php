@@ -144,6 +144,9 @@ class Properties
   public static function clean($string)
   {
     $string = str_replace(' ', '_', $string);
+    if(is_numeric(substr($string, 0, 1))) {
+      $string = '_' . $string;
+    }
     return preg_replace('/[^A-Za-z0-9\-]/', '_', $string);
   }
 

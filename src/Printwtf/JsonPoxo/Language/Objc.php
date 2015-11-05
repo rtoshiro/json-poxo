@@ -59,7 +59,7 @@ class Objc extends Language
       if (isset($params['prefix']))
       {
         $cl_params['prefix'] = $params['prefix'];
-        $_cl->setName($params['prefix'] . $_cl->getName());
+        $_cl->name = ($params['prefix'] . $_cl->getName());
       }
 
       if (isset($params['clean']))

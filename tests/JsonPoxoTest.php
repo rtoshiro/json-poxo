@@ -15,6 +15,7 @@ class JsonPoxoTest extends PHPUnit
       'num' => 1,
       'flo' => 1.99,
       'boo' => false,
+      'spa ce' => array("1one" => "one"),
       'special' => array(
         'A' => null,
         '[B]""&^ ' => "some string",
@@ -99,7 +100,7 @@ class JsonPoxoTest extends PHPUnit
     $result = $parser->toX('java', $this->rootClassName, null, $this->json);
 
     $this->assertNotNull($result);
-    $this->assertCount(5, $result);
+    $this->assertCount(6, $result);
     for ($i=0; $i < count($result); $i++) {
       $model = $result[$i];
       $this->assertNotNull($model->getFileName());
@@ -116,7 +117,7 @@ class JsonPoxoTest extends PHPUnit
 
     $result = $parser->toX('java', $this->rootClassName, array('includeGson' => true), $this->json);
     $this->assertNotNull($result);
-    $this->assertCount(5, $result);
+    $this->assertCount(6, $result);
     for ($i=0; $i < count($result); $i++) {
       $model = $result[$i];
       $this->assertNotNull($model->getFileName());
@@ -133,7 +134,7 @@ class JsonPoxoTest extends PHPUnit
     $result = $parser->toX('objc', $this->rootClassName, null, $this->json);
 
     $this->assertNotNull($result);
-    $this->assertCount(10, $result);
+    $this->assertCount(12, $result);
     for ($i=0; $i < count($result); $i++) {
       $model = $result[$i];
       $this->assertNotNull($model->getFileName());
@@ -157,7 +158,7 @@ class JsonPoxoTest extends PHPUnit
     $parser = new Printwtf\JsonPoxo\Parser();
     $result = $parser->toX('objc', $this->rootClassName, array('prefix' => 'PREFIX'), $this->json);
     $this->assertNotNull($result);
-    $this->assertCount(10, $result);
+    $this->assertCount(12, $result);
     for ($i=0; $i < count($result); $i++) {
       $model = $result[$i];
       $this->assertNotNull($model->getFileName());

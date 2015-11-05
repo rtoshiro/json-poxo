@@ -1,7 +1,7 @@
 //
 //  Rootclass.h
 //
-//  Created on 2015/09/24
+//  Created on 2015/11/05
 //  Copyright (c) 2015. All rights reserved.
 //
 
@@ -15,6 +15,7 @@
 @property (nonatomic, strong) NSNumber * num;
 @property (nonatomic, strong) NSNumber * flo;
 @property (nonatomic, strong) NSNumber * boo;
+@property (nonatomic, strong) Spa_ce * spa_ce;
 @property (nonatomic, strong) Special * special;
 @property (nonatomic, strong) NSMutableArray * arrdouble;
 @property (nonatomic, strong) NSMutableArray * arrnum;

@@ -12,6 +12,7 @@ public class Rootclass implements Serializable
     private static final String FIELD_NUM = "num";
     private static final String FIELD_FLO = "flo";
     private static final String FIELD_BOO = "boo";
+    private static final String FIELD_SPA_CE = "spa ce";
     private static final String FIELD_SPECIAL = "special";
     private static final String FIELD_ARRDOUBLE = "arrdouble";
     private static final String FIELD_ARRNUM = "arrnum";
@@ -26,6 +27,7 @@ public class Rootclass implements Serializable
     private Long num;
     private Double flo;
     private Boolean boo;
+    private Spa_ce spa_ce;
     private Special special;
     private ArrayList<Double> arrdouble;
     private ArrayList<Long> arrnum;
@@ -63,6 +65,7 @@ public class Rootclass implements Serializable
         this.num = object.optLong(FIELD_NUM);
         this.flo = object.optDouble(FIELD_FLO);
         this.boo = object.optBoolean(FIELD_BOO);
+        this.spa_ce = new Spa_ce(object.optJSONObject(FIELD_SPA_CE));
         this.special = new Special(object.optJSONObject(FIELD_SPECIAL));
 
         if (object.optJSONArray(FIELD_ARRDOUBLE) != null)
@@ -166,6 +169,14 @@ public class Rootclass implements Serializable
 
     public Boolean isBoo() {
         return this.boo;
+    }
+
+    public void setSpa_ce(Spa_ce value) {
+        this.spa_ce = value;
+    }
+
+    public Spa_ce getSpa_ce() {
+        return this.spa_ce;
     }
 
     public void setSpecial(Special value) {
