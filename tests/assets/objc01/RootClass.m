@@ -1,7 +1,7 @@
 //
 //  Rootclass.m
 //
-//  Created by on 2015/11/05
+//  Created by on 2015/11/17
 //  Copyright (c) 2015. All rights reserved.
 //
 
@@ -155,7 +155,7 @@ NSString * const kRootclassArrobj = @"arrobj";
        [tempArrayArrnull addObject:subArray];
     }
   }
-  [mutableDict setValue:[NSArray arrayWithArray:tempArrayArrnull] forKey:karrnullArrnull];
+  [mutableDict setValue:[NSArray arrayWithArray:tempArrayArrnull] forKey:kRootclassArrnull];
   if ([self.obj respondsToSelector:@selector(dictionaryRepresentation)]) {
     [mutableDict setValue:[self.obj performSelector:@selector(dictionaryRepresentation)] forKey:kRootclassObj];
   } else {
@@ -169,7 +169,7 @@ NSString * const kRootclassArrobj = @"arrobj";
        [tempArrayArrobj addObject:subArray];
     }
   }
-  [mutableDict setValue:[NSArray arrayWithArray:tempArrayArrobj] forKey:karrobjArrobj];
+  [mutableDict setValue:[NSArray arrayWithArray:tempArrayArrobj] forKey:kRootclassArrobj];
 
   return [NSDictionary dictionaryWithDictionary:mutableDict];
 }

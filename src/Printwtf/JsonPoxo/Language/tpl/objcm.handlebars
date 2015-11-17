@@ -93,7 +93,7 @@ NSString * const k{{../name}}{{nameCapitalized}} = @"{{&originalName}}";
        [tempArray{{nameCapitalized}} addObject:subArray];
     }
   }
-  [mutableDict setValue:[NSArray arrayWithArray:tempArray{{nameCapitalized}}] forKey:k{{../../name}}{{nameCapitalized}}];
+  [mutableDict setValue:[NSArray arrayWithArray:tempArray{{nameCapitalized}}] forKey:k{{../../../name}}{{nameCapitalized}}];
 {{else}}  if ([self.{{name}} respondsToSelector:@selector(dictionaryRepresentation)]) {
     [mutableDict setValue:[self.{{name}} performSelector:@selector(dictionaryRepresentation)] forKey:k{{../../../name}}{{nameCapitalized}}];
   } else {

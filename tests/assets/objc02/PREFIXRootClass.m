@@ -1,7 +1,7 @@
 //
 //  PREFIXRootclass.m
 //
-//  Created by on 2015/11/05
+//  Created by on 2015/11/17
 //  Copyright (c) 2015. All rights reserved.
 //
 
@@ -155,7 +155,7 @@ NSString * const kPREFIXRootclassArrobj = @"arrobj";
        [tempArrayArrnull addObject:subArray];
     }
   }
-  [mutableDict setValue:[NSArray arrayWithArray:tempArrayArrnull] forKey:karrnullArrnull];
+  [mutableDict setValue:[NSArray arrayWithArray:tempArrayArrnull] forKey:kPREFIXRootclassArrnull];
   if ([self.obj respondsToSelector:@selector(dictionaryRepresentation)]) {
     [mutableDict setValue:[self.obj performSelector:@selector(dictionaryRepresentation)] forKey:kPREFIXRootclassObj];
   } else {
@@ -169,7 +169,7 @@ NSString * const kPREFIXRootclassArrobj = @"arrobj";
        [tempArrayArrobj addObject:subArray];
     }
   }
-  [mutableDict setValue:[NSArray arrayWithArray:tempArrayArrobj] forKey:karrobjArrobj];
+  [mutableDict setValue:[NSArray arrayWithArray:tempArrayArrobj] forKey:kPREFIXRootclassArrobj];
 
   return [NSDictionary dictionaryWithDictionary:mutableDict];
 }

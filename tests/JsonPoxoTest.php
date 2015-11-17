@@ -106,7 +106,6 @@ class JsonPoxoTest extends PHPUnit
       $this->assertNotNull($model->getFileName());
       $this->assertNotNull($model->getSourceCode());
       $this->writeFile(__DIR__ . '/assets/java01/'.$model->getFileName(), $model->getSourceCode());
-
       $this->assertEquals($this->loadTemplates('java01')[$model->getFileName()], $model->getSourceCode());
     }
   }
